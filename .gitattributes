@@ -1,0 +1,8 @@
+# Automatically convert text files to LF
+* text=auto eol=lf
+
+# Explicit specification for configuration and resource files
+*.toml text eol=lf
+*.json text eol=lf
+*.java text eol=lf
+*.gradle text eol=lf

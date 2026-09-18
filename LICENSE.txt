@@ -1,1 +1,24 @@
-Empty?
+FINESSE RACES SOFTWARE LICENSE
+Version 1.0, 2026
+
+Copyright (c) 2026 Vladyslav Shcherbyna (Bruskych). All Rights Reserved.
+
+This software and its associated source code, assets, and documentation
+("Software") are the exclusive intellectual property of the Author.
+
+1. PERMISSIONS & RESTRICTIONS:
+- Usage: Permission is granted to run this Software EXCLUSIVELY as part of the
+  officially designated single Modpack authorized by the Author. Any standalone
+  use, public re-upload, or extraction of this Software is strictly prohibited.
+- Modpacks: This Software MAY NOT be included in any third-party modpacks,
+  public server packs, or assemblies other than the single authorized Modpack.
+- Distribution: You MAY NOT distribute, mirror, host, or share copies of this
+  Software or its binaries on any public or private platform, website, or launcher.
+- Modification: You MAY NOT modify, decompile, reverse-engineer, adapt, or create
+  derivative works based on this Software or its code/assets for any reason.
+- Commercial Use: You MAY NOT sell, sublicense, monetize, or use this Software
+  for any commercial purposes.
+
+2. OWNERSHIP:
+All rights, title, and interest in and to the Software (including but not limited
+to any code, textures, models, sounds, and documentation) remain solely with the Author.
