@@ -1,5 +1,7 @@
 <div align="center">
+
 # RU ```Version```
+
 </div>
 
 ### Finesse Races 🐉
@@ -25,7 +27,9 @@ Finesse Races — модификация для Minecraft (на момент с�
 ---
 
 <div align="center">
+
 # EN ```Version```
+
 </div>
 
 ### Finesse Races 🐉
