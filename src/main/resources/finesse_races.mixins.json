@@ -1,8 +1,8 @@
 {
   "required": true,
+  "package": "org.bruskych.finesse_races.core.mixin",
+  "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
-  "package": "org.bruskych.finesse_races.mixin",
-  "compatibilityLevel": "JAVA_8",
   "refmap": "finesse_races.refmap.json",
   "mixins": [
   ],

@@ -1,28 +1,26 @@
-# eclipse
-bin
-*.launch
-.settings
-.metadata
-.classpath
-.project
-
-# idea
-out
+# INTELLIJ IDEA (Основная IDE)
+.idea/
+*.iml
 *.ipr
 *.iws
-*.iml
-.idea
+out/
 
-# gradle
-build
-.gradle
+# GRADLE (Сборщик проекта)
+.gradle/
+build/
 
-# other
-eclipse
-run
-logs
-
-# Files from Forge MDK
+# MINECRAFT & FORGE (Логи и запуски)
+/run/
+/runs/
+/logs/
+/.cache/
 forge*changelog.txt
-.cache
-/runs
+
+# ECLIPSE (Альтернативная IDE)
+.eclipse/
+.settings/
+.metadata/
+.classpath/
+.project/
+bin/
+*.launch
