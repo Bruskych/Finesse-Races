@@ -1,7 +1,7 @@
 FINESSE RACES SOFTWARE LICENSE
 Version 1.0, 2026
 
-Copyright (c) 2026 Vladyslav Shcherbyna (Bruskych). All Rights Reserved.
+Copyright (c) 2026 Bruskych. All Rights Reserved.
 
 This software and its associated source code, assets, and documentation
 ("Software") are the exclusive intellectual property of the Author.

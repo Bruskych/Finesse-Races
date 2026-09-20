@@ -64,9 +64,16 @@ minecraft {
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
 
+            // Говорим Forge подгружать классы из двух модулей:
+            ideaModule "${project.name}.main"
+            ideaModule "remedy-core-1-20-x.main"
+
             mods {
                 "${mod_id}" {
                     source sourceSets.main
+                }
+                remedy_core {
+                    source project(':remedy-core-1-20-x').sourceSets.main
                 }
             }
         }
@@ -119,6 +126,9 @@ repositories {
 dependencies {
     // Основная зависимость — сам Minecraft Forge
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+
+    // Подключаем соседний проект-api прямо из исходного кода
+    implementation project(':remedy-core-1-20-x')
 
     // Процессор аннотаций для компиляции Mixin
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'

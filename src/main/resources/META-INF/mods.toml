@@ -31,3 +31,11 @@ license = "${mod_license}"
     versionRange = "${forge_version_range}"
     ordering = "NONE"
     side = "BOTH"
+
+# ЗАВИСИМОСТИ: REMEDY CORE (API)
+[[dependencies."${mod_id}"]]
+    modId = "remedy_core"
+    mandatory = true
+    versionRange = "[1.0.0,)"
+    ordering = "AFTER"
+    side = "BOTH"
