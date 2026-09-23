@@ -1,5 +1,8 @@
 {
-  "gui.finesse_races.choose": "Select this race",
   "gui.finesse_races.gui": "Race Screen",
+
+  "gui.finesse_races.button.choose_race": "Select this race",
+  "gui.finesse_races.button.postpone_the_choice": "Postpone the choice",
+
   "": ""
 }
