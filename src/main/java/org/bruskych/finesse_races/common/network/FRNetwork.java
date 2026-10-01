@@ -4,6 +4,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
+
 import org.bruskych.finesse_races.core.FinesseRaces;
 
 /**
@@ -28,8 +29,8 @@ public class FRNetwork {
                 .simpleChannel();
         INSTANCE = net;
         net.messageBuilder(RaceSelectionC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
-                .decoder(RaceSelectionC2SPacket::new)
-                .encoder(RaceSelectionC2SPacket::toBytes)
+                .decoder(RaceSelectionC2SPacket::decode)
+                .encoder(RaceSelectionC2SPacket::encode)
                 .consumerMainThread(RaceSelectionC2SPacket::handle)
                 .add();
     }

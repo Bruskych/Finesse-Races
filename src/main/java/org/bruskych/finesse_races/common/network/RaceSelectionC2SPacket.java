@@ -16,18 +16,19 @@ public class RaceSelectionC2SPacket {
         this.raceId = raceId;
     }
 
-    // Unpacking on the server
-    public RaceSelectionC2SPacket(FriendlyByteBuf buf) {
-        this.raceId = buf.readUtf();
-    }
-
-    // Packaging is the client's responsibility.
-    public void toBytes(FriendlyByteBuf buf) {
+    // Packaging is the client's responsibility
+    public void encode(FriendlyByteBuf buf) {
         buf.writeUtf(this.raceId);
     }
 
+    // Unpacking on the server
+    public static RaceSelectionC2SPacket decode(FriendlyByteBuf buf) {
+        String extractedRaceId = buf.readUtf();
+        return new RaceSelectionC2SPacket(extractedRaceId);
+    }
+
     // Server-side action
-    public boolean handle(Supplier<NetworkEvent.Context> supplier) {
+    public void handle(Supplier<NetworkEvent.Context> supplier) {
         NetworkEvent.Context context = supplier.get();
         context.enqueueWork(() -> {
             ServerPlayer player = context.getSender();
@@ -38,6 +39,6 @@ public class RaceSelectionC2SPacket {
                 }
             }
         });
-        return true;
+        context.setPacketHandled(true);
     }
 }
