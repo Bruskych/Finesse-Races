@@ -1,14 +1,14 @@
-# НАСТРОЙКИ ЗАГРУЗЧИКА МОДОВ
+# MOD LOADER SETTINGS
 modLoader = "javafml"
 loaderVersion = "${loader_version_range}"
 license = "${mod_license}"
 
-# Дополнительные ссылки и логотип:
+# Additional links and logo:
 # logoFile = "logo.png"
 # displayURL = "https://example.com"
 # issueTrackerURL = "https://github.com/user/repo/issues"
 
-# ОСНОВНЫЕ МЕТАДАННЫЕ МОДА
+# CORE MOD METADATA
 [[mods]]
     modId = "${mod_id}"
     version = "${mod_version}"
@@ -16,7 +16,7 @@ license = "${mod_license}"
     authors = "${mod_authors}"
     description = '''${mod_description}'''
 
-# ЗАВИСИМОСТИ: MINECRAFT
+# DEPENDENCIES: MINECRAFT
 [[dependencies."${mod_id}"]]
     modId = "minecraft"
     mandatory = true
@@ -24,7 +24,7 @@ license = "${mod_license}"
     ordering = "NONE"
     side = "BOTH"
 
-# ЗАВИСИМОСТИ: FORGE
+# DEPENDENCIES: FORGE
 [[dependencies."${mod_id}"]]
     modId = "forge"
     mandatory = true
@@ -32,7 +32,7 @@ license = "${mod_license}"
     ordering = "NONE"
     side = "BOTH"
 
-# ЗАВИСИМОСТИ: REMEDY CORE (API)
+# DEPENDENCIES: REMEDY CORE (API)
 [[dependencies."${mod_id}"]]
     modId = "remedy_core"
     mandatory = true

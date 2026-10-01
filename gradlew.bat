@@ -1,12 +1,12 @@
 @if "%DEBUG%"=="" @echo off
 
 @rem ==========================================================================
-@rem Gradle Wrapper - Исполняемый скрипт запуска для Windows (CMD / PowerShell)
+@rem Gradle Wrapper - Startup execution script for Windows (CMD / PowerShell)
 @rem ==========================================================================
 
 if "%OS%"=="Windows_NT" setlocal
 
-@rem 1. Определение рабочей директории проекта (APP_HOME)
+@rem 1. Determine the project's working directory (APP_HOME)
 set DIRNAME=%~dp0
 if "%DIRNAME%"=="" set DIRNAME=.
 set APP_BASE_NAME=%~n0
@@ -14,10 +14,10 @@ set APP_HOME=%DIRNAME%
 
 for %%i in ("%APP_HOME%") do set APP_HOME=%%~fi
 
-@rem 2. Параметры памяти JVM по умолчанию
+@rem 2. Default JVM memory parameters
 set DEFAULT_JVM_OPTS="-Xmx64m" "-Xms64m"
 
-@rem 3. Поиск и проверка исполняемого файла Java
+@rem 3. Locate and validate the Java executable
 if defined JAVA_HOME goto findJavaFromJavaHome
 
 set JAVA_EXE=java.exe
@@ -40,7 +40,7 @@ echo ERROR: JAVA_HOME is set to an invalid directory: %JAVA_HOME% 1>&2
 echo Please set the JAVA_HOME variable in your environment. 1>&2
 goto fail
 
-@rem 4. Формирование Classpath и запуск процесса Gradle
+@rem 4. Build classpath and launch the Gradle process
 :execute
 set CLASSPATH=%APP_HOME%\gradle\wrapper\gradle-wrapper.jar
 
@@ -48,7 +48,7 @@ set CLASSPATH=%APP_HOME%\gradle\wrapper\gradle-wrapper.jar
 
 if %ERRORLEVEL% equ 0 goto mainEnd
 
-@rem 5. Обработка ошибок и завершение работы
+@rem 5. Error handling and exit
 :fail
 set EXIT_CODE=%ERRORLEVEL%
 if %EXIT_CODE% equ 0 set EXIT_CODE=1

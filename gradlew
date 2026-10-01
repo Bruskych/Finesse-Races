@@ -1,10 +1,10 @@
 #!/bin/sh
 
 # ==============================================================================
-# Gradle Wrapper - Исполняемый скрипт запуска для Unix/Linux/macOS
+# Gradle Wrapper - Startup execution script for Unix/Linux/macOS
 # ==============================================================================
 
-# 1. Определение рабочей директории проекта (APP_HOME)
+# 1. Determine the project's working directory (APP_HOME)
 app_path=$0
 
 while
@@ -25,7 +25,7 @@ APP_HOME=$( cd "${APP_HOME:-./}" > /dev/null && pwd -P ) || exit
 
 MAX_FD=maximum
 
-# 2. Вспомогательные функции для вывода ошибок и завершения
+# 2. Helper functions for error reporting and exit
 warn () {
     echo "$*"
 } >&2
@@ -37,7 +37,7 @@ die () {
     exit 1
 } >&2
 
-# 3. Определение операционной системы
+# 3. Operating system detection
 cygwin=false
 msys=false
 darwin=false
@@ -49,10 +49,10 @@ case "$( uname )" in                #(
   NONSTOP* )        nonstop=true ;;
 esac
 
-# 4. Путь к исполняемому JAR-файлу Wrapper
+# 4. Path to the Wrapper executable JAR file
 CLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar
 
-# 5. Поиск и проверка установленной Java (JAVA_HOME или системный PATH)
+# 5. Locate and validate Java installation (via JAVA_HOME or system PATH)
 if [ -n "$JAVA_HOME" ] ; then
     if [ -x "$JAVA_HOME/jre/sh/java" ] ; then
         # IBM's JDK on AIX uses strange locations for the executables
@@ -77,7 +77,7 @@ location of your Java installation."
     fi
 fi
 
-# 6. Увеличение лимита файловых дескрипторов (при необходимости)
+# 6. Increase file descriptor limit if necessary
 if ! "$cygwin" && ! "$darwin" && ! "$nonstop" ; then
     case $MAX_FD in #(
       max*)
@@ -94,7 +94,7 @@ if ! "$cygwin" && ! "$darwin" && ! "$nonstop" ; then
     esac
 fi
 
-# 7. Конвертация путей для эмуляторов Windows (Cygwin / MSYS)
+# 7. Path conversion for Windows emulators (Cygwin / MSYS)
 if "$cygwin" || "$msys" ; then
     APP_HOME=$( cygpath --path --mixed "$APP_HOME" )
     CLASSPATH=$( cygpath --path --mixed "$CLASSPATH" )
@@ -118,10 +118,10 @@ if "$cygwin" || "$msys" ; then
 fi
 
 
-# 8. Параметры памяти JVM по умолчанию
+# 8. Default JVM memory parameters
 DEFAULT_JVM_OPTS='"-Xmx64m" "-Xms64m"'
 
-# 9. Формирование аргументов запуска главный класс GradleWrapperMain
+# 9. Build arguments for the GradleWrapperMain entry point
 set -- \
         "-Dorg.gradle.appname=$APP_BASE_NAME" \
         -classpath "$CLASSPATH" \
@@ -133,7 +133,7 @@ then
     die "xargs is not available"
 fi
 
-# 10. Экранирование и сборка итоговой команды
+# 10. Escape and assemble the final command string
 eval "set -- $(
         printf '%s\n' "$DEFAULT_JVM_OPTS $JAVA_OPTS $GRADLE_OPTS" |
         xargs -n1 |
@@ -141,5 +141,5 @@ eval "set -- $(
         tr '\n' ' '
     )" '"$@"'
 
-# 11. Запуск процесса Java
+# 11. Execute the Java process
 exec "$JAVACMD" "$@"

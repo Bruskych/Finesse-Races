@@ -1,43 +1,50 @@
 package org.bruskych.finesse_races.core;
 
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
+import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 import org.apache.commons.lang3.tuple.Pair;
+
+import java.util.List;
 
 public class FRConfig {
 
-    // Общие игровые настройки (клиент + сервер)
+    // Common gameplay settings (shared between client and server)
     public static class Common {
 
+        // List of race settings
+        public final ConfigValue<List<? extends String>> raceSettings;
+
         public Common(ForgeConfigSpec.Builder builder) {
-            builder.push("general");
-            // Здесь будут настройки механик, урона, спавна и т.д.
+            builder.push("races");
+
+            raceSettings = builder
+                    .comment(
+                            "Race settings: display order in the menu and their difficulty (1-3).",
+                            "Format: 'race_id,order,difficulty'",
+                            "Example: 'aquatic,1,2' (Aquatic race, 1st in the list, difficulty 2)"
+                    )
+                    .defineList("raceSettings",
+                            // Значения по умолчанию (если конфиг создается впервые)
+                            List.of("aquatic,1,1"),
+                            // Валидатор: проверяет, что игрок не сломал формат в файле (строка разделена двумя запятыми)
+                            obj -> obj instanceof String && ((String) obj).split(",").length == 3
+                    );
+
             builder.pop();
         }
     }
 
-    // Клиентские настройки (визуал, GUI, интерфейсы)
+    // Client-side settings (visuals, GUI, interfaces)
     public static class Client {
-
-        public final BooleanValue enableRaceSelectionOnFirstJoin;
-        public final BooleanValue enableCustomRaceHud;
 
         public Client(ForgeConfigSpec.Builder builder) {
             builder.push("gui");
-
-            enableRaceSelectionOnFirstJoin = builder
-                    .comment("Открывать ли экран выбора расы при первом входе игрока в мир")
-                    .define("enableRaceSelectionOnFirstJoin", true);
-
-            enableCustomRaceHud = builder
-                    .comment("Отображать ли кастомный HUD способностей рас на экране")
-                    .define("enableCustomRaceHud", true);
-
+            // TODO: Mechanics, damage, spawning settings will go here
             builder.pop();
         }
     }
 
-    // Спецификации и экземпляры конфигураций
+    // Specifications and configuration instances
     public static final ForgeConfigSpec COMMON_SPEC;
     public static final Common COMMON;
 

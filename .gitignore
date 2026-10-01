@@ -1,22 +1,22 @@
-# INTELLIJ IDEA (Основная IDE)
+# INTELLIJ IDEA (Primary IDE)
 .idea/
 *.iml
 *.ipr
 *.iws
 out/
 
-# GRADLE (Сборщик проекта)
+# GRADLE (Project Build System)
 .gradle/
 build/
 
-# MINECRAFT & FORGE (Логи и запуски)
+# MINECRAFT & FORGE (Logs and Runs)
 /run/
 /runs/
 /logs/
 /.cache/
 forge*changelog.txt
 
-# ECLIPSE (Альтернативная IDE)
+# ECLIPSE (Alternative IDE)
 .eclipse/
 .settings/
 .metadata/

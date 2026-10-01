@@ -3,6 +3,17 @@
 
   "gui.finesse_races.button.choose_race": "Select this race",
   "gui.finesse_races.button.postpone_the_choice": "Postpone the choice",
+  "gui.finesse_races.page": "Page %s of %s",
+  "gui.finesse_races.category.buffs": "Buffs",
+  "gui.finesse_races.category.debuffs": "Debuffs",
 
-  "": ""
+  "race.finesse_races.aquan.name": "Aquan",
+  "race.finesse_races.aquan.story": "There won't be anything here for now; the race descriptions will be added later.",
+
+  "subtitles.finesse_races.water_damage": "Flesh sizzles in water",
+
+  "death.attack.finesse_races.water_damage": "%1$s dissolved in water",
+
+  "ability.finesse_races.water_damage.title": "Hydrophobia",
+  "ability.finesse_races.water_damage.desc": "Takes damage in puddles and increased damage when fully submerged."
 }

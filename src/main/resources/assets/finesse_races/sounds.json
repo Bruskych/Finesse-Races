@@ -1,0 +1,9 @@
+{
+  "ender_water_damage": {
+    "category": "hurt",
+    "subtitle": "subtitles.finesse_races.water_damage",
+    "sounds": [
+      "finesse_races:entity/player/hurt/water_damage1"
+    ]
+  }
+}
