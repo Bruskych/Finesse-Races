@@ -7,7 +7,7 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.resources.ResourceLocation;
-import org.bruskych.finesse_races.gameplay.abilities.RaceAbility;
+import org.bruskych.finesse_races.gameplay.abilities.core.RaceAbility;
 import org.bruskych.remedy_core.client.gui.GuiRenderHelper;
 
 public class AbilityCardWidget extends AbstractWidget {

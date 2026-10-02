@@ -53,12 +53,6 @@ public class FinesseRaces {
     // Client-side setup and initialization events
     private void clientSetup(final FMLClientSetupEvent event) {
         LOGGER.info("The Finesse Races client-side component has been initialized.");
-
-        event.enqueueWork(() -> {
-            RCClientEvents.addLoginAction(() -> {
-                Minecraft mc = Minecraft.getInstance();
-                mc.setScreen(new RaceSelectionScreen());
-            });
-        });
+        event.enqueueWork(() -> {});
     }
 }

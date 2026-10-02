@@ -3,8 +3,8 @@ package org.bruskych.finesse_races.common.network;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
-import org.bruskych.finesse_races.gameplay.races.AbstractRace;
-import org.bruskych.finesse_races.gameplay.races.RaceManager;
+import org.bruskych.finesse_races.gameplay.races.core.AbstractRace;
+import org.bruskych.finesse_races.gameplay.races.core.RaceManager;
 
 import java.util.function.Supplier;
 

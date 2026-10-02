@@ -1,4 +1,4 @@
-package org.bruskych.finesse_races.gameplay.abilities;
+package org.bruskych.finesse_races.gameplay.abilities.core;
 
 /**
  * Ability categories.

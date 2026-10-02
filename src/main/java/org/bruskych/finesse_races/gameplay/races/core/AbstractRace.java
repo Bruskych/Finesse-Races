@@ -1,8 +1,8 @@
-package org.bruskych.finesse_races.gameplay.races;
+package org.bruskych.finesse_races.gameplay.races.core;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
-import org.bruskych.finesse_races.gameplay.abilities.RaceAbility;
+import org.bruskych.finesse_races.gameplay.abilities.core.RaceAbility;
 
 import java.util.List;
 

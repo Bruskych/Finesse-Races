@@ -4,15 +4,18 @@
   "gui.finesse_races.button.choose_race": "Выбрать происхождение",
   "gui.finesse_races.button.postpone_the_choice": "Отложить выбор",
   "gui.finesse_races.page": "Страница %s из %s",
-  "gui.finesse_races.category.buffs": "Баффы",
-  "gui.finesse_races.category.debuffs": "Дебаффы",
 
   "race.finesse_races.aquan.name": "Амфибия",
   "race.finesse_races.aquan.story": "Пока что тут ничего не будет, описание расс будет позже.",
 
+  "item.finesse_races.race_orb": "Сфера Истоков",
+
   "subtitles.finesse_races.water_damage": "Плоть горит в воде",
 
   "death.attack.finesse_races.water_damage": "%1$s растворился в воде",
+
+  "ability.finesse_races.higher_heat_damage.title": "Спекаемость",
+  "ability.finesse_races.higher_heat_damage.desc": "Игрок получает повышенный урон от любых источников тепла, огня, раскаленной магмы и прочих термических воздействий.",
 
   "ability.finesse_races.water_damage.title": "Гидрофобия",
   "ability.finesse_races.water_damage.desc": "Получает урон в лужах и увеличенный урон при полном погружении."

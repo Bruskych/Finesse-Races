@@ -3,12 +3,13 @@ package org.bruskych.finesse_races.gameplay.abilities;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 
+import org.bruskych.finesse_races.gameplay.abilities.core.AbilityCategory;
+import org.bruskych.finesse_races.gameplay.abilities.core.RaceAbility;
 import org.bruskych.finesse_races.gameplay.conditions.PlayerConditionHandler;
 import org.bruskych.finesse_races.gameplay.damage.FineDamageSources;
 
 public class WaterDamageAbility implements RaceAbility {
 
-    // TODO: New damage sounds? Subtitles?
     private final float partialDamage;
     private final float fullDamage;
 

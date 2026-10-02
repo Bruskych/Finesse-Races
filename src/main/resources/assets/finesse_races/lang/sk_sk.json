@@ -4,15 +4,18 @@
   "gui.finesse_races.button.choose_race": "Vybrať pôvod",
   "gui.finesse_races.button.postpone_the_choice": "Odložiť výber",
   "gui.finesse_races.page": "Strana %s z %s",
-  "gui.finesse_races.category.buffs": "Buffy",
-  "gui.finesse_races.category.debuffs": "Debuffy",
 
   "race.finesse_races.aquan.name": "Amfíbia",
   "race.finesse_races.aquan.story": "Zatiaľ tu nič nebude, popis pretekov bude neskôr.",
 
+  "item.finesse_races.race_orb": "Sféra Pôvodov",
+
   "subtitles.finesse_races.water_damage": "Mäso syčí vo vode",
 
   "death.attack.finesse_races.water_damage": "%1$s sa rozpustil vo vode",
+
+  "ability.finesse_races.higher_heat_damage.title": "Spekavosť",
+  "ability.finesse_races.higher_heat_damage.desc": "Hráč podlieha zvýšenému poškodeniu zo všetkých zdrojov tepla, ohňa, roztavenej magmy a podobných žiarivých efektov.",
 
   "ability.finesse_races.water_damage.title": "Hydrofóbia",
   "ability.finesse_races.water_damage.desc": "Prijíma poškodenie v kalužiach a zvýšené poškodenie pri úplnom ponorení."

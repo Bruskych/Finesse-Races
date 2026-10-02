@@ -1,10 +1,11 @@
-package org.bruskych.finesse_races.gameplay.races;
+package org.bruskych.finesse_races.gameplay.races.core;
 
 import net.minecraft.world.entity.player.Player;
 
 import java.util.*;
 
 import org.bruskych.finesse_races.core.FRConfig;
+import org.bruskych.finesse_races.gameplay.races.AquanRace;
 
 /**
  * Race Manager (Central Registry).

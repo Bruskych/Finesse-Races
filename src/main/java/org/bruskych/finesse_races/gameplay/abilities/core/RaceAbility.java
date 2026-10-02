@@ -1,4 +1,4 @@
-package org.bruskych.finesse_races.gameplay.abilities;
+package org.bruskych.finesse_races.gameplay.abilities.core;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
