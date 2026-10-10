@@ -18,6 +18,7 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'net.minecraftforge.gradle' version '[6.0.16,6.2)'
+    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
 }
 
 // Apply the Mixin plugin
@@ -46,7 +47,7 @@ java {
 
 minecraft {
     // Mapping configuration (official Mojang method/field names)
-    mappings channel: mapping_channel, version: mapping_version
+    mappings channel: mapping_channel_p, version: mapping_version_p
 
     // Copy IDE resources before running the game
     copyIdeResources = true
