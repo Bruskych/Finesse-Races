@@ -14,6 +14,7 @@ import org.bruskych.finesse_races.gameplay.abilities.core.RaceAbility;
 import org.bruskych.finesse_races.gameplay.races.core.AbstractRace;
 import org.bruskych.finesse_races.gameplay.races.core.RaceManager;
 import org.bruskych.remedy_core.client.gui.GuiRenderHelper;
+import org.bruskych.remedy_core.client.gui.widgets.DotPaginationWidget;
 import org.bruskych.remedy_core.client.gui.widgets.PanelWidget;
 import org.bruskych.finesse_races.core.FinesseRaces;
 import org.jetbrains.annotations.NotNull;
@@ -49,6 +50,7 @@ public class RaceSelectionScreen extends Screen {
     int VANILLA_WHITE = 0xFFFFFF;
     int VANILLA_DARK = 0x404040;
 
+    private DotPaginationWidget paginationWidget;
     private List<AbstractRace> availableRaces;
     private int currentRaceIndex = 0;
 
@@ -86,11 +88,11 @@ public class RaceSelectionScreen extends Screen {
         int availableWidth = this.width - reservedSideSpace;
 
         this.panelWidth = Math.max(110, Math.min(maxPanelWidth, (availableWidth - (PANEL_GAP * 2)) / 3));
-        this.panelHeight = Math.max(150, Math.min(maxPanelHeight, this.height - 50));
+        this.panelHeight = Math.max(150, Math.min(maxPanelHeight, this.height - 85));
 
         int totalWidth = (this.panelWidth * 3) + (PANEL_GAP * 2);
         int startX = (this.width - totalWidth) / 2;
-        int startY = (this.height - this.panelHeight) / 2 - 10;
+        int startY = (this.height - this.panelHeight) / 2 - 15;
 
         leftPanel = new PanelWidget(
                 TEXTURE_BACK, startX, startY,
@@ -129,16 +131,35 @@ public class RaceSelectionScreen extends Screen {
                 btn -> switchRace(1)
         ));
 
-        Component confirmText = Component.translatable("gui.finesse_races.button.choose_race");
+        // Create Pagination
+        int dotWidth = 12;
+        int dotHeight = 8;
+        int dotSpacing = 4;
+        int paginationY = startY + this.panelHeight + margin;
 
+        this.paginationWidget = new DotPaginationWidget(
+                startX, paginationY, totalWidth,
+                availableRaces.size(), currentRaceIndex,
+                dotWidth, dotHeight, dotSpacing, 24, 0,
+                256, 256, TEXTURE_BUTT,
+                selectedRaceIndex -> {
+                    this.currentRaceIndex = selectedRaceIndex;
+                    this.leftPageIndex = 0;
+                    updatePanelButtons();
+                    this.paginationWidget.setCurrentPage(this.currentRaceIndex);
+                }
+        );
+        this.addRenderableWidget(paginationWidget);
+
+        // BUTTON - SELECT RACE
+        Component confirmText = Component.translatable("gui.finesse_races.button.choose_race");
         int finalBtnWidth = Math.max(120, this.font.width(confirmText) + 20);
         int buttonHeight = 20;
 
-        // Button in CENTER screen
+        // Must be in CENTER screen
         int bottomStartX = startX + (totalWidth - finalBtnWidth) / 2;
-        int bottomY = startY + this.panelHeight + margin;
+        int bottomY = paginationWidget.getY() + paginationWidget.getHeight() + margin;
 
-        // Button - Select Race
         this.addRenderableWidget(Button.builder(confirmText, btn -> {
             if (!availableRaces.isEmpty()) {
                 AbstractRace selectedRace = availableRaces.get(currentRaceIndex);
@@ -237,6 +258,11 @@ public class RaceSelectionScreen extends Screen {
         leftPageIndex = 0;
         centerPageIndex = 0;
         updatePanelButtons();
+
+        // Update Pagination
+        if (this.paginationWidget != null) {
+            this.paginationWidget.setCurrentPage(currentRaceIndex);
+        }
     }
 
     /**
