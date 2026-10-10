@@ -16,6 +16,7 @@ import org.bruskych.finesse_races.gameplay.races.core.RaceManager;
 import org.bruskych.remedy_core.client.gui.GuiRenderHelper;
 import org.bruskych.remedy_core.client.gui.widgets.PanelWidget;
 import org.bruskych.finesse_races.core.FinesseRaces;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -54,7 +55,6 @@ public class RaceSelectionScreen extends Screen {
     private int leftPageIndex = 0;
     private int centerPageIndex = 0;
 
-    private ImageButton leftPrevBtn, leftNextBtn;
     private ImageButton centerPrevBtn, centerNextBtn;
 
     /**
@@ -164,7 +164,7 @@ public class RaceSelectionScreen extends Screen {
         boolean canLeftNext = leftPageIndex < allPages.size() - 1;
 
         // Left panel - Previous page button "<<<"
-        leftPrevBtn = new ImageButton(
+        ImageButton leftPrevBtn = new ImageButton(
                 0, 0, btnSize, btnSize,
                 0, 0, btnSize,
                 TEXTURE_BUTT, 256, 256,
@@ -179,7 +179,7 @@ public class RaceSelectionScreen extends Screen {
         leftPanel.addChild(margin, margin, leftPrevBtn);
 
         // Left panel - Next page button ">>>"
-        leftNextBtn = new ImageButton(
+        ImageButton leftNextBtn = new ImageButton(
                 0, 0, btnSize, btnSize,
                 12, 0, btnSize,
                 TEXTURE_BUTT, 256, 256,
@@ -243,7 +243,7 @@ public class RaceSelectionScreen extends Screen {
      * Main render loop: draws panels, header plates, text, and ability cards
      */
     @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+    public void render(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         this.renderBackground(graphics);
 
         // Panels render all their child widgets (including our new AbilityCardWidgets) automatically!
@@ -335,14 +335,10 @@ public class RaceSelectionScreen extends Screen {
                 currentPage = new ArrayList<>();
                 currentHeight = 0;
             }
-
             currentPage.add(ability);
             currentHeight += cardHeight + 4;
         }
-
-        if (!currentPage.isEmpty()) {
-            pages.add(currentPage);
-        }
+        pages.add(currentPage);
 
         return pages;
     }

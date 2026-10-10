@@ -4,8 +4,9 @@
   "gui.finesse_races.gui": "Obrazovka výberu pôvodu",
 
   "gui.finesse_races.button.choose_race": "Vybrať pôvod",
-  "gui.finesse_races.button.postpone_the_choice": "Odložiť výber",
   "gui.finesse_races.page": "Strana %s z %s",
+  "gui.finesse_races.abilities": "Schopnosti",
+  "gui.finesse_races.race_story": "Príbeh rasy",
 
   "race.finesse_races.aquan.name": "Amfíbia",
   "race.finesse_races.aquan.story": "Zatiaľ tu nič nebude, popis pretekov bude neskôr.",

@@ -4,8 +4,9 @@
   "gui.finesse_races.gui": "Экран выбора происхождения",
 
   "gui.finesse_races.button.choose_race": "Выбрать происхождение",
-  "gui.finesse_races.button.postpone_the_choice": "Отложить выбор",
   "gui.finesse_races.page": "Страница %s из %s",
+  "gui.finesse_races.abilities": "Способности",
+  "gui.finesse_races.race_story": "История расы",
 
   "race.finesse_races.aquan.name": "Амфибия",
   "race.finesse_races.aquan.story": "Пока что тут ничего не будет, описание расс будет позже.",

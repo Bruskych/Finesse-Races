@@ -4,8 +4,9 @@
   "gui.finesse_races.gui": "Race Screen",
 
   "gui.finesse_races.button.choose_race": "Select this race",
-  "gui.finesse_races.button.postpone_the_choice": "Postpone the choice",
   "gui.finesse_races.page": "Page %s of %s",
+  "gui.finesse_races.abilities": "Abilities",
+  "gui.finesse_races.race_story": "Race Story",
 
   "race.finesse_races.aquan.name": "Aquan",
   "race.finesse_races.aquan.story": "There won't be anything here for now; the race descriptions will be added later.",
