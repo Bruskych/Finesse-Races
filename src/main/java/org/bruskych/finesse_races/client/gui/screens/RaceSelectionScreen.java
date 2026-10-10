@@ -1,12 +1,10 @@
 package org.bruskych.finesse_races.client.gui.screens;
 
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.client.gui.components.AbstractWidget;
 
 import org.bruskych.finesse_races.client.gui.widgets.AbilityCardWidget;
 import org.bruskych.finesse_races.common.network.FRNetwork;
@@ -16,6 +14,7 @@ import org.bruskych.finesse_races.gameplay.races.core.AbstractRace;
 import org.bruskych.finesse_races.gameplay.races.core.RaceManager;
 import org.bruskych.remedy_core.client.gui.GuiRenderHelper;
 import org.bruskych.remedy_core.client.gui.widgets.DotPaginationWidget;
+import org.bruskych.remedy_core.client.gui.widgets.NineSliceButton;
 import org.bruskych.remedy_core.client.gui.widgets.PanelWidget;
 import org.bruskych.finesse_races.core.FinesseRaces;
 import org.jetbrains.annotations.NotNull;
@@ -154,20 +153,26 @@ public class RaceSelectionScreen extends Screen {
 
         // BUTTON - SELECT RACE
         Component confirmText = Component.translatable("gui.finesse_races.button.choose_race");
-        int finalBtnWidth = Math.max(120, this.font.width(confirmText) + 20);
+
+        int calculatedBtnWidth = Math.max(120, this.font.width(confirmText) + 20);
         int buttonHeight = 20;
 
-        // Must be in CENTER screen
-        int bottomStartX = startX + (totalWidth - finalBtnWidth) / 2;
+        // X + Y coords
+        int bottomStartX = startX + (totalWidth - calculatedBtnWidth) / 2;
         int bottomY = paginationWidget.getY() + paginationWidget.getHeight() + margin;
 
-        this.addRenderableWidget(Button.builder(confirmText, btn -> {
-            if (!availableRaces.isEmpty()) {
-                AbstractRace selectedRace = availableRaces.get(currentRaceIndex);
-                FRNetwork.sendToServer(new RaceSelectionC2SPacket(selectedRace.getId()));
-                this.onClose();
-            }
-        }).bounds(bottomStartX, bottomY, finalBtnWidth, buttonHeight).build());
+        this.addRenderableWidget(NineSliceButton.builder(
+                confirmText, TEXTURE_BUTT, btn -> {
+                    if (!availableRaces.isEmpty()) {
+                        AbstractRace selectedRace = availableRaces.get(currentRaceIndex);
+                        FRNetwork.sendToServer(new RaceSelectionC2SPacket(selectedRace.getId()));
+                        this.onClose();
+                    }
+                })
+                .bounds(bottomStartX, bottomY, calculatedBtnWidth, buttonHeight)
+                .sliceParams(9, 2).uv(164, 0)
+                .textColors(VANILLA_WHITE, 0x555555)
+                .build());
 
         updatePanelButtons();
     }
@@ -339,9 +344,7 @@ public class RaceSelectionScreen extends Screen {
             // PLATE - Story
             Component storyText = Component.translatable("gui.finesse_races.race_story");
             GuiRenderHelper.renderScrollingString(
-                    graphics,
-                    this.font,
-                    storyText,
+                    graphics, this.font, storyText,
                     centerPanel.getX() + headerRelX + marginX,
                     centerPanel.getY() + margin,
                     centerPanel.getX() + headerRelX + headerWidth - marginX,
