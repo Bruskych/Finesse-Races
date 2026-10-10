@@ -6,6 +6,7 @@ import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.gui.components.AbstractWidget;
 
 import org.bruskych.finesse_races.client.gui.widgets.AbilityCardWidget;
 import org.bruskych.finesse_races.common.network.FRNetwork;
@@ -324,14 +325,15 @@ public class RaceSelectionScreen extends Screen {
 
             // PLATE - Abilities
             Component abilitiesText = Component.translatable("gui.finesse_races.abilities");
-            int strAbilWidth = this.font.width(abilitiesText);
-            int abilTextX = leftPanel.getX() + headerRelX + (headerWidth - strAbilWidth) / 2;
-            int abilTextY = leftPanel.getY() + subtitleRelY + (headerHeight - this.font.lineHeight) / 2 + 1;
+            int marginX = 2;
 
-            graphics.drawString(
-                    this.font, abilitiesText,
-                    abilTextX, abilTextY,
-                    VANILLA_WHITE, true
+            GuiRenderHelper.renderScrollingString(
+                    graphics, this.font, abilitiesText,
+                    leftPanel.getX() + headerRelX + marginX,
+                    leftPanel.getY() + subtitleRelY,
+                    leftPanel.getX() + headerRelX + headerWidth - marginX,
+                    leftPanel.getY() + subtitleRelY + headerHeight,
+                    VANILLA_WHITE
             );
         }
     }
@@ -345,14 +347,15 @@ public class RaceSelectionScreen extends Screen {
 
         Component pageComponent = Component.translatable("gui.finesse_races.page", currentPage, maxPages);
 
-        int strWidth = this.font.width(pageComponent);
-        int textX = x + (width - strWidth) / 2;
-        int textY = y + (height - this.font.lineHeight) / 2 + 1;
+        // Margin from the frame edges
+        int marginX = 2;
 
-        graphics.drawString(
-                this.font, pageComponent,
-                textX, textY,
-                VANILLA_WHITE, true
+        // Vanilla text scrolling method
+        GuiRenderHelper.renderScrollingString(
+                graphics, this.font, pageComponent,
+                x + marginX, y,
+                x + width - marginX, y + height,
+                VANILLA_WHITE
         );
     }
 
