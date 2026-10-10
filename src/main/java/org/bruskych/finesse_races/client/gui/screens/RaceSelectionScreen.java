@@ -333,7 +333,20 @@ public class RaceSelectionScreen extends Screen {
                     leftPanel.getY() + subtitleRelY,
                     leftPanel.getX() + headerRelX + headerWidth - marginX,
                     leftPanel.getY() + subtitleRelY + headerHeight,
-                    VANILLA_WHITE
+                    VANILLA_WHITE, true
+            );
+
+            // PLATE - Story
+            Component storyText = Component.translatable("gui.finesse_races.race_story");
+            GuiRenderHelper.renderScrollingString(
+                    graphics,
+                    this.font,
+                    storyText,
+                    centerPanel.getX() + headerRelX + marginX,
+                    centerPanel.getY() + margin,
+                    centerPanel.getX() + headerRelX + headerWidth - marginX,
+                    centerPanel.getY() + margin + headerHeight,
+                    VANILLA_WHITE, true
             );
         }
     }
@@ -355,7 +368,7 @@ public class RaceSelectionScreen extends Screen {
                 graphics, this.font, pageComponent,
                 x + marginX, y,
                 x + width - marginX, y + height,
-                VANILLA_WHITE
+                VANILLA_WHITE, true
         );
     }
 
