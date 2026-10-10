@@ -35,6 +35,6 @@ public class HigherHeatDamageAbility implements RaceAbility {
 
     @Override
     public AbilityCategory getCategory() {
-        return AbilityCategory.DEBUFF;
+        return AbilityCategory.HARMFUL;
     }
 }

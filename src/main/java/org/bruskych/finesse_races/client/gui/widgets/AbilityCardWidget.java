@@ -44,8 +44,8 @@ public class AbilityCardWidget extends AbstractWidget {
 
         // Heading colors
         int titleColor = switch (this.ability.getCategory()) {
-            case BUFF -> VANILLA_DARK;
-            case DEBUFF -> VANILLA_DARK;
+            case BENEFICIAL -> VANILLA_DARK;
+            case HARMFUL -> VANILLA_DARK;
             case NEUTRAL -> VANILLA_DARK;
         };
 
@@ -57,13 +57,16 @@ public class AbilityCardWidget extends AbstractWidget {
                 this.getY() + innerPadding,
                 titleColor, false
         );
-        graphics.drawWordWrap(
-                font,
-                this.ability.getDescription(),
-                this.getX() + innerPadding,
-                this.getY() + innerPadding + 12,
-                textWidth, VANILLA_DARK
-        );
+        int descriptionY = this.getY() + innerPadding + 12;
+        for (var line : font.split(this.ability.getDescription(), textWidth)) {
+            graphics.drawString(
+                    font, line,
+                    this.getX() + innerPadding,
+                    descriptionY,
+                    VANILLA_DARK, false
+            );
+            descriptionY += font.lineHeight;
+        }
     }
 
     // Click action

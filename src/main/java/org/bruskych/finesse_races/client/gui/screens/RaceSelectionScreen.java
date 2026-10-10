@@ -115,14 +115,14 @@ public class RaceSelectionScreen extends Screen {
 
         int navBtnY = startY + (this.panelHeight / 2) - (navBtnSize / 2);
 
-        // Global previous race button (Left side)
+        // Global previous race button (Left side) "<<<"
         this.addRenderableWidget(new ImageButton(
                 startX - navBtnSize - sideNavMargin, navBtnY, navBtnSize, navBtnSize,
                 184, 0, navBtnSize, TEXTURE_BUTT, 256, 256,
                 btn -> switchRace(-1)
         ));
 
-        // Global next race button (Right side)
+        // Global next race button (Right side) ">>>"
         this.addRenderableWidget(new ImageButton(
                 startX + totalWidth + sideNavMargin, navBtnY, navBtnSize, navBtnSize,
                 204, 0, navBtnSize, TEXTURE_BUTT, 256, 256,
@@ -130,35 +130,22 @@ public class RaceSelectionScreen extends Screen {
         ));
 
         Component confirmText = Component.translatable("gui.finesse_races.button.choose_race");
-        Component postponeText = Component.translatable("gui.finesse_races.button.postpone_the_choice");
 
-        int rawConfirmWidth = this.font.width(confirmText) + 20;
-        int rawPostponeWidth = this.font.width(postponeText) + 20;
-        int finalBtnWidth = Math.max(rawConfirmWidth, rawPostponeWidth);
-
-        int bottomGap = 10;
+        int finalBtnWidth = Math.max(120, this.font.width(confirmText) + 20);
         int buttonHeight = 20;
 
-        int bottomGroupWidth = finalBtnWidth + bottomGap + finalBtnWidth;
-        int bottomStartX = startX + (totalWidth - bottomGroupWidth) / 2;
+        // Button in CENTER screen
+        int bottomStartX = startX + (totalWidth - finalBtnWidth) / 2;
         int bottomY = startY + this.panelHeight + margin;
 
-        int currentX = bottomStartX;
-
-        // Confirm button - Send selected race packet to server
+        // Button - Select Race
         this.addRenderableWidget(Button.builder(confirmText, btn -> {
             if (!availableRaces.isEmpty()) {
                 AbstractRace selectedRace = availableRaces.get(currentRaceIndex);
                 FRNetwork.sendToServer(new RaceSelectionC2SPacket(selectedRace.getId()));
                 this.onClose();
             }
-        }).bounds(currentX, bottomY, finalBtnWidth, buttonHeight).build());
-
-        currentX += finalBtnWidth + bottomGap;
-
-        // Postpone button - Close choice screen
-        this.addRenderableWidget(Button.builder(postponeText, btn -> this.onClose())
-                .bounds(currentX, bottomY, finalBtnWidth, buttonHeight).build());
+        }).bounds(bottomStartX, bottomY, finalBtnWidth, buttonHeight).build());
 
         updatePanelButtons();
     }
@@ -176,7 +163,7 @@ public class RaceSelectionScreen extends Screen {
         boolean canLeftPrev = leftPageIndex > 0;
         boolean canLeftNext = leftPageIndex < allPages.size() - 1;
 
-        // Left panel - Previous page button
+        // Left panel - Previous page button "<<<"
         leftPrevBtn = new ImageButton(
                 0, 0, btnSize, btnSize,
                 0, 0, btnSize,
@@ -191,7 +178,7 @@ public class RaceSelectionScreen extends Screen {
         leftPrevBtn.active = canLeftPrev;
         leftPanel.addChild(margin, margin, leftPrevBtn);
 
-        // Left panel - Next page button
+        // Left panel - Next page button ">>>"
         leftNextBtn = new ImageButton(
                 0, 0, btnSize, btnSize,
                 12, 0, btnSize,
@@ -296,7 +283,7 @@ public class RaceSelectionScreen extends Screen {
     }
 
     /**
-     * Renders localized page counter text centered inside header plates
+     * Renders localized page counter text centered inside header plates (Text: Page 1 / 2)
      */
     private void renderPageText(GuiGraphics graphics, int x, int y, int width, int height, int pageIndex, int totalPages) {
         int maxPages = Math.max(1, totalPages);
@@ -308,55 +295,11 @@ public class RaceSelectionScreen extends Screen {
         int textX = x + (width - strWidth) / 2;
         int textY = y + (height - this.font.lineHeight) / 2 + 1;
 
-        graphics.drawString(this.font, pageComponent, textX, textY, VANILLA_WHITE, false);
-    }
-
-    /**
-     * Renders ability cards with dynamic background height based on wrapped description
-     */
-    private void renderAbilityCards(GuiGraphics graphics, int panelInnerX, int startY, List<RaceAbility> abilities) {
-        int cardWidth = this.panelWidth - (margin * 2);
-        int innerPadding = 5;
-        int textWidth = cardWidth - (innerPadding * 2);
-        int currentY = startY;
-
-        for (RaceAbility ability : abilities) {
-            int titleColor = switch (ability.getCategory()) {
-                case BUFF -> VANILLA_DARK;
-                case DEBUFF -> VANILLA_DARK;
-                case NEUTRAL -> VANILLA_DARK;
-            };
-
-            int linesCount = this.font.split(ability.getDescription(), textWidth).size();
-            int textHeight = linesCount * this.font.lineHeight;
-            int cardHeight = innerPadding + 9 + 3 + textHeight + innerPadding;
-
-            GuiRenderHelper.renderNineSlice(
-                    graphics, TEXTURE_BACK,
-                    panelInnerX, currentY,
-                    cardWidth, cardHeight,
-                    0, 51,
-                    CORNER_PLATE_SIZE, CENTER_SIZE
-            );
-
-            graphics.drawString(
-                    this.font,
-                    ability.getTitle(),
-                    panelInnerX + innerPadding,
-                    currentY + innerPadding,
-                    titleColor, false
-            );
-
-            graphics.drawWordWrap(
-                    this.font,
-                    ability.getDescription(),
-                    panelInnerX + innerPadding,
-                    currentY + innerPadding + 12,
-                    textWidth, VANILLA_DARK
-            );
-
-            currentY += cardHeight + 4;
-        }
+        graphics.drawString(
+                this.font, pageComponent,
+                textX, textY,
+                VANILLA_WHITE, true
+        );
     }
 
     /**
@@ -422,6 +365,6 @@ public class RaceSelectionScreen extends Screen {
      */
     @Override
     public boolean shouldCloseOnEsc() {
-        return true;
+        return false;
     }
 }

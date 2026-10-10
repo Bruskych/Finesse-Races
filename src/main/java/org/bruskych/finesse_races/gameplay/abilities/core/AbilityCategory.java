@@ -5,9 +5,9 @@ package org.bruskych.finesse_races.gameplay.abilities.core;
  * Any created ability must belong to a specific category.
  */
 public enum AbilityCategory {
-    BUFF(0),
+    BENEFICIAL(0),
     NEUTRAL(1),
-    DEBUFF(2);
+    HARMFUL(2);
 
     private final int priority;
 

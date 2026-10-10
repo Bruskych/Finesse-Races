@@ -36,6 +36,15 @@ public class RaceSelectionC2SPacket {
                 AbstractRace race = RaceManager.getRace(this.raceId);
                 if (race != null) {
                     RaceManager.setPlayerRace(player, race);
+
+                    // Delete Race Orb
+                    if (!player.isCreative()) {
+                        if (player.getMainHandItem().getItem() instanceof org.bruskych.finesse_races.common.items.RaceOrbItem) {
+                            player.getMainHandItem().shrink(1);
+                        } else if (player.getOffhandItem().getItem() instanceof org.bruskych.finesse_races.common.items.RaceOrbItem) {
+                            player.getOffhandItem().shrink(1);
+                        }
+                    }
                 }
             }
         });

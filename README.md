@@ -18,7 +18,7 @@ Tento repozitár vznikol ako praktická časť bakalárskeho výskumu. Okrem sam
 Všetka projektová dokumentácia je k dispozícii v ruskom a slovenskom jazyku, pričom komentáre v zdrojovom kóde sú napísané v angličtine.
 
 ```
-finesse-races-1.20.x/
+finesse-races/
 └── documentation/      # Dokumentácia a príručky k celému životnému cyklu vývoja
     ├── ru/             # Ruská dokumentácia
     └── sk/             # Slovenská dokumentácia
@@ -60,7 +60,7 @@ This repository serves as the practical component of the Bachelor's research. Al
 Project documentation and guides are available in Russian and Slovak, while source code comments are written in English.
 
 ```
-finesse-races-1.20.x/
+finesse-races/
 └── documentation/      # Documentation and complete development lifecycle guides
     ├── ru/             # Russian documentation
     └── sk/             # Slovak documentation
@@ -102,7 +102,7 @@ Finesse Races — модификация для Minecraft (версия 1.20.1 F
 Вся проектная документация и руководства представлены на русском и словацком языках, а комментарии в исходном коде написаны на английском.
 
 ```
-finesse-races-1.20.x/
+finesse-races/
 └── documentation/      # Документация и руководства по полному циклу разработки
     ├── ru/             # Документация на русском языке
     └── sk/             # Документация на словацком языке

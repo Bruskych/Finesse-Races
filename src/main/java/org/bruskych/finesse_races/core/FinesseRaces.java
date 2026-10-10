@@ -11,6 +11,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
+import org.bruskych.finesse_races.core.init.CreativeTabsInit;
+import org.bruskych.finesse_races.core.init.ItemsInit;
 import org.slf4j.Logger;
 
 import org.bruskych.finesse_races.common.network.FRNetwork;
@@ -31,8 +33,10 @@ public class FinesseRaces {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         ModLoadingContext context = ModLoadingContext.get();
 
-        // Register sounds
+        // Register sounds, items and other
         FineSounds.register(bus);
+        ItemsInit.register(bus);
+        CreativeTabsInit.register(bus);
 
         bus.addListener(this::commonSetup);
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> bus.addListener(this::clientSetup));

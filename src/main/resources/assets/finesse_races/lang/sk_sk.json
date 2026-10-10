@@ -1,4 +1,6 @@
 {
+  "creativetab.finesse_races.main": "Finesse Races",
+
   "gui.finesse_races.gui": "Obrazovka výberu pôvodu",
 
   "gui.finesse_races.button.choose_race": "Vybrať pôvod",
@@ -8,15 +10,15 @@
   "race.finesse_races.aquan.name": "Amfíbia",
   "race.finesse_races.aquan.story": "Zatiaľ tu nič nebude, popis pretekov bude neskôr.",
 
-  "item.finesse_races.race_orb": "Sféra Pôvodov",
+  "item.finesse_races.race_orb": "Sféra pôvodov",
 
   "subtitles.finesse_races.water_damage": "Mäso syčí vo vode",
 
   "death.attack.finesse_races.water_damage": "%1$s sa rozpustil vo vode",
 
   "ability.finesse_races.higher_heat_damage.title": "Spekavosť",
-  "ability.finesse_races.higher_heat_damage.desc": "Hráč podlieha zvýšenému poškodeniu zo všetkých zdrojov tepla, ohňa, roztavenej magmy a podobných žiarivých efektov.",
+  "ability.finesse_races.higher_heat_damage.desc": "Hráč podlieha zvýšenému poškodeniu od ohňa, lávy, magmy a iných zdrojov tepla.",
 
   "ability.finesse_races.water_damage.title": "Hydrofóbia",
-  "ability.finesse_races.water_damage.desc": "Prijíma poškodenie v kalužiach a zvýšené poškodenie pri úplnom ponorení."
+  "ability.finesse_races.water_damage.desc": "Hráč dostáva poškodenie pri kontakte s vodou. Poškodenie sa výrazne zvyšuje pri úplnom ponorení."
 }

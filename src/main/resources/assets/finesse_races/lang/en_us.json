@@ -1,4 +1,6 @@
 {
+  "creativetab.finesse_races.main": "Finesse Races",
+
   "gui.finesse_races.gui": "Race Screen",
 
   "gui.finesse_races.button.choose_race": "Select this race",
@@ -8,15 +10,15 @@
   "race.finesse_races.aquan.name": "Aquan",
   "race.finesse_races.aquan.story": "There won't be anything here for now; the race descriptions will be added later.",
 
-  "item.finesse_races.race_orb": "Orb of Races",
+  "item.finesse_races.race_orb": "Orb of races",
 
   "subtitles.finesse_races.water_damage": "Flesh sizzles in water",
 
   "death.attack.finesse_races.water_damage": "%1$s dissolved in water",
 
-  "ability.finesse_races.higher_heat_damage.title": "Sinterability",
-  "ability.finesse_races.higher_heat_damage.desc": "The player receives increased damage from all sources of heat, fire, molten magma, and other flame-based effects.",
+  "ability.finesse_races.higher_heat_damage.title": "Slagging",
+  "ability.finesse_races.higher_heat_damage.desc": "Takes increased damage from fire, lava, magma blocks, and all other heat sources.",
 
   "ability.finesse_races.water_damage.title": "Hydrophobia",
-  "ability.finesse_races.water_damage.desc": "Takes damage in puddles and increased damage when fully submerged."
+  "ability.finesse_races.water_damage.desc": "Takes damage when touching water, with significantly higher damage while fully submerged."
 }
