@@ -120,14 +120,14 @@ public class RaceSelectionScreen extends Screen {
         // Global previous race button (Left side) "<<<"
         this.addRenderableWidget(new ImageButton(
                 startX - navBtnSize - sideNavMargin, navBtnY, navBtnSize, navBtnSize,
-                184, 0, navBtnSize, TEXTURE_BUTT, 256, 256,
+                216, 0, navBtnSize, TEXTURE_BUTT, 256, 256,
                 btn -> switchRace(-1)
         ));
 
         // Global next race button (Right side) ">>>"
         this.addRenderableWidget(new ImageButton(
                 startX + totalWidth + sideNavMargin, navBtnY, navBtnSize, navBtnSize,
-                204, 0, navBtnSize, TEXTURE_BUTT, 256, 256,
+                236, 0, navBtnSize, TEXTURE_BUTT, 256, 256,
                 btn -> switchRace(1)
         ));
 
@@ -170,7 +170,7 @@ public class RaceSelectionScreen extends Screen {
                     }
                 })
                 .bounds(bottomStartX, bottomY, calculatedBtnWidth, buttonHeight)
-                .sliceParams(9, 2).uv(164, 0)
+                .sliceParams(9, 2).uv(196, 0)
                 .textColors(VANILLA_WHITE, 0x555555)
                 .build());
 
