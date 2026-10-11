@@ -5,7 +5,6 @@ import net.minecraft.network.chat.Component;
 
 import org.bruskych.finesse_races.gameplay.abilities.HigherHeatDamageAbility;
 import org.bruskych.finesse_races.gameplay.abilities.core.RaceAbility;
-import org.bruskych.finesse_races.gameplay.abilities.WaterDamageAbility;
 import org.bruskych.finesse_races.gameplay.races.core.AbstractRace;
 
 /**
@@ -14,13 +13,12 @@ import org.bruskych.finesse_races.gameplay.races.core.AbstractRace;
 public class AquanRace extends AbstractRace {
 
     private final List<RaceAbility> abilities = List.of(
-            new WaterDamageAbility(1.0F, 1.0F),
             new HigherHeatDamageAbility(2.0F)
     );
 
     // Race builder.
     public AquanRace() {
-        super(1, 2);
+        super(2, 2);
     }
 
     //Returns the technical identifier for the race.

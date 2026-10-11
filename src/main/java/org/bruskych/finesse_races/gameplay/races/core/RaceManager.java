@@ -5,7 +5,7 @@ import net.minecraft.world.entity.player.Player;
 import java.util.*;
 
 import org.bruskych.finesse_races.core.FRConfig;
-import org.bruskych.finesse_races.gameplay.races.AquanRace;
+import org.bruskych.finesse_races.gameplay.races.*;
 
 /**
  * Race Manager (Central Registry).
@@ -22,7 +22,18 @@ public class RaceManager {
 
     // Triggered once at startup (registers all available races)
     static {
+        registerRace(new DwarfRace());
         registerRace(new AquanRace());
+        registerRace(new VampireRace());
+        registerRace(new EnderianRace());
+        registerRace(new MecharRace());
+        registerRace(new AvianRace());
+        registerRace(new WerewolfRace());
+        registerRace(new VerdianRace());
+        registerRace(new DemonRace());
+        registerRace(new UndeadRace());
+        registerRace(new AlienRace());
+        // TODO: More race!
     }
 
     public static void applyConfigSettings() {

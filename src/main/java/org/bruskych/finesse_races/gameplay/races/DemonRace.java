@@ -1,0 +1,34 @@
+package org.bruskych.finesse_races.gameplay.races;
+
+import java.util.List;
+import net.minecraft.network.chat.Component;
+
+import org.bruskych.finesse_races.gameplay.abilities.core.RaceAbility;
+import org.bruskych.finesse_races.gameplay.races.core.AbstractRace;
+
+public class DemonRace extends AbstractRace {
+
+    public DemonRace() {
+        super(9, 2);
+    }
+
+    @Override
+    public String getId() {
+        return "demon";
+    }
+
+    @Override
+    public Component getDisplayName() {
+        return Component.translatable("race.finesse_races.demon.name");
+    }
+
+    @Override
+    public Component getDisplayStory() {
+        return Component.translatable("race.finesse_races.demon.story");
+    }
+
+    @Override
+    public List<RaceAbility> getAbilities() {
+        return List.of();
+    }
+}
