@@ -18,6 +18,11 @@ public class AquanRace extends AbstractRace {
             new HigherHeatDamageAbility(2.0F)
     );
 
+    // Race builder.
+    public AquanRace() {
+        super(1, 2);
+    }
+
     //Returns the technical identifier for the race.
     @Override
     public String getId() {

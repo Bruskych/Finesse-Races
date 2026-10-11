@@ -13,8 +13,18 @@ import java.util.List;
  */
 public abstract class AbstractRace {
 
-    private int displayOrder = 99;
-    private int difficulty = 1;
+    private int displayOrder;
+    private int difficulty;
+
+    /**
+     * A constructor that requires each race to specify its base parameters.
+     * @param defaultDisplayOrder List position (default)
+     * @param defaultDifficulty Race difficulty from 1 to 3 (default)
+     */
+    public AbstractRace(int defaultDisplayOrder, int defaultDifficulty) {
+        this.displayOrder = defaultDisplayOrder;
+        this.difficulty = defaultDifficulty;
+    }
 
     // GET | SET
     public int getDisplayOrder() {
