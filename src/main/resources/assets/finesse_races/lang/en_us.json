@@ -37,6 +37,10 @@
 
   "death.attack.finesse_races.water_damage": "%1$s dissolved in water",
 
+  "ability.finesse_races.category.beneficial": "Beneficial Ability (Buff)",
+  "ability.finesse_races.category.harmful": "Harmful Ability (Debuff)",
+  "ability.finesse_races.category.neutral": "Neutral Ability",
+
   "ability.finesse_races.higher_heat_damage.title": "Slagging",
   "ability.finesse_races.higher_heat_damage.desc": "Takes increased damage from fire, lava, magma blocks, and all other heat sources.",
 

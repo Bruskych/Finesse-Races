@@ -37,6 +37,10 @@
 
   "death.attack.finesse_races.water_damage": "%1$s sa rozpustil vo vode",
 
+  "ability.finesse_races.category.beneficial": "Pozitívna schopnosť (Buff)",
+  "ability.finesse_races.category.harmful": "Negatívna schopnosť (Debuff)",
+  "ability.finesse_races.category.neutral": "Neutrálna schopnosť",
+
   "ability.finesse_races.higher_heat_damage.title": "Spekavosť",
   "ability.finesse_races.higher_heat_damage.desc": "Hráč podlieha zvýšenému poškodeniu od ohňa, lávy, magmy a iných zdrojov tepla.",
 

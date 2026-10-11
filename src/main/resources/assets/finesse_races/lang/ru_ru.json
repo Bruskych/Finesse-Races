@@ -37,6 +37,10 @@
 
   "death.attack.finesse_races.water_damage": "%1$s растворился в воде",
 
+  "ability.finesse_races.category.beneficial": "Положительная способность (Бафф)",
+  "ability.finesse_races.category.harmful": "Отрицательная способность (Дебафф)",
+  "ability.finesse_races.category.neutral": "Нейтральная способность",
+
   "ability.finesse_races.higher_heat_damage.title": "Спекаемость",
   "ability.finesse_races.higher_heat_damage.desc": "Получение повышенного урона от огня, лавы, магмы и любых других источников тепла.",
 
