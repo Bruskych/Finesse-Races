@@ -1,7 +1,11 @@
 package org.bruskych.finesse_races.gameplay.abilities;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 
 import org.bruskych.finesse_races.gameplay.abilities.core.AbilityCategory;
 import org.bruskych.finesse_races.gameplay.abilities.core.RaceAbility;
@@ -9,6 +13,10 @@ import org.bruskych.finesse_races.gameplay.conditions.PlayerConditionHandler;
 import org.bruskych.finesse_races.gameplay.damage.FineDamageSources;
 
 public class WaterDamageAbility implements RaceAbility {
+
+    public static final TagKey<Item> DISPLAY_ITEMS_TAG = ItemTags.create(
+            ResourceLocation.fromNamespaceAndPath("finesse_races", "abilities/water_damage")
+    );
 
     private final float partialDamage;
     private final float fullDamage;
@@ -56,5 +64,10 @@ public class WaterDamageAbility implements RaceAbility {
     @Override
     public AbilityCategory getCategory() {
         return AbilityCategory.HARMFUL;
+    }
+
+    @Override
+    public TagKey<Item> getDisplayItemsTag() {
+        return DISPLAY_ITEMS_TAG;
     }
 }
