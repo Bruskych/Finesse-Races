@@ -5,6 +5,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ThrownPotion;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -29,6 +30,13 @@ public interface RaceAbility {
      * Called when the player finishes using an item (ate, drank, etc.).
      */
     default void onItemUseFinish(Player player, ItemStack item, UseAnim anim) {
+        // Empty
+    }
+
+    /**
+     * Triggered when a splash potion shatters near the player.
+     */
+    default void onSplashPotionHit(Player player, ThrownPotion potion) {
         // Empty
     }
 

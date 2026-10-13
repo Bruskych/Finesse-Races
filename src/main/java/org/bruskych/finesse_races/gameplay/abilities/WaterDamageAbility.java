@@ -5,6 +5,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ThrownPotion;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
@@ -59,6 +60,12 @@ public class WaterDamageAbility implements RaceAbility {
         if (anim == UseAnim.DRINK) {
             player.hurt(FineDamageSources.waterDamage(player), fullDamage);
         }
+    }
+
+    @Override
+    public void onSplashPotionHit(Player player, ThrownPotion potion) {
+        // If a potion shattered near the player
+        player.hurt(FineDamageSources.waterDamage(player), fullDamage);
     }
 
     @Override

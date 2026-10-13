@@ -10,7 +10,7 @@ import org.bruskych.finesse_races.gameplay.races.core.AbstractRace;
 public class EnderianRace extends AbstractRace {
 
     private final List<RaceAbility> abilities = List.of(
-            new WaterDamageAbility(1.0F, 1.0F)
+            new WaterDamageAbility(1.0F, 2.0F)
     );
 
     public EnderianRace() {
