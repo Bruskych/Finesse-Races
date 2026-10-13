@@ -2,6 +2,7 @@ package org.bruskych.finesse_races.gameplay.abilities.core;
 
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -9,6 +10,8 @@ import org.bruskych.finesse_races.core.FinesseRaces;
 import org.bruskych.finesse_races.gameplay.abilities.HigherHeatDamageAbility;
 import org.bruskych.finesse_races.gameplay.races.core.AbstractRace;
 import org.bruskych.finesse_races.gameplay.races.core.RaceManager;
+
+import java.util.List;
 
 /**
  * Automatically registers this class to the Forge Event Bus.
@@ -36,6 +39,19 @@ public class RaceAbilitiesEvents {
                         }
                         break;
                     }
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerUseItemFinish(LivingEntityUseItemEvent.Finish event) {
+        if (event.getEntity() instanceof Player player) {
+            AbstractRace race = RaceManager.getRaceOfPlayer(player);
+
+            if (race != null) {
+                for (RaceAbility ability : race.getAbilities()) {
+                    ability.onItemUseFinish(player, event.getItem(), event.getItem().getUseAnimation());
                 }
             }
         }

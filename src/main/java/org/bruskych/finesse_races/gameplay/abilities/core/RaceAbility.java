@@ -8,6 +8,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.UseAnim;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,13 @@ public interface RaceAbility {
      * Applies the ability logic to the player. Usually called every tick.
      */
     void apply(Player player);
+
+    /**
+     * Called when the player finishes using an item (ate, drank, etc.).
+     */
+    default void onItemUseFinish(Player player, ItemStack item, UseAnim anim) {
+        // Empty
+    }
 
     /**
      * Returns the localized title of the ability for the menu.
