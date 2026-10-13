@@ -7,6 +7,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.UseAnim;
 
 import org.bruskych.finesse_races.gameplay.abilities.core.AbilityCategory;
 import org.bruskych.finesse_races.gameplay.abilities.core.RaceAbility;
@@ -53,9 +54,9 @@ public class WaterDamageAbility implements RaceAbility {
     }
 
     @Override
-    public void onItemUseFinish(Player player, ItemStack item, net.minecraft.world.item.UseAnim anim) {
+    public void onItemUseFinish(Player player, ItemStack item, UseAnim anim) {
         // If the usage animation is drinking, deal damage to the player.
-        if (anim == net.minecraft.world.item.UseAnim.DRINK) {
+        if (anim == UseAnim.DRINK) {
             player.hurt(FineDamageSources.waterDamage(player), fullDamage);
         }
     }
