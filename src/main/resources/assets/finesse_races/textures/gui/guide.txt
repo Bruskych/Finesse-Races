@@ -1,24 +1,20 @@
-RU_RU
-Файл background.png использует Nine-Slice масштабирование:
-
-- Углы не изменяются. Размещайте здесь все детали, рамки и скосы.
-- Боковые части растягиваются. Они заполняют пространство между углами.
-- Центр растягивается. Под него выделен ровно 1 пиксель, который растягивается на весь фон окна.
-
----
-
-SK_SK
-Súbor background.png používa škálovanie Nine-Slice:
-
-- Rohy sa nemenia. Umiestnite sem všetky detaily, okraje a skosenia.
-- Bočné časti sa roztiahnu. Vyplnia priestor medzi rohmi.
-- Stred sa roztiahne. Je preň vyhradený presne 1 pixel, ktorý sa roztiahne na celé pozadie okna.
-
----
-
 EN_US
-The background.png file uses Nine-Slice scaling:
+1. The "background.png" file uses Nine-Slice scaling:
 
 - Corners remain unchanged. Place all details, borders, and bevels here.
 - Side sections are stretched. They fill the space between the corners.
 - The center is stretched. Exactly 1 pixel is reserved for it and stretched across the entire window background.
+
+Texture coordinates and their origin (X,Y):
+
+- Aquan     (35,17)
+- Vampire   (44,17)
+- Enderian  (53,17)
+- Demon     (62,17)
+- Avian     (71,17)
+- Alien     (80,17)
+- Dwarf     (89,17)
+- Mechar    (98,17)
+- Undead    (107,17)
+- Verdian   (116,17)
+- Werewolf  (125,17)

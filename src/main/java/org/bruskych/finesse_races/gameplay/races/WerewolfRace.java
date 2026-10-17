@@ -8,7 +8,7 @@ import org.bruskych.finesse_races.gameplay.races.core.AbstractRace;
 public class WerewolfRace extends AbstractRace {
 
     public WerewolfRace() {
-        super(7, 2);
+        super(7, 2, 125, 17);
     }
 
     @Override

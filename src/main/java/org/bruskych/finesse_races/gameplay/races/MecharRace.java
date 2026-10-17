@@ -9,7 +9,7 @@ import org.bruskych.finesse_races.gameplay.races.core.AbstractRace;
 public class MecharRace extends AbstractRace {
 
     public MecharRace() {
-        super(5, 2);
+        super(5, 2, 98, 17);
     }
 
     @Override

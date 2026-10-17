@@ -9,7 +9,7 @@ import org.bruskych.finesse_races.gameplay.races.core.AbstractRace;
 public class VerdianRace extends AbstractRace {
 
     public VerdianRace() {
-        super(8, 2);
+        super(8, 2, 116, 17);
     }
 
     @Override

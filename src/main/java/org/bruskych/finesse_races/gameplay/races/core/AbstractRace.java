@@ -15,15 +15,30 @@ public abstract class AbstractRace {
 
     private int displayOrder;
     private int difficulty;
+    private final int plateU;
+    private final int plateV;
 
     /**
-     * A constructor that requires each race to specify its base parameters.
      * @param defaultDisplayOrder List position (default)
      * @param defaultDifficulty Race difficulty from 1 to 3 (default)
+     * @param plateU X-coordinate on the texture for the race's name plate
+     * @param plateV Y-coordinate on the texture for the race's name plate
      */
-    public AbstractRace(int defaultDisplayOrder, int defaultDifficulty) {
+    public AbstractRace(int defaultDisplayOrder, int defaultDifficulty, int plateU, int plateV) {
         this.displayOrder = defaultDisplayOrder;
         this.difficulty = defaultDifficulty;
+        this.plateU = plateU;
+        this.plateV = plateV;
+    }
+
+    // The X-coordinate (U) on the texture for this race's nameplate.
+    public int getPlateU() {
+        return this.plateU;
+    }
+
+    // The Y-coordinate (V) on the texture for this race's nameplate.
+    public int getPlateV() {
+        return this.plateV;
     }
 
     // GET | SET

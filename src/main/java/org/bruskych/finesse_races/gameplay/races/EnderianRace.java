@@ -14,7 +14,7 @@ public class EnderianRace extends AbstractRace {
     );
 
     public EnderianRace() {
-        super(4, 2);
+        super(4, 2, 53, 17);
     }
 
     @Override

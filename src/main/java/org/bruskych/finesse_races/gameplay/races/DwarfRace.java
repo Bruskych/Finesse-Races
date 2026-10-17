@@ -9,7 +9,7 @@ import org.bruskych.finesse_races.gameplay.races.core.AbstractRace;
 public class DwarfRace extends AbstractRace {
 
     public DwarfRace() {
-        super(1, 2);
+        super(1, 2, 89, 17);
     }
 
     @Override

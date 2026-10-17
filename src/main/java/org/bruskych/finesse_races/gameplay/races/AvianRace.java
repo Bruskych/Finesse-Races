@@ -9,7 +9,7 @@ import org.bruskych.finesse_races.gameplay.races.core.AbstractRace;
 public class AvianRace extends AbstractRace {
 
     public AvianRace() {
-        super(6, 2);
+        super(6, 2, 71, 17);
     }
 
     @Override

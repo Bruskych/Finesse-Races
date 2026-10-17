@@ -9,7 +9,8 @@ import org.bruskych.finesse_races.gameplay.races.core.AbstractRace;
 public class UndeadRace extends AbstractRace {
 
     public UndeadRace() {
-        super(10, 2); }
+        super(10, 2, 107, 17);
+    }
 
     @Override
     public String getId() {

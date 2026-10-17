@@ -16,30 +16,25 @@ public class AquanRace extends AbstractRace {
             new HigherHeatDamageAbility(2.0F)
     );
 
-    // Race builder.
     public AquanRace() {
-        super(2, 2);
+        super(2, 2, 35, 17);
     }
 
-    //Returns the technical identifier for the race.
     @Override
     public String getId() {
         return "aquan";
     }
 
-    // Returns the localized display name for the RaceSelectionScreen.
     @Override
     public Component getDisplayName() {
         return Component.translatable("race.finesse_races.aquan.name");
     }
 
-    // Returns the localized story/lore for the RaceSelectionScreen.
     @Override
     public Component getDisplayStory() {
         return Component.translatable("race.finesse_races.aquan.story");
     }
 
-    // Returns the list of abilities to the base class to activate them
     @Override
     public List<RaceAbility> getAbilities() {
         return abilities;
