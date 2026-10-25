@@ -16,10 +16,11 @@ import org.bruskych.finesse_races.gameplay.races.core.AbstractRace;
 import org.bruskych.finesse_races.gameplay.races.core.RaceManager;
 import org.bruskych.finesse_races.client.gui.widgets.DotPaginationWidget;
 import org.bruskych.finesse_races.core.FinesseRaces;
+
 import org.bruskych.remedy_core.client.gui.widgets.NineSliceButton;
 import org.bruskych.remedy_core.client.gui.widgets.PanelWidget;
-import org.jetbrains.annotations.NotNull;
 
+import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -34,7 +35,6 @@ public class RaceSelectionScreen extends Screen {
     );
 
     private static final int PANEL_GAP = 7;
-    private static final int CORNER_PLATE_SIZE = 4;
     private static final int CORNER_SIZE = 8;
     private static final int CENTER_SIZE = 1;
 
@@ -330,7 +330,6 @@ public class RaceSelectionScreen extends Screen {
     public void render(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         this.renderBackground(graphics);
 
-        // Панели сами отрисуют свои виджеты (плашки, кнопки и карточки способностей)
         leftPanel.render(graphics, mouseX, mouseY, partialTick);
         centerPanel.render(graphics, mouseX, mouseY, partialTick);
         rightPanel.render(graphics, mouseX, mouseY, partialTick);
@@ -397,6 +396,14 @@ public class RaceSelectionScreen extends Screen {
             return true;
         }
         return super.mouseClicked(mouseX, mouseY, button);
+    }
+
+    /**
+     * Determines whether the world should be frozen
+     */
+    @Override
+    public boolean isPauseScreen() {
+        return false;
     }
 
     /**

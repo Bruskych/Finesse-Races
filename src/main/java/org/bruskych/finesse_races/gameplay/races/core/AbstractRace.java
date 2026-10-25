@@ -4,6 +4,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.bruskych.finesse_races.gameplay.abilities.core.RaceAbility;
+import org.bruskych.finesse_races.gameplay.conditions.PlayerConditionHandler;
 import org.bruskych.finesse_races.gameplay.starter.RaceStarterKit;
 
 import java.util.List;
@@ -133,6 +134,9 @@ public abstract class AbstractRace {
 
     // Main logic method called every tick
     public void onPlayerTick(Player player) {
+        if (PlayerConditionHandler.isSelectingRace(player)) {
+            return;
+        }
         for (RaceAbility ability : getAbilities()) {
             ability.apply(player);
         }

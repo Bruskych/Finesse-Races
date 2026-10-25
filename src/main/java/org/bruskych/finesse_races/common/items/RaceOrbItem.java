@@ -10,6 +10,8 @@ import net.minecraft.world.level.Level;
 
 import org.bruskych.finesse_races.common.network.FRNetwork;
 import org.bruskych.finesse_races.common.network.OpenRaceScreenS2CPacket;
+import org.bruskych.finesse_races.gameplay.conditions.PlayerConditionHandler;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Interactive item that triggers the race selection screen upon right-clicking.
@@ -21,11 +23,16 @@ public class RaceOrbItem extends Item {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, @NotNull InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
 
         // Logic in SERVER
         if (!level.isClientSide && player instanceof ServerPlayer serverPlayer) {
+
+            // Enable immortality and drop mob aggro
+            PlayerConditionHandler.setSelectingRace(serverPlayer, true);
+
+            // Open the selection GUI
             FRNetwork.sendToPlayer(new OpenRaceScreenS2CPacket(), serverPlayer);
         }
 

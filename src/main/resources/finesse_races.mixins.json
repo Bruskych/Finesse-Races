@@ -5,7 +5,8 @@
   "minVersion": "0.8",
   "refmap": "finesse_races.refmap.json",
   "mixins": [
-    "PlayerMixin"
+    "PlayerMixin",
+    "LivingEntityMixin"
   ],
   "client": [
   ],

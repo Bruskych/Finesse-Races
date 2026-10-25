@@ -5,6 +5,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
 
 import org.bruskych.finesse_races.common.network.core.IFinessePacket;
+import org.bruskych.finesse_races.gameplay.conditions.PlayerConditionHandler;
 import org.bruskych.finesse_races.gameplay.races.core.AbstractRace;
 import org.bruskych.finesse_races.gameplay.races.core.RaceManager;
 import org.bruskych.finesse_races.gameplay.starter.StarterKitHandler;
@@ -45,6 +46,8 @@ public class RaceSelectionC2SPacket implements IFinessePacket {
                     RaceManager.setPlayerRace(player, race);
                     // STARTER KIT
                     StarterKitHandler.tryGiveRaceStarterKit(player, race);
+                    // DISABLE immortality
+                    PlayerConditionHandler.setSelectingRace(player, false);
 
                     // Delete Race Orb
                     if (!player.isCreative()) {

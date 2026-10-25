@@ -1,4 +1,4 @@
-package org.bruskych.finesse_races.client;
+package org.bruskych.finesse_races.client.network;
 
 import net.minecraft.client.Minecraft;
 import org.bruskych.finesse_races.client.gui.screens.RaceSelectionScreen;

@@ -2,7 +2,7 @@ package org.bruskych.finesse_races.common.network;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
-import org.bruskych.finesse_races.client.ClientPacketHandler;
+import org.bruskych.finesse_races.client.network.ClientPacketHandler;
 import org.bruskych.finesse_races.common.network.core.IFinessePacket;
 
 import java.util.function.Supplier;
