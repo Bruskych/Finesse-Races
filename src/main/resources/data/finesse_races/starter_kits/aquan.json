@@ -1,0 +1,49 @@
+{
+  "effects": [
+    {
+      "effect": "minecraft:speed",
+      "duration": 1200,
+      "amplifier": 1
+    },
+    {
+      "effect": "minecraft:night_vision",
+      "duration": 6000,
+      "amplifier": 0
+    }
+  ],
+  "armor": {
+    "head": {
+      "item": "minecraft:iron_helmet"
+    },
+    "chest": {
+      "item": "minecraft:leather_chestplate",
+      "nbt": "{display:{color:16711680}}"
+    },
+    "legs": {
+      "item": "minecraft:iron_leggings"
+    },
+    "feet": {
+      "item": "minecraft:iron_boots",
+      "nbt": "{Enchantments:[{id:\"minecraft:feather_falling\",lvl:4s}]}"
+    }
+  },
+  "offhand": {
+    "item": "minecraft:totem_of_undying"
+  },
+  "hotbar": [
+    {
+      "slot": 0,
+      "item": "minecraft:iron_sword",
+      "nbt": "{display:{Name:'{\"text\":\"Better sword\",\"color\":\"dark_red\"}'},Enchantments:[{id:\"minecraft:sharpness\",lvl:3s}]}"
+    },
+    {
+      "slot": 1,
+      "item": "minecraft:cooked_beef",
+      "count": 32
+    },
+    {
+      "slot": 8,
+      "item": "minecraft:compass"
+    }
+  ]
+}

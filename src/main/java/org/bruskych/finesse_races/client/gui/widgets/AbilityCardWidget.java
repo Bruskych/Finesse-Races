@@ -12,6 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.chat.Component;
 
 import org.bruskych.finesse_races.core.FinesseRaces;
 import org.bruskych.finesse_races.gameplay.abilities.core.RaceAbility;
@@ -246,20 +247,20 @@ public class AbilityCardWidget extends AbstractWidget {
             int titleWidth = font.width(this.ability.getTitle());
             int iconX = this.getX() + innerPadding + titleWidth + 4;
             int iconU;
-            net.minecraft.network.chat.Component categoryText;
+            Component categoryText;
 
             switch (this.ability.getCategory()) {
                 case BENEFICIAL -> {
                     iconU = 26;
-                    categoryText = net.minecraft.network.chat.Component.translatable("ability.finesse_races.category.beneficial");
+                    categoryText = Component.translatable("ability.finesse_races.category.beneficial");
                 }
                 case HARMFUL -> {
                     iconU = 18;
-                    categoryText = net.minecraft.network.chat.Component.translatable("ability.finesse_races.category.harmful");
+                    categoryText = Component.translatable("ability.finesse_races.category.harmful");
                 }
                 default -> {
                     iconU = 34;
-                    categoryText = net.minecraft.network.chat.Component.translatable("ability.finesse_races.category.neutral");
+                    categoryText = Component.translatable("ability.finesse_races.category.neutral");
                 }
             }
 

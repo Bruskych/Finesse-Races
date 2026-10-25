@@ -11,24 +11,23 @@ public class FRConfig {
     // Common gameplay settings (shared between client and server)
     public static class Common {
 
-        // List of race settings
-        public final ConfigValue<List<? extends String>> raceSettings;
+        public final ForgeConfigSpec.BooleanValue enableStarterKits;
+        public final ForgeConfigSpec.BooleanValue allowOtherModStarterItems;
 
         public Common(ForgeConfigSpec.Builder builder) {
-            builder.push("races");
+            builder.push("starter_kit");
 
-            raceSettings = builder
+            enableStarterKits = builder
+                    .comment("Enable race-specific starter kits from datapacks when choosing a race for the first time.")
+                    .define("enableStarterKits", true);
+
+            allowOtherModStarterItems = builder
                     .comment(
-                            "Race settings: display order in the menu and their difficulty (1-3).",
-                            "Format: 'race_id,order,difficulty'",
-                            "Example: 'aquatic,1,2' (Aquatic race, 1st in the list, difficulty 2)"
+                            "If false: completely blocks other mods from giving starter items (books, guides, etc.) on first join.",
+                            "If true: allows other mods' starter items, but forces them strictly into the main inventory (slots 9-35),",
+                            "preventing them from occupying the hotbar (0-8) or hands."
                     )
-                    .defineList("raceSettings",
-                            // Значения по умолчанию (если конфиг создается впервые)
-                            List.of("aquatic,1,1"),
-                            // Валидатор: проверяет, что игрок не сломал формат в файле (строка разделена двумя запятыми)
-                            obj -> obj instanceof String && ((String) obj).split(",").length == 3
-                    );
+                    .define("allowOtherModStarterItems", false);
 
             builder.pop();
         }

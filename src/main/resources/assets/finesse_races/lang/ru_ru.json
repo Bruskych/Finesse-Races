@@ -35,6 +35,9 @@
 
   "subtitles.finesse_races.water_damage": "Плоть горит в воде",
 
+  "commands.finesse_races.starterkit.unknown_race": "Неизвестный ID расы: %s",
+  "commands.finesse_races.starterkit.success": "Набор расы '%s' выдан %s",
+
   "death.attack.finesse_races.water_damage": "%1$s растворился в воде",
 
   "ability.finesse_races.category.beneficial": "Положительная способность (Бафф)",

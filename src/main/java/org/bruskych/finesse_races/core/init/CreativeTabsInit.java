@@ -6,6 +6,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
+
 import org.bruskych.finesse_races.core.FinesseRaces;
 
 /**
@@ -17,17 +18,15 @@ public class CreativeTabsInit {
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, FinesseRaces.MOD_ID);
 
     public static final RegistryObject<CreativeModeTab> MAIN_TAB = TABS.register("main",
-            () -> CreativeModeTab.builder()
-
+            () -> CreativeModeTab
+                    .builder()
                     .title(Component.translatable("creativetab.finesse_races.main"))
-
                     .icon(() -> ItemsInit.RACE_ORB.get().getDefaultInstance())
-
                     .displayItems((parameters, output) -> {
                         output.accept(ItemsInit.RACE_ORB.get());
                     })
-
-                    .build());
+                    .build()
+    );
 
     public static void register(IEventBus eventBus) {
         TABS.register(eventBus);

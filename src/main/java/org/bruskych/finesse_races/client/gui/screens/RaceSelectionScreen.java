@@ -286,7 +286,7 @@ public class RaceSelectionScreen extends Screen {
             int currentRelY = subtitleRelY + headerHeight + 4;
 
             for (RaceAbility ability : currentAbilities) {
-                int maxAllowedHeight = this.panelHeight - currentRelY - margin; // Восстановлены знаки минус
+                int maxAllowedHeight = this.panelHeight - currentRelY - margin;
 
                 AbilityCardWidget cardWidget = new AbilityCardWidget(
                         leftPanel.getX() + margin,

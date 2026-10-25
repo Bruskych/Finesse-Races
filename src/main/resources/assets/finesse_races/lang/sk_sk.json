@@ -35,6 +35,9 @@
 
   "subtitles.finesse_races.water_damage": "Mäso syčí vo vode",
 
+  "commands.finesse_races.starterkit.unknown_race": "Neznáme ID rasy: %s",
+  "commands.finesse_races.starterkit.success": "Balíček rasy '%s' vydaný %s",
+
   "death.attack.finesse_races.water_damage": "%1$s sa rozpustil vo vode",
 
   "ability.finesse_races.category.beneficial": "Pozitívna schopnosť (Buff)",

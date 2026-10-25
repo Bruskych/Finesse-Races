@@ -2,6 +2,7 @@ package org.bruskych.finesse_races.core.other;
 
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -28,9 +29,6 @@ public class FREvents {
     @SubscribeEvent
     public static void onServerStarting(ServerStartingEvent event) {
         LOGGER.info("The server starts up alongside Finesse Races.");
-
-        // Applying config settings to all registered races.
-        RaceManager.applyConfigSettings();
     }
 
     // Triggered once when a player logs into the server
@@ -39,8 +37,20 @@ public class FREvents {
         if (event.getEntity() instanceof ServerPlayer serverPlayer) {
             RaceManager.loadPlayerRace(serverPlayer);
 
-            // If the player does not have a race, open the selection screen
-            if (RaceManager.getRaceOfPlayer(serverPlayer) == null) {
+            // Синхронизируем стартовые наборы перед открытием экрана выбора расы
+            FRNetwork.sendToPlayer(
+                    new org.bruskych.finesse_races.common.network.SyncStarterKitsS2CPacket(
+                            org.bruskych.finesse_races.gameplay.starter.StarterKitManager.getAllKitsForSync()
+                    ),
+                    serverPlayer
+            );
+
+            // Если у игрока уже была выбрана раса ранее (например, старый мир), помечаем что стартовый набор не нужен
+            if (RaceManager.getRaceOfPlayer(serverPlayer) != null) {
+                serverPlayer.getPersistentData().putBoolean(
+                        org.bruskych.finesse_races.gameplay.starter.StarterKitHandler.NBT_STARTER_KIT_GIVEN, true
+                );
+            } else {
                 FRNetwork.sendToPlayer(new OpenRaceScreenS2CPacket(), serverPlayer);
             }
         }
@@ -59,6 +69,14 @@ public class FREvents {
         if (!oldRaceId.isEmpty()) {
             event.getEntity().getPersistentData().putString("finesse_race_id", oldRaceId);
         }
+        // Сохраняем флаг выданного стартового набора после смерти или перехода между измерениями
+        boolean kitGiven = event.getOriginal().getPersistentData().getBoolean(
+                org.bruskych.finesse_races.gameplay.starter.StarterKitHandler.NBT_STARTER_KIT_GIVEN
+        );
+        event.getEntity().getPersistentData().putBoolean(
+                org.bruskych.finesse_races.gameplay.starter.StarterKitHandler.NBT_STARTER_KIT_GIVEN, kitGiven
+        );
+
         RaceManager.loadPlayerRace(event.getEntity());
     }
 
@@ -75,5 +93,29 @@ public class FREvents {
                 currentRace.onPlayerTick(player);
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void onAddReloadListeners( net.minecraftforge.event.AddReloadListenerEvent event) {
+        event.addListener(org.bruskych.finesse_races.gameplay.starter.StarterKitManager.INSTANCE);
+    }
+
+    @SubscribeEvent
+    public static void onDatapackSync(net.minecraftforge.event.OnDatapackSyncEvent event) {
+        var packet = new org.bruskych.finesse_races.common.network.SyncStarterKitsS2CPacket(
+                org.bruskych.finesse_races.gameplay.starter.StarterKitManager.getAllKitsForSync()
+        );
+        if (event.getPlayer() != null) {
+            FRNetwork.sendToPlayer(packet, event.getPlayer());
+        } else {
+            for (ServerPlayer player : event.getPlayerList().getPlayers()) {
+                FRNetwork.sendToPlayer(packet, player);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onRegisterCommands(RegisterCommandsEvent event) {
+        org.bruskych.finesse_races.common.commands.StarterKitCommand.register(event.getDispatcher());
     }
 }

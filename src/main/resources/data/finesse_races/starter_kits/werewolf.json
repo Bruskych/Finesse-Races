@@ -1,0 +1,24 @@
+{
+  "effects": [
+    {
+      "effect": "minecraft:night_vision",
+      "duration": 1000,
+      "amplifier": 0
+    }
+  ],
+  "armor": {
+    "head": {
+      "item": "minecraft:iron_helmet"
+    }
+  },
+  "offhand": {
+    "item": "minecraft:totem_of_undying"
+  },
+  "hotbar": [
+    {
+      "slot": 0,
+      "item": "minecraft:cooked_beef",
+      "count": 8
+    }
+  ]
+}

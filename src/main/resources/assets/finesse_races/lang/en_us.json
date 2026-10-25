@@ -35,6 +35,9 @@
 
   "subtitles.finesse_races.water_damage": "Flesh sizzles in water",
 
+  "commands.finesse_races.starterkit.unknown_race": "Unknown race ID: %s",
+  "commands.finesse_races.starterkit.success": "Race '%s' kit given to %s",
+
   "death.attack.finesse_races.water_damage": "%1$s dissolved in water",
 
   "ability.finesse_races.category.beneficial": "Beneficial Ability (Buff)",

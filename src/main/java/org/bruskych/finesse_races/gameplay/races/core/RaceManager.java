@@ -36,30 +36,6 @@ public class RaceManager {
         // TODO: More race!
     }
 
-    public static void applyConfigSettings() {
-        List<? extends String> configList = FRConfig.COMMON.raceSettings.get();
-
-        for (String entry : configList) {
-            String[] parts = entry.split(",");
-
-            if (parts.length == 3) {
-                String raceId = parts[0].trim();
-
-                AbstractRace race = getRace(raceId);
-                if (race != null) {
-                    try {
-                        int displayOrder = Integer.parseInt(parts[1].trim());
-                        int difficulty = Integer.parseInt(parts[2].trim());
-
-                        race.setDisplayOrder(displayOrder);
-                        race.setDifficulty(difficulty);
-                    } catch (NumberFormatException e) {
-                    }
-                }
-            }
-        }
-    }
-
     // Registers a new race into the dictionary
     public static void registerRace(AbstractRace race) {
         RACES.put(race.getId(), race);
