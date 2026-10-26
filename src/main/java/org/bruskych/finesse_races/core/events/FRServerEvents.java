@@ -1,6 +1,7 @@
 package org.bruskych.finesse_races.core.events;
 
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.OnDatapackSyncEvent;
@@ -14,16 +15,20 @@ import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import net.minecraftforge.registries.ForgeRegistries;
 import org.bruskych.finesse_races.common.commands.StarterKitCommand;
 import org.bruskych.finesse_races.common.network.FRNetwork;
 import org.bruskych.finesse_races.common.network.OpenRaceScreenS2CPacket;
 import org.bruskych.finesse_races.common.network.SyncStarterKitsS2CPacket;
 import org.bruskych.finesse_races.core.FinesseRaces;
+import org.bruskych.finesse_races.core.telemetry.TelemetryManager;
 import org.bruskych.finesse_races.gameplay.conditions.PlayerConditionHandler;
 import org.bruskych.finesse_races.gameplay.races.core.AbstractRace;
 import org.bruskych.finesse_races.gameplay.races.core.RaceManager;
 import org.bruskych.finesse_races.gameplay.starter.StarterKitHandler;
 import org.bruskych.finesse_races.gameplay.starter.StarterKitManager;
+
+import java.util.Objects;
 
 import static org.bruskych.finesse_races.core.FinesseRaces.LOGGER;
 
@@ -187,6 +192,41 @@ public class FRServerEvents {
         if (event.getNewTarget() instanceof Player player) {
             if (PlayerConditionHandler.isSelectingRace(player)) {
                 event.setCanceled(true);
+            }
+        }
+    }
+
+    /**
+     * Track player deaths (collecting data into a database).
+     */
+    @SubscribeEvent
+    public static void onPlayerDeath(net.minecraftforge.event.entity.living.LivingDeathEvent event) {
+        if (event.getEntity() instanceof ServerPlayer player) {
+            DamageSource source = event.getSource();
+            String cause;
+
+            // If the damage was dealt by an entity (a mob, another player, or a projectile)
+            if (source.getEntity() != null) {
+                cause = Objects.requireNonNull(ForgeRegistries.ENTITY_TYPES.getKey(source.getEntity().getType())).toString();
+            } else {
+                // If it involves the environment (lava, falling, drowning, custom damage)
+                cause = source.getMsgId();
+            }
+
+            TelemetryManager.sendEvent(player, "DEATH", cause);
+        }
+    }
+
+    /**
+     * Track key development milestones (advancements) to measure the rate of progression (collecting data into a database).
+     */
+    @SubscribeEvent
+    public static void onAdvancementEarned(net.minecraftforge.event.entity.player.AdvancementEvent event) {
+        if (event.getEntity() instanceof ServerPlayer player) {
+            String advId = event.getAdvancement().getId().toString();
+
+            if (advId.startsWith("minecraft:story/") || advId.startsWith("minecraft:nether/") || advId.startsWith("minecraft:end/")) {
+                TelemetryManager.sendEvent(player, "ADVANCEMENT", advId);
             }
         }
     }

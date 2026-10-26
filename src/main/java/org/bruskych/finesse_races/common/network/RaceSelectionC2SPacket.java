@@ -5,6 +5,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
 
 import org.bruskych.finesse_races.common.network.core.IFinessePacket;
+import org.bruskych.finesse_races.core.telemetry.TelemetryManager;
 import org.bruskych.finesse_races.gameplay.conditions.PlayerConditionHandler;
 import org.bruskych.finesse_races.gameplay.races.core.AbstractRace;
 import org.bruskych.finesse_races.gameplay.races.core.RaceManager;
@@ -42,14 +43,17 @@ public class RaceSelectionC2SPacket implements IFinessePacket {
             if (player != null) {
                 AbstractRace race = RaceManager.getRace(this.raceId);
                 if (race != null) {
+
                     // RACE
                     RaceManager.setPlayerRace(player, race);
                     // STARTER KIT
                     StarterKitHandler.tryGiveRaceStarterKit(player, race);
                     // DISABLE immortality
                     PlayerConditionHandler.setSelectingRace(player, false);
+                    // TRACKING race selection
+                    TelemetryManager.sendEvent(player, "RACE_SELECTED", "MANUAL_SELECTION");
 
-                    // Delete Race Orb
+                    // DELETE Race Orb
                     if (!player.isCreative()) {
                         if (player.getMainHandItem().getItem() instanceof org.bruskych.finesse_races.common.items.RaceOrbItem) {
                             player.getMainHandItem().shrink(1);
