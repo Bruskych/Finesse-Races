@@ -11,23 +11,18 @@ public class FRConfig {
     // Common gameplay settings (shared between client and server)
     public static class Common {
 
-        public final ForgeConfigSpec.BooleanValue enableStarterKits;
-        public final ForgeConfigSpec.BooleanValue allowOtherModStarterItems;
+        public final ForgeConfigSpec.BooleanValue enableTelemetry;
 
         public Common(ForgeConfigSpec.Builder builder) {
-            builder.push("starter_kit");
+            builder.push("telemetry");
 
-            enableStarterKits = builder
-                    .comment("Enable race-specific starter kits from datapacks when choosing a race for the first time.")
-                    .define("enableStarterKits", true);
-
-            allowOtherModStarterItems = builder
+            enableTelemetry = builder
                     .comment(
-                            "If false: completely blocks other mods from giving starter items (books, guides, etc.) on first join.",
-                            "If true: allows other mods' starter items, but forces them strictly into the main inventory (slots 9-35),",
-                            "preventing them from occupying the hotbar (0-8) or hands."
+                            "If true, the mod will send anonymous gameplay data (race selection, deaths, progression)",
+                            "to the developer's server to help balance the races.",
+                            "No personal data or raw UUIDs are collected."
                     )
-                    .define("allowOtherModStarterItems", false);
+                    .define("enableTelemetry", true);
 
             builder.pop();
         }
