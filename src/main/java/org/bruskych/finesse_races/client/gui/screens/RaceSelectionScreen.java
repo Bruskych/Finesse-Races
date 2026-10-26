@@ -37,6 +37,11 @@ public class RaceSelectionScreen extends Screen {
             FinesseRaces.MOD_ID, "textures/gui/buttons.png"
     );
 
+    // For Scroll
+    private int globalLeftBtnX;
+    private int globalRightBtnX;
+    private int globalNavBtnSize;
+
     private static final int PANEL_GAP = 7;
     private static final int CORNER_SIZE = 8;
     private static final int CENTER_SIZE = 1;
@@ -122,16 +127,21 @@ public class RaceSelectionScreen extends Screen {
 
         int navBtnY = startY + (this.panelHeight / 2) - (navBtnSize / 2);
 
+        // For the scrolling area (coordinates and size)
+        this.globalNavBtnSize = navBtnSize;
+        this.globalLeftBtnX = startX - navBtnSize - sideNavMargin;
+        this.globalRightBtnX = startX + totalWidth + sideNavMargin;
+
         // Global previous race button (Left side) "<<<"
         this.addRenderableWidget(new ImageButton(
-                startX - navBtnSize - sideNavMargin, navBtnY, navBtnSize, navBtnSize,
+                this.globalLeftBtnX, navBtnY, navBtnSize, navBtnSize,
                 216, 0, navBtnSize, TEXTURE_BUTT, 256, 256,
                 btn -> switchRace(-1)
         ));
 
         // Global next race button (Right side) ">>>"
         this.addRenderableWidget(new ImageButton(
-                startX + totalWidth + sideNavMargin, navBtnY, navBtnSize, navBtnSize,
+                this.globalRightBtnX, navBtnY, navBtnSize, navBtnSize,
                 236, 0, navBtnSize, TEXTURE_BUTT, 256, 256,
                 btn -> switchRace(1)
         ));
@@ -468,5 +478,34 @@ public class RaceSelectionScreen extends Screen {
     @Override
     public boolean shouldCloseOnEsc() {
         return canCloseScreen();
+    }
+
+    /**
+     * Handles mouse scrolling.
+     */
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
+        if (super.mouseScrolled(mouseX, mouseY, delta)) {
+            return true;
+        }
+        if (mouseY < leftPanel.getY() || mouseY > leftPanel.getY() + this.panelHeight) {
+            return false;
+        }
+        int padding = 5;
+
+        // LEFT button
+        if (mouseX >= this.globalLeftBtnX - padding && mouseX <= this.globalLeftBtnX + this.globalNavBtnSize + padding) {
+            int direction = (int) Math.signum(delta);
+            switchRace(direction);
+            return true;
+        }
+
+        // RIGHT button
+        if (mouseX >= this.globalRightBtnX - padding && mouseX <= this.globalRightBtnX + this.globalNavBtnSize + padding) {
+            int direction = -(int) Math.signum(delta);
+            switchRace(direction);
+            return true;
+        }
+        return false;
     }
 }
