@@ -1,47 +1,5 @@
 <div align="center">
 
-# SK ```Version```
-
-</div>
-
-### Finesse Races 🐉
-Finesse Races je modifikácia pre Minecraft (verzia 1.20.1 Forge), vyvinutá v rámci bakalárskej práce. Projekt predstavuje komplexnú hernú úpravu a zároveň praktický sprievodca tvorbou modifikácií od základu.
-
-### 📌 O projekte
-Tento repozitár vznikol ako praktická časť bakalárskeho výskumu. Okrem samotného zdrojového kódu obsahuje podrobnú dokumentáciu procesu vývoja:
-
-- Nastavenie vývojového prostredia a nástrojov;
-- Analýzu dokumentácie a použitých API;
-- Popis architektonických vzorov a štruktúry kódu;
-- Riešenie technických problémov a výziev počas vývoja.
-
-Všetka projektová dokumentácia je k dispozícii v ruskom a slovenskom jazyku, pričom komentáre v zdrojovom kóde sú napísané v angličtine.
-
-```
-finesse-races/
-└── documentation/      # Dokumentácia a príručky k celému životnému cyklu vývoja
-    ├── ru/             # Ruská dokumentácia
-    └── sk/             # Slovenská dokumentácia
-```
-
-### 🎭 Herná koncepcia
-Modifikácia je zameraná na prehodnotenie štandardného priebehu survival hrania v hre Minecraft prostredníctvom nových herných mechaník, ktoré zvyšujú význam rozhodnutí hráča. Herné mechaniky vyžadujú od hráča zohľadňovať vlastnosti zvolenej rasy, okolité prostredie, dostupné zdroje a dôsledky jednotlivých rozhodnutí, čím do hry prinášajú prvky strategického plánovania. 
-
-V multiplayerovom režime tieto mechaniky vytvárajú ďalšie možnosti spolupráce a interakcie medzi hráčmi. Hráči musia zohľadňovať vlastnosti ostatných členov tímu, koordinovať svoje činnosti a prijímať spoločné rozhodnutia s cieľom dosiahnuť stanovené ciele. Modifikácia zároveň poskytuje herné mechaniky využiteľné na organizáciu súťažného hrania, pri ktorom môžu hráči alebo tímy porovnávať výsledky svojho priechodu hrou Minecraft.
-
-`Ciele práce:`
-
-- diverzifikovať štandardný herný proces hry Minecraft prostredníctvom nových herných mechaník a možností interakcie s herným svetom;
-- zvýšiť význam rozhodnutí hráča a pridať prvky strategického plánovania do survival hrania;
-- vytvoriť ďalšie možnosti kooperácie a koordinácie činností medzi hráčmi v multiplayerovom režime;
-- poskytnúť herné mechaniky podporujúce organizáciu súťažného hrania medzi hráčmi alebo tímami.
-
-`Súťažné mechaniky` nie sú založené na pridávaní nových zbraní, brnenia alebo samostatných herných máp, ale sú implementované na fundamentálnejšej úrovni prostredníctvom vytvorenia jedinečných silných a slabých stránok jednotlivých rás. Výber rasy priamo ovplyvňuje spôsob prežitia, objavovania sveta, interakcie s herným prostredím a ostatnými hráčmi, vďaka čomu sa priebeh hry, bojová taktika a súťažné stratégie môžu výrazne líšiť medzi hráčmi používajúcimi rôzne rasy.
-
----
-
-<div align="center">
-
 # EN ```Version```
 
 </div>
@@ -79,6 +37,48 @@ In multiplayer gameplay, these mechanics create additional opportunities for coo
 - provide game mechanics that support competitive gameplay between individual players or teams.
 
 `The competitive mechanics` are not based on adding new weapons, armor, or separate game maps, but are implemented at a more fundamental level by introducing unique strengths and weaknesses for each race. The choice of race directly affects how players survive, explore the world, interact with the environment, and engage with other players, resulting in potentially different gameplay experiences, combat tactics, and competitive strategies for players using different races.
+
+---
+
+<div align="center">
+
+# SK ```Version```
+
+</div>
+
+### Finesse Races 🐉
+Finesse Races je modifikácia pre Minecraft (verzia 1.20.1 Forge), vyvinutá v rámci bakalárskej práce. Projekt predstavuje komplexnú hernú úpravu a zároveň praktický sprievodca tvorbou modifikácií od základu.
+
+### 📌 O projekte
+Tento repozitár vznikol ako praktická časť bakalárskeho výskumu. Okrem samotného zdrojového kódu obsahuje podrobnú dokumentáciu procesu vývoja:
+
+- Nastavenie vývojového prostredia a nástrojov;
+- Analýzu dokumentácie a použitých API;
+- Popis architektonických vzorov a štruktúry kódu;
+- Riešenie technických problémov a výziev počas vývoja.
+
+Všetka projektová dokumentácia je k dispozícii v ruskom a slovenskom jazyku, pričom komentáre v zdrojovom kóde sú napísané v angličtine.
+
+```
+finesse-races/
+└── documentation/      # Dokumentácia a príručky k celému životnému cyklu vývoja
+    ├── ru/             # Ruská dokumentácia
+    └── sk/             # Slovenská dokumentácia
+```
+
+### 🎭 Herná koncepcia
+Modifikácia je zameraná na prehodnotenie štandardného priebehu survival hrania v hre Minecraft prostredníctvom nových herných mechaník, ktoré zvyšujú význam rozhodnutí hráča. Herné mechaniky vyžadujú od hráča zohľadňovať vlastnosti zvolenej rasy, okolité prostredie, dostupné zdroje a dôsledky jednotlivých rozhodnutí, čím do hry prinášajú prvky strategického plánovania.
+
+V multiplayerovom režime tieto mechaniky vytvárajú ďalšie možnosti spolupráce a interakcie medzi hráčmi. Hráči musia zohľadňovať vlastnosti ostatných členov tímu, koordinovať svoje činnosti a prijímať spoločné rozhodnutia s cieľom dosiahnuť stanovené ciele. Modifikácia zároveň poskytuje herné mechaniky využiteľné na organizáciu súťažného hrania, pri ktorom môžu hráči alebo tímy porovnávať výsledky svojho priechodu hrou Minecraft.
+
+`Ciele práce:`
+
+- diverzifikovať štandardný herný proces hry Minecraft prostredníctvom nových herných mechaník a možností interakcie s herným svetom;
+- zvýšiť význam rozhodnutí hráča a pridať prvky strategického plánovania do survival hrania;
+- vytvoriť ďalšie možnosti kooperácie a koordinácie činností medzi hráčmi v multiplayerovom režime;
+- poskytnúť herné mechaniky podporujúce organizáciu súťažného hrania medzi hráčmi alebo tímami.
+
+`Súťažné mechaniky` nie sú založené na pridávaní nových zbraní, brnenia alebo samostatných herných máp, ale sú implementované na fundamentálnejšej úrovni prostredníctvom vytvorenia jedinečných silných a slabých stránok jednotlivých rás. Výber rasy priamo ovplyvňuje spôsob prežitia, objavovania sveta, interakcie s herným prostredím a ostatnými hráčmi, vďaka čomu sa priebeh hry, bojová taktika a súťažné stratégie môžu výrazne líšiť medzi hráčmi používajúcimi rôzne rasy.
 
 ---
 
