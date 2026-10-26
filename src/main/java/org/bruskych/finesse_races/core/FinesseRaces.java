@@ -1,7 +1,5 @@
 package org.bruskych.finesse_races.core;
 
-import com.mojang.logging.LogUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
@@ -11,14 +9,15 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
-import org.bruskych.finesse_races.core.init.CreativeTabsInit;
-import org.bruskych.finesse_races.core.init.ItemsInit;
-import org.slf4j.Logger;
 
 import org.bruskych.finesse_races.common.network.FRNetwork;
-import org.bruskych.finesse_races.client.gui.screens.RaceSelectionScreen;
-import org.bruskych.remedy_core.core.other.RCClientEvents;
 import org.bruskych.finesse_races.core.init.FineSounds;
+import org.bruskych.finesse_races.core.init.CreativeTabsInit;
+import org.bruskych.finesse_races.core.init.ItemsInit;
+
+import com.mojang.logging.LogUtils;
+import org.slf4j.Logger;
+
 
 @Mod(FinesseRaces.MOD_ID)
 public class FinesseRaces {
@@ -29,6 +28,7 @@ public class FinesseRaces {
     // Logger instance for console outputs
     public static final Logger LOGGER = LogUtils.getLogger();
 
+    @SuppressWarnings("removal")
     public FinesseRaces() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         ModLoadingContext context = ModLoadingContext.get();
@@ -41,6 +41,7 @@ public class FinesseRaces {
         bus.addListener(this::commonSetup);
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> bus.addListener(this::clientSetup));
 
+        // Register configs
         context.registerConfig(ModConfig.Type.COMMON, FRConfig.COMMON_SPEC);
         context.registerConfig(ModConfig.Type.CLIENT, FRConfig.CLIENT_SPEC);
     }
