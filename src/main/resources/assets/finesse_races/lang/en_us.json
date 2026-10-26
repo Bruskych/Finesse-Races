@@ -4,6 +4,7 @@
   "gui.finesse_races.gui": "Race Screen",
 
   "gui.finesse_races.button.choose_race": "Select this race",
+  "gui.finesse_races.button.close": "Exit selection",
   "gui.finesse_races.page": "Page %s of %s",
   "gui.finesse_races.abilities": "Abilities",
   "gui.finesse_races.race_story": "Race Story",

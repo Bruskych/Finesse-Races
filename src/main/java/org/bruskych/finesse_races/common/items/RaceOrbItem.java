@@ -29,9 +29,6 @@ public class RaceOrbItem extends Item {
         // Logic in SERVER
         if (!level.isClientSide && player instanceof ServerPlayer serverPlayer) {
 
-            // Enable immortality and drop mob aggro
-            PlayerConditionHandler.setSelectingRace(serverPlayer, true);
-
             // Open the selection GUI
             FRNetwork.sendToPlayer(new OpenRaceScreenS2CPacket(), serverPlayer);
         }

@@ -1,14 +1,17 @@
 package org.bruskych.finesse_races.client.gui.screens;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
+import net.minecraft.world.entity.player.Player;
 import org.bruskych.finesse_races.client.gui.widgets.AbilityCardWidget;
 import org.bruskych.finesse_races.client.gui.widgets.HeaderPlateWidget;
 import org.bruskych.finesse_races.client.gui.widgets.StoryCardWidget;
+import org.bruskych.finesse_races.common.items.RaceOrbItem;
 import org.bruskych.finesse_races.common.network.FRNetwork;
 import org.bruskych.finesse_races.common.network.RaceSelectionC2SPacket;
 import org.bruskych.finesse_races.gameplay.abilities.core.RaceAbility;
@@ -52,6 +55,7 @@ public class RaceSelectionScreen extends Screen {
     int VANILLA_DARK = 0x404040;
 
     private DotPaginationWidget paginationWidget;
+    private final List<AbilityCardWidget> activeAbilityCards = new ArrayList<>();
     private List<AbstractRace> availableRaces;
     private int currentRaceIndex = 0;
 
@@ -152,29 +156,59 @@ public class RaceSelectionScreen extends Screen {
         );
         this.addRenderableWidget(paginationWidget);
 
-        // BUTTON - SELECT RACE
+        // BUTTON TEXT -> SELECT + CLOSE
         Component confirmText = Component.translatable("gui.finesse_races.button.choose_race");
+        Component closeText = Component.translatable("gui.finesse_races.button.close");
 
-        int calculatedBtnWidth = Math.max(120, this.font.width(confirmText) + 20);
+        // Buttons of the same size
+        int maxTextWidth = Math.max(this.font.width(confirmText), this.font.width(closeText));
+        int btnWidth = Math.max(120, maxTextWidth + 20);
         int buttonHeight = 20;
-
-        // X + Y coords
-        int bottomStartX = startX + (totalWidth - calculatedBtnWidth) / 2;
+        int buttonGap = 10;
         int bottomY = paginationWidget.getY() + paginationWidget.getHeight() + margin;
 
-        this.addRenderableWidget(NineSliceButton.builder(
-                confirmText, TEXTURE_BUTT, btn -> {
-                    if (!availableRaces.isEmpty()) {
-                        AbstractRace selectedRace = availableRaces.get(currentRaceIndex);
-                        FRNetwork.sendToServer(new RaceSelectionC2SPacket(selectedRace.getId()));
-                        this.onClose();
-                    }
-                })
-                .bounds(bottomStartX, bottomY, calculatedBtnWidth, buttonHeight)
-                .sliceParams(9, 2).uv(196, 0)
-                .textColors(VANILLA_WHITE, 0x555555)
-                .build());
+        if (canCloseScreen()) {
+            // 2 BUTTONS - SELECT + CLOSE
 
+            int totalBtnsWidth = (btnWidth * 2) + buttonGap;
+            int groupStartX = startX + (totalWidth - totalBtnsWidth) / 2;
+
+            // CLOSE - LEFT
+            this.addRenderableWidget(NineSliceButton.builder(closeText, TEXTURE_BUTT, btn -> this.onClose())
+                    .bounds(groupStartX, bottomY, btnWidth, buttonHeight)
+                    .sliceParams(9, 2).uv(196, 0)
+                    .textColors(VANILLA_WHITE, 0x555555)
+                    .build());
+
+            // SELECT - RIGHT
+            this.addRenderableWidget(NineSliceButton.builder(
+                            confirmText, TEXTURE_BUTT, btn -> {
+                                if (!availableRaces.isEmpty()) {
+                                    AbstractRace selectedRace = availableRaces.get(currentRaceIndex);
+                                    FRNetwork.sendToServer(new RaceSelectionC2SPacket(selectedRace.getId()));
+                                    this.onClose();
+                                }
+                            })
+                    .bounds(groupStartX + btnWidth + buttonGap, bottomY, btnWidth, buttonHeight)
+                    .sliceParams(9, 2).uv(196, 0)
+                    .textColors(VANILLA_WHITE, 0x555555)
+                    .build());
+        } else {
+            // 1 BUTTON - SELECT
+            int singleStartX = startX + (totalWidth - btnWidth) / 2;
+            this.addRenderableWidget(NineSliceButton.builder(
+                            confirmText, TEXTURE_BUTT, btn -> {
+                                if (!availableRaces.isEmpty()) {
+                                    AbstractRace selectedRace = availableRaces.get(currentRaceIndex);
+                                    FRNetwork.sendToServer(new RaceSelectionC2SPacket(selectedRace.getId()));
+                                    this.onClose();
+                                }
+                            })
+                    .bounds(singleStartX, bottomY, btnWidth, buttonHeight)
+                    .sliceParams(9, 2).uv(196, 0)
+                    .textColors(VANILLA_WHITE, 0x555555)
+                    .build());
+        }
         updatePanelButtons();
     }
 
@@ -186,6 +220,7 @@ public class RaceSelectionScreen extends Screen {
         centerPanel.clearChildren();
         rightPanel.clearChildren();
 
+        this.activeAbilityCards.clear();
         List<List<RaceAbility>> allPages = getAllAbilityPages();
 
         int gapBetweenButtonHeader = margin - 2;
@@ -295,6 +330,7 @@ public class RaceSelectionScreen extends Screen {
                 );
                 leftPanel.addChild(margin, currentRelY, cardWidget);
 
+                this.activeAbilityCards.add(cardWidget);
                 currentRelY += cardWidget.getHeight() + 4;
             }
         }
@@ -335,6 +371,11 @@ public class RaceSelectionScreen extends Screen {
         rightPanel.render(graphics, mouseX, mouseY, partialTick);
 
         super.render(graphics, mouseX, mouseY, partialTick);
+
+        // Create tooltips in card ability
+        for (AbilityCardWidget card : this.activeAbilityCards) {
+            card.renderTooltips(graphics, mouseX, mouseY);
+        }
     }
 
     /**
@@ -407,10 +448,25 @@ public class RaceSelectionScreen extends Screen {
     }
 
     /**
-     * Determines if pressing ESC should close the screen
+     * A helper method to check whether the player is allowed to close the screen
+     */
+    private boolean canCloseScreen() {
+        Player player = Minecraft.getInstance().player;
+        if (player == null) return false;
+
+        boolean hasRace = RaceManager.getRaceOfPlayer(player) != null;
+        boolean hasOrb =
+                player.getMainHandItem().getItem() instanceof RaceOrbItem ||
+                player.getOffhandItem().getItem() instanceof RaceOrbItem;
+
+        return hasRace && hasOrb;
+    }
+
+    /**
+     * Allows the player to close the window using the ESCAPE key only if they opened it via an orb
      */
     @Override
     public boolean shouldCloseOnEsc() {
-        return false;
+        return canCloseScreen();
     }
 }

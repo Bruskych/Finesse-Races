@@ -4,6 +4,7 @@
   "gui.finesse_races.gui": "Obrazovka výberu pôvodu",
 
   "gui.finesse_races.button.choose_race": "Vybrať pôvod",
+  "gui.finesse_races.button.close": "Zrušiť a odísť",
   "gui.finesse_races.page": "Strana %s z %s",
   "gui.finesse_races.abilities": "Schopnosti",
   "gui.finesse_races.race_story": "Príbeh rasy",

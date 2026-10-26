@@ -58,6 +58,9 @@ public class AbilityCardWidget extends AbstractWidget {
     private final boolean hasWidgetRow;
     private final int maxLinesPerPage;
 
+    private ItemStack hoveredItemToRender = null;
+    private Component hoveredCategoryToRender = null;
+
     /**
      * Constructs a new AbilityCardWidget.
      * Calculates required dimensions, handles text wrapping, and determines pagination
@@ -154,6 +157,10 @@ public class AbilityCardWidget extends AbstractWidget {
         Font font = Minecraft.getInstance().font;
         int innerPadding = 5;
 
+        // Reset tooltips
+        this.hoveredItemToRender = null;
+        this.hoveredCategoryToRender = null;
+
         // Render the background using a 9-slice technique to prevent stretching
         GuiRenderHelper.renderNineSlice(
                 graphics, this.textureBack,
@@ -164,8 +171,6 @@ public class AbilityCardWidget extends AbstractWidget {
         );
 
         int currentY = this.getY() + innerPadding;
-        ItemStack hoveredItem = null;
-        net.minecraft.network.chat.Component hoveredCategoryTooltip = null;
 
         // Render Top Row (Navigation Buttons and Display Items)
         if (this.hasWidgetRow) {
@@ -219,7 +224,7 @@ public class AbilityCardWidget extends AbstractWidget {
 
                     // Track hovered item for tooltip rendering later
                     if (isHovered(mouseX, mouseY, currentItemX, currentItemY, ITEM_SIZE, ITEM_SIZE)) {
-                        hoveredItem = itemStack;
+                        this.hoveredItemToRender = itemStack;
                         AbstractContainerScreen.renderSlotHighlight(graphics, currentItemX + 1, currentItemY + 1, 0);
                     }
                     currentItemX += ITEM_SIZE;
@@ -269,7 +274,7 @@ public class AbilityCardWidget extends AbstractWidget {
 
             // Track hovered icon for tooltip
             if (isHovered(mouseX, mouseY, iconX - 4, currentY - 4, 16, 16)) {
-                hoveredCategoryTooltip = categoryText;
+                this.hoveredCategoryToRender = categoryText;
             }
 
             // Advance Y coordinate only if title was drawn
@@ -302,17 +307,19 @@ public class AbilityCardWidget extends AbstractWidget {
             }
             currentY += font.lineHeight;
         }
+    }
 
-        // Render Tooltips (Drawn last with high Z-index to appear above everything)
-        graphics.pose().pushPose();
-        graphics.pose().translate(0, 0, 500);
-
-        if (hoveredItem != null) {
-            graphics.renderTooltip(font, hoveredItem, mouseX, mouseY);
-        } else if (hoveredCategoryTooltip != null) {
-            graphics.renderTooltip(font, hoveredCategoryTooltip, mouseX, mouseY);
+    /**
+     * Renders tooltips on top of all screen widgets.
+     * This method must be called from the outside, after all panels have been rendered.
+     * (to ensure the tooltip is not obscured by other screen elements)
+     */
+    public void renderTooltips(GuiGraphics graphics, int mouseX, int mouseY) {
+        if (this.hoveredItemToRender != null) {
+            graphics.renderTooltip(Minecraft.getInstance().font, this.hoveredItemToRender, mouseX, mouseY);
+        } else if (this.hoveredCategoryToRender != null) {
+            graphics.renderTooltip(Minecraft.getInstance().font, this.hoveredCategoryToRender, mouseX, mouseY);
         }
-        graphics.pose().popPose();
     }
 
     /**

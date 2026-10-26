@@ -66,11 +66,14 @@ public class PlayerConditionHandler {
     public static void setSelectingRace(Player player, boolean selecting) {
         if (selecting) {
             SELECTING_RACE_PLAYERS.add(player.getUUID());
-
-            // Extinguish the player if they were on fire
             player.clearFire();
 
-            // If it's the logical server, remove aggro from nearby mobs
+            // Enabling vanilla invulnerability
+            if (!player.isCreative() && !player.isSpectator()) {
+                player.getAbilities().invulnerable = true;
+                player.onUpdateAbilities();
+            }
+
             if (!player.level().isClientSide()) {
                 var box = player.getBoundingBox().inflate(64.0D);
                 for (Mob mob : player.level().getEntitiesOfClass(Mob.class, box)) {
@@ -82,6 +85,12 @@ public class PlayerConditionHandler {
             }
         } else {
             SELECTING_RACE_PLAYERS.remove(player.getUUID());
+
+            // Disable invulnerability when exiting the menu
+            if (!player.isCreative() && !player.isSpectator()) {
+                player.getAbilities().invulnerable = false;
+                player.onUpdateAbilities();
+            }
         }
     }
 

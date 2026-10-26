@@ -4,6 +4,7 @@
   "gui.finesse_races.gui": "Экран выбора происхождения",
 
   "gui.finesse_races.button.choose_race": "Выбрать происхождение",
+  "gui.finesse_races.button.close": "Выйти из меню",
   "gui.finesse_races.page": "Страница %s из %s",
   "gui.finesse_races.abilities": "Способности",
   "gui.finesse_races.race_story": "История расы",
