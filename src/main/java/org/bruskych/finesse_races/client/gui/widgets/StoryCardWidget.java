@@ -17,6 +17,7 @@ import org.bruskych.remedy_core.client.gui.GuiRenderHelper;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * A graphical user interface (GUI) widget that displays a paginated "Story Card" for a specific race.
@@ -27,13 +28,6 @@ public class StoryCardWidget extends AbstractWidget {
 
     private static final int CORNER_PLATE_SIZE = 4;
     private static final int CENTER_SIZE = 1;
-
-    // Size configuration for GUI elements
-    private static final int BTN_SIZE = 12;
-
-    private static final ResourceLocation TEXTURE_BUTT = ResourceLocation.fromNamespaceAndPath(
-            FinesseRaces.MOD_ID, "textures/gui/buttons.png"
-    );
 
     int VANILLA_DARK = 0x404040;
 
@@ -48,6 +42,11 @@ public class StoryCardWidget extends AbstractWidget {
     private int currentPage = 0;
     private final int totalPages;
 
+    private final Consumer<Integer> onPageSelect;
+
+    public int getTotalPages() { return this.totalPages; }
+    public void setCurrentPage(int page) { this.currentPage = page; }
+
     /**
      * Constructs a new StoryCardWidget.
      *
@@ -58,50 +57,39 @@ public class StoryCardWidget extends AbstractWidget {
      * @param race             The {@link AbstractRace} data object containing the story.
      * @param textureBack      The ResourceLocation of the background texture.
      */
-    public StoryCardWidget(int x, int y, int width, int maxAllowedHeight, AbstractRace race, ResourceLocation textureBack) {
+    public StoryCardWidget(int x, int y, int width, int maxAllowedHeight, AbstractRace race, ResourceLocation textureBack, Consumer<Integer> onPageSelect) {
         super(x, y, width, 0, race.getDisplayName());
         this.race = race;
         this.textureBack = textureBack;
+        this.onPageSelect = onPageSelect;
 
         Font font = Minecraft.getInstance().font;
         int innerPadding = 5;
         int textWidth = width - (innerPadding * 2);
 
-        // Split the story text into lines that fit the widget width
         this.allLines = font.split(race.getDisplayStory(), textWidth);
 
-        // Calculate the base height required for static elements (paddings, title row)
-        int baseHeight = estimateBaseHeight();
+        int finalBaseHeight = estimateBaseHeight();
+        int availableTextHeight = maxAllowedHeight - finalBaseHeight;
 
-        // Calculate remaining vertical space strictly for text description
-        int availableTextHeight = maxAllowedHeight - baseHeight;
-
-        // Determine how many lines of text can fit in the remaining space (minimum 1 line)
         int maxPossibleLines = Math.max(1, availableTextHeight / font.lineHeight);
-
-        // Apply pagination logic
         this.maxLinesPerPage = Math.min(this.allLines.size(), maxPossibleLines);
         this.totalPages = (int) Math.ceil((double) this.allLines.size() / Math.max(1, this.maxLinesPerPage));
 
-        // Finalize the actual height of the widget
-        this.height = baseHeight + (this.maxLinesPerPage * font.lineHeight);
+        this.height = finalBaseHeight + (this.maxLinesPerPage * font.lineHeight);
     }
 
     /**
      * Estimates the height of the card's static elements (header row and paddings).
      *
-     * @return The estimated height in pixels.
      */
     public static int estimateBaseHeight() {
-        int innerPadding = 5;
-        int gapToStory = 8;
-        // Padding Top + Button Size + Gap + Padding Bottom
-        return innerPadding + BTN_SIZE + gapToStory + innerPadding;
+        return 10;
     }
 
     /**
      * Renders the widget on the screen.
-     * Draws the 9-slice background, navigation buttons, and the paginated story text.
+     * Draws the 9-slice background, optional navigation buttons, and the paginated story text.
      *
      * @param graphics    The GuiGraphics object used for drawing.
      * @param mouseX      The current X coordinate of the mouse cursor.
@@ -124,43 +112,6 @@ public class StoryCardWidget extends AbstractWidget {
 
         int currentY = this.getY() + innerPadding;
         int gapToStory = 8;
-
-        // Render Top Row (Navigation Buttons and Race Name)
-        boolean canPrev = currentPage > 0;
-        int leftBtnX = this.getX() + innerPadding;
-        int vLeft = canPrev ? (isHovered(mouseX, mouseY, leftBtnX, currentY, BTN_SIZE, BTN_SIZE) ? 12 : 0) : 24;
-        graphics.blit(TEXTURE_BUTT, leftBtnX, currentY, 0, vLeft, BTN_SIZE, BTN_SIZE);
-
-        boolean canNext = currentPage < totalPages - 1;
-        int rightBtnX = this.getX() + this.width - innerPadding - BTN_SIZE;
-        int vRight = canNext ? (isHovered(mouseX, mouseY, rightBtnX, currentY, BTN_SIZE, BTN_SIZE) ? 12 : 0) : 24;
-        graphics.blit(TEXTURE_BUTT, rightBtnX, currentY, 12, vRight, BTN_SIZE, BTN_SIZE);
-
-        currentY += BTN_SIZE + gapToStory;
-
-        // Render Story Text Description
-        int startLine = currentPage * this.maxLinesPerPage;
-        int endLine = Math.min(startLine + this.maxLinesPerPage, allLines.size());
-
-        for (int i = startLine; i < endLine; i++) {
-            boolean isLastVisibleLine = (i == endLine - 1);
-            boolean hasMorePages = (currentPage < totalPages - 1);
-
-            // Append "..." if the story continues on the next page
-            if (isLastVisibleLine && hasMorePages) {
-                int dotsWidth = font.width("...");
-                int dotsX = this.getX() + this.width - innerPadding - dotsWidth;
-
-                graphics.enableScissor(this.getX(), currentY, dotsX, currentY + font.lineHeight);
-                graphics.drawString(font, allLines.get(i), this.getX() + innerPadding, currentY, VANILLA_DARK, false);
-                graphics.disableScissor();
-
-                graphics.drawString(font, "...", dotsX, currentY, VANILLA_DARK, false);
-            } else {
-                graphics.drawString(font, allLines.get(i), this.getX() + innerPadding, currentY, VANILLA_DARK, false);
-            }
-            currentY += font.lineHeight;
-        }
     }
 
     /**
@@ -174,27 +125,31 @@ public class StoryCardWidget extends AbstractWidget {
      */
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (button != 0) return false;
+        return false;
+    }
 
-        int innerPadding = 5;
-        int btnY = this.getY() + innerPadding;
-
-        // Check Left Button Click (Previous Page)
-        int leftBtnX = this.getX() + innerPadding;
-        if (currentPage > 0 && isHovered(mouseX, mouseY, leftBtnX, btnY, BTN_SIZE, BTN_SIZE)) {
-            currentPage--;
-            playDownSound(Minecraft.getInstance().getSoundManager());
-            return true;
+    /**
+     * Handles mouse scrolling over the story card.
+     * Allows navigating through story description pages if multiple exist.
+     *
+     * @param mouseX The X coordinate of the mouse cursor.
+     * @param mouseY The Y coordinate of the mouse cursor.
+     * @param delta  The scroll direction and distance.
+     * @return True if the scroll was handled, false otherwise.
+     */
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
+        if (isHovered(mouseX, mouseY, this.getX(), this.getY(), this.width, this.height) && this.totalPages > 1) {
+            if (delta > 0 && this.currentPage > 0) {
+                onPageSelect.accept(this.currentPage - 1);
+                playDownSound(Minecraft.getInstance().getSoundManager());
+                return true;
+            } else if (delta < 0 && this.currentPage < this.totalPages - 1) {
+                onPageSelect.accept(this.currentPage + 1);
+                playDownSound(Minecraft.getInstance().getSoundManager());
+                return true;
+            }
         }
-
-        // Check Right Button Click (Next Page)
-        int rightBtnX = this.getX() + this.width - innerPadding - BTN_SIZE;
-        if (currentPage < totalPages - 1 && isHovered(mouseX, mouseY, rightBtnX, btnY, BTN_SIZE, BTN_SIZE)) {
-            currentPage++;
-            playDownSound(Minecraft.getInstance().getSoundManager());
-            return true;
-        }
-
         return false;
     }
 

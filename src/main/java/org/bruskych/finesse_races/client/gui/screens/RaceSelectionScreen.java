@@ -3,21 +3,19 @@ package org.bruskych.finesse_races.client.gui.screens;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ImageButton;
+import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 import net.minecraft.world.entity.player.Player;
-import org.bruskych.finesse_races.client.gui.widgets.AbilityCardWidget;
-import org.bruskych.finesse_races.client.gui.widgets.HeaderPlateWidget;
-import org.bruskych.finesse_races.client.gui.widgets.StoryCardWidget;
+import org.bruskych.finesse_races.client.gui.widgets.*;
 import org.bruskych.finesse_races.common.items.RaceOrbItem;
 import org.bruskych.finesse_races.common.network.FRNetwork;
 import org.bruskych.finesse_races.common.network.RaceSelectionC2SPacket;
 import org.bruskych.finesse_races.gameplay.abilities.core.RaceAbility;
 import org.bruskych.finesse_races.gameplay.races.core.AbstractRace;
 import org.bruskych.finesse_races.gameplay.races.core.RaceManager;
-import org.bruskych.finesse_races.client.gui.widgets.DotPaginationWidget;
 import org.bruskych.finesse_races.core.FinesseRaces;
 
 import org.bruskych.remedy_core.client.gui.widgets.NineSliceButton;
@@ -241,44 +239,45 @@ public class RaceSelectionScreen extends Screen {
         int subtitleRelY = margin + headerHeight + subtitleGap;
         int cardWidth = this.panelWidth - (margin * 2);
 
-        // PLATE "PAGE 1 / 2"
-        int maxPages = Math.max(1, allPages.size());
-        int currentPageNum = Math.min(leftPageIndex + 1, maxPages);
-        Component pageComponent = Component.translatable("gui.finesse_races.page", currentPageNum, maxPages);
-
-        leftPanel.addChild(headerRelX, margin, new HeaderPlateWidget(
-                leftPanel.getX() + headerRelX, leftPanel.getY() + margin,
-                headerWidth, headerHeight, pageComponent,
-                TEXTURE_BACK, 17, 0, true, VANILLA_WHITE
-        ));
-
         // PLATE "ABILITIES"
         Component abilitiesText = Component.translatable("gui.finesse_races.abilities");
-        leftPanel.addChild(headerRelX, subtitleRelY, new HeaderPlateWidget(
-                leftPanel.getX() + headerRelX, leftPanel.getY() + subtitleRelY,
+        leftPanel.addChild(headerRelX, margin, new HeaderPlateWidget(
+                leftPanel.getX() + headerRelX, leftPanel.getY() + margin,
                 headerWidth, headerHeight, abilitiesText,
                 TEXTURE_BACK, 17, 0, true, VANILLA_WHITE
         ));
 
+        // MINI PAGINATION (На месте, где раньше была надпись "Способности")
+        MiniDotPaginationWidget miniPagination = new MiniDotPaginationWidget(
+                leftPanel.getX() + headerRelX, leftPanel.getY() + subtitleRelY,
+                headerWidth, allPages.size(), leftPageIndex,
+                TEXTURE_BUTT,
+                pageIndex -> {
+                    this.leftPageIndex = pageIndex;
+                    updatePanelButtons();
+                }
+        );
+        leftPanel.addChild(headerRelX, subtitleRelY, miniPagination);
+
         if (!availableRaces.isEmpty()) {
             AbstractRace currentRace = availableRaces.get(currentRaceIndex);
 
-            // PLATE "NAME RACE"
-            centerPanel.addChild(headerRelX, margin, new HeaderPlateWidget(
-                    centerPanel.getX() + headerRelX, centerPanel.getY() + margin,
+            // 1. PLATE "NAME RACE" -> ТЕПЕРЬ НА ПРАВОЙ ПАНЕЛИ!
+            rightPanel.addChild(headerRelX, margin, new HeaderPlateWidget(
+                    rightPanel.getX() + headerRelX, rightPanel.getY() + margin,
                     headerWidth, headerHeight, currentRace.getDisplayName(),
                     TEXTURE_BACK, currentRace.getPlateU(), currentRace.getPlateV(), true, VANILLA_WHITE
             ));
 
-            // PLATE "RACE STORY"
+            // 2. PLATE "RACE STORY" -> ТЕПЕРЬ НАВЕРХУ ЦЕНТРАЛЬНОЙ ПАНЕЛИ!
             Component storyText = Component.translatable("gui.finesse_races.race_story");
-            centerPanel.addChild(headerRelX, subtitleRelY, new HeaderPlateWidget(
-                    centerPanel.getX() + headerRelX, centerPanel.getY() + subtitleRelY,
+            centerPanel.addChild(headerRelX, margin, new HeaderPlateWidget(
+                    centerPanel.getX() + headerRelX, centerPanel.getY() + margin,
                     headerWidth, headerHeight, storyText,
                     TEXTURE_BACK, 17, 17, true, VANILLA_WHITE
             ));
 
-            // CARD "STORY"
+            // 3. CARD "STORY"
             int storyCardY = subtitleRelY + headerHeight + 4;
             int maxStoryHeight = this.panelHeight - storyCardY - margin;
 
@@ -287,9 +286,58 @@ public class RaceSelectionScreen extends Screen {
                     centerPanel.getY() + storyCardY,
                     cardWidth, maxStoryHeight,
                     currentRace,
-                    TEXTURE_BACK
+                    TEXTURE_BACK,
+                    pageIndex -> {
+                        this.centerPageIndex = pageIndex;
+                        updatePanelButtons();
+                    }
             );
+            storyWidget.setCurrentPage(centerPageIndex); // Устанавливаем страницу перед добавлением
             centerPanel.addChild(margin, storyCardY, storyWidget);
+
+            // 4. КНОПКИ И ПАГИНАЦИЯ ДЛЯ ИСТОРИИ (показываем только если страниц > 1)
+            int storyPages = storyWidget.getTotalPages();
+            if (storyPages > 1) {
+                // Мини-пагинация на месте старой плашки
+                MiniDotPaginationWidget centerPagination = new MiniDotPaginationWidget(
+                        centerPanel.getX() + headerRelX, centerPanel.getY() + subtitleRelY,
+                        headerWidth, storyPages, centerPageIndex,
+                        TEXTURE_BUTT,
+                        pageIndex -> {
+                            this.centerPageIndex = pageIndex;
+                            updatePanelButtons();
+                        }
+                );
+                centerPanel.addChild(headerRelX, subtitleRelY, centerPagination);
+
+                // Кнопка влево для Истории
+                ImageButton centerPrevBtn = new ImageButton(
+                        0, 0, btnSize, btnSize,
+                        0, 0, btnSize, TEXTURE_BUTT, 256, 256,
+                        btn -> {
+                            if (centerPageIndex > 0) {
+                                centerPageIndex--;
+                                updatePanelButtons();
+                            }
+                        }
+                );
+                centerPrevBtn.active = centerPageIndex > 0;
+                centerPanel.addChild(margin, margin, centerPrevBtn);
+
+                // Кнопка вправо для Истории
+                ImageButton centerNextBtn = new ImageButton(
+                        0, 0, btnSize, btnSize,
+                        12, 0, btnSize, TEXTURE_BUTT, 256, 256,
+                        btn -> {
+                            if (centerPageIndex < storyPages - 1) {
+                                centerPageIndex++;
+                                updatePanelButtons();
+                            }
+                        }
+                );
+                centerNextBtn.active = centerPageIndex < storyPages - 1;
+                centerPanel.addChild(centerPanel.getWidth() - btnSize - margin, margin, centerNextBtn);
+            }
         }
 
         boolean canLeftPrev = leftPageIndex > 0;
@@ -416,7 +464,9 @@ public class RaceSelectionScreen extends Screen {
         int currentHeight = 0;
 
         for (RaceAbility ability : allAbilities) {
-            int baseHeight = AbilityCardWidget.estimateBaseHeight(ability, cardWidth, this.font);
+            boolean hasItems = !ability.getDisplayItems().isEmpty();
+            int baseHeight = AbilityCardWidget.estimateBaseHeight(ability, cardWidth, hasItems);
+
             int minRequiredHeight = baseHeight + (this.font.lineHeight * 2);
             if (!currentPage.isEmpty() && (currentHeight + minRequiredHeight) > maxAvailableHeight) {
                 pages.add(currentPage);
@@ -485,12 +535,31 @@ public class RaceSelectionScreen extends Screen {
      */
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
+
+        for (AbilityCardWidget card : this.activeAbilityCards) {
+            if (card.mouseScrolled(mouseX, mouseY, delta)) {
+                return true;
+            }
+        }
+
+        for (GuiEventListener child : this.centerPanel.getChildren()) {
+            if (child instanceof StoryCardWidget storyCard) {
+                if (storyCard.mouseScrolled(mouseX, mouseY, delta)) {
+                    return true;
+                }
+            }
+        }
+
+        // If the cards didn’t scroll, trigger the standard scroll.
         if (super.mouseScrolled(mouseX, mouseY, delta)) {
             return true;
         }
+
+        // If the mouse is completely outside the panels, we do nothing.
         if (mouseY < leftPanel.getY() || mouseY > leftPanel.getY() + this.panelHeight) {
             return false;
         }
+
         int padding = 5;
 
         // LEFT button

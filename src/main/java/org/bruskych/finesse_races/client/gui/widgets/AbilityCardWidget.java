@@ -74,67 +74,72 @@ public class AbilityCardWidget extends AbstractWidget {
      * @param textureBack      The ResourceLocation of the background texture.
      */
     public AbilityCardWidget(int x, int y, int width, int maxAllowedHeight, RaceAbility ability, ResourceLocation textureBack) {
-        super(x, y, width, 0, ability.getTitle()); // Height is calculated dynamically below
+        super(x, y, width, 0, ability.getTitle());
         this.ability = ability;
         this.textureBack = textureBack;
 
+        // Get font and text width
         Font font = Minecraft.getInstance().font;
         int innerPadding = 5;
         int textWidth = width - (innerPadding * 2);
 
-        // Split the description text into lines that fit the widget width
+        // Split text and load items
         this.allLines = font.split(ability.getDescription(), textWidth);
         this.displayItems = ability.getDisplayItems().stream().limit(MAX_DISPLAY_ITEMS).toList();
 
-        // Calculate the base height required for static elements (paddings, title, items row)
-        int baseHeight = estimateBaseHeight(ability, width, font);
+        // Check for items
+        boolean hasItems = !this.displayItems.isEmpty();
 
-        // Determine if we need to render the top row containing items and navigation buttons
-        this.hasWidgetRow = (baseHeight > innerPadding + 12 + innerPadding);
+        // Check if text fits one page
+        int baseWithoutButtons = estimateBaseHeight(ability, width, false);
+        int totalHeightWithoutButtons = baseWithoutButtons + (this.allLines.size() * font.lineHeight);
+        boolean needsPagination = totalHeightWithoutButtons > maxAllowedHeight;
 
-        // Calculate remaining vertical space strictly for text description
-        int availableTextHeight = maxAllowedHeight - baseHeight;
+        // Check if buttons are needed
+        this.hasWidgetRow = hasItems || needsPagination;
 
-        // Determine how many lines of text can fit in the remaining space (minimum 1 line)
+        // Calculate base height
+        int finalBaseHeight = estimateBaseHeight(ability, width, this.hasWidgetRow);
+
+        // Calculate text space
+        int availableTextHeight = maxAllowedHeight - finalBaseHeight;
+
+        // Calculate lines per page
         int maxPossibleLines = Math.max(1, availableTextHeight / font.lineHeight);
-
-        // Apply pagination logic based on calculations
         this.maxLinesPerPage = Math.min(this.allLines.size(), maxPossibleLines);
+
+        // Calculate total pages
         this.totalPages = (int) Math.ceil((double) this.allLines.size() / Math.max(1, this.maxLinesPerPage));
 
-        // Finalize the actual height of the widget
-        this.height = baseHeight + (this.maxLinesPerPage * font.lineHeight);
+        // Set final widget height
+        this.height = finalBaseHeight + (this.maxLinesPerPage * font.lineHeight);
     }
 
     /**
      * Estimates the height of the card's static elements (excluding the description text).
      * This includes padding, titles, and the item display row if present.
      *
-     * @param ability   The ability data to estimate space for.
-     * @param cardWidth The total width of the card.
-     * @param font      The Minecraft font renderer.
+     * @param ability      The ability data to estimate space for.
+     * @param cardWidth    The total width of the card.
+     * @param needsButtons True if space must be reserved for navigation buttons or items,
+     *                     false to calculate a compact layout without the bottom row.
      * @return The estimated height in pixels for the static elements.
      */
-    public static int estimateBaseHeight(RaceAbility ability, int cardWidth, Font font) {
+    public static int estimateBaseHeight(RaceAbility ability, int cardWidth, boolean needsButtons) {
         int innerPadding = 5;
         int textWidth = cardWidth - (innerPadding * 2);
         int gapToTitle = 8;
-        int base = innerPadding + 12 + innerPadding; // Padding + Title height + Bottom padding
 
-        List<ItemStack> items = ability.getDisplayItems().stream().limit(MAX_DISPLAY_ITEMS).toList();
-        int totalLinesEstimate = font.split(ability.getDescription(), textWidth).size();
+        // Padding + Title height + Bottom padding
+        int base = innerPadding + 12 + innerPadding;
 
-        // If items are present OR if the text is long enough to likely require pagination buttons
-        if (!items.isEmpty() || totalLinesEstimate > 4) {
+        if (needsButtons) {
+            List<ItemStack> items = ability.getDisplayItems().stream().limit(MAX_DISPLAY_ITEMS).toList();
             if (!items.isEmpty()) {
-
-                // Calculate how many items can fit in a single row between navigation buttons
                 int maxItemsPerRow = Math.max(1, (textWidth - (BTN_SIZE * 2) - 8) / ITEM_SIZE);
                 int rows = (int) Math.ceil((double) items.size() / maxItemsPerRow);
                 base += Math.max(BTN_SIZE, rows * ITEM_SIZE) + gapToTitle;
             } else {
-
-                // Add space just for navigation buttons
                 base += BTN_SIZE + gapToTitle;
             }
         }
@@ -358,6 +363,33 @@ public class AbilityCardWidget extends AbstractWidget {
         }
 
         return false;
+    }
+
+    /**
+     * Handles mouse scrolling over the ability card.
+     * Allows navigating through ability description pages if multiple exist.
+     *
+     * @param mouseX The X coordinate of the mouse cursor.
+     * @param mouseY The Y coordinate of the mouse cursor.
+     * @param delta  The scroll direction and distance.
+     * @return True if the scroll was handled, false otherwise.
+     */
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
+        if (this.isHoveredOrFocused() && this.totalPages > 1) {
+
+            // Scroll up (previous page)
+            if (delta > 0 && this.currentPage > 0) {
+                this.currentPage--;
+                return true;
+            }
+            // Scroll down (next page)
+            else if (delta < 0 && this.currentPage < this.totalPages - 1) {
+                this.currentPage++;
+                return true;
+            }
+        }
+        return super.mouseScrolled(mouseX, mouseY, delta);
     }
 
     /**
