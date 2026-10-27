@@ -4,11 +4,14 @@ import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrownPotion;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
+import net.minecraftforge.event.entity.living.EnderManAngerEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
 import org.bruskych.finesse_races.core.FinesseRaces;
+import org.bruskych.finesse_races.gameplay.abilities.EnderKinshipAbility;
 import org.bruskych.finesse_races.gameplay.abilities.HigherHeatDamageAbility;
 import org.bruskych.finesse_races.gameplay.races.core.AbstractRace;
 import org.bruskych.finesse_races.gameplay.races.core.RaceManager;
@@ -102,6 +105,31 @@ public class RaceAbilitiesEvents {
                                 ability.onSplashPotionHit(player, potion);
                             }
                         }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Prevents Endermen from becoming aggressive when the player looks directly at them.
+     *
+     * @param event The event triggered when an Enderman is about to get angry.
+     */
+    @SubscribeEvent
+    public static void onEnderManAnger(EnderManAngerEvent event) {
+        Player player = event.getPlayer();
+
+        if (player != null) {
+            AbstractRace race = RaceManager.getRaceOfPlayer(player);
+
+            if (race != null) {
+                // Check if the player's race possesses the Ender Kinship ability
+                for (RaceAbility ability : race.getAbilities()) {
+                    if (ability instanceof EnderKinshipAbility) {
+                        // If the ability is found, cancel the Enderman's anger trigger
+                        event.setCanceled(true);
+                        break;
                     }
                 }
             }

@@ -28,11 +28,6 @@ public class HigherHeatDamageAbility implements RaceAbility {
     }
 
     @Override
-    public void apply(Player player) {
-        // Leave empty because damage modification is event-driven, not tick-driven
-    }
-
-    @Override
     public Component getTitle() {
         return Component.translatable("ability.finesse_races.higher_heat_damage.title");
     }

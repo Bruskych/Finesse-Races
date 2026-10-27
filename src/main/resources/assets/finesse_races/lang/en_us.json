@@ -49,5 +49,8 @@
   "ability.finesse_races.higher_heat_damage.desc": "Takes increased damage from fire, lava, magma blocks, and all other heat sources.",
 
   "ability.finesse_races.water_damage.title": "Hydrophobia",
-  "ability.finesse_races.water_damage.desc": "Takes damage when touching water, with significantly higher damage while fully submerged."
+  "ability.finesse_races.water_damage.desc": "Takes damage when touching water, with significantly higher damage while fully submerged.",
+
+  "ability.finesse_races.ender_kinship": "Ender Kinship",
+  "ability.finesse_races.ender_kinship.desc": "Endermen no longer become aggressive when you look into their eyes. They will only attack if you strike first."
 }

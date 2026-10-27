@@ -49,5 +49,8 @@
   "ability.finesse_races.higher_heat_damage.desc": "Hráč podlieha zvýšenému poškodeniu od ohňa, lávy, magmy a iných zdrojov tepla.",
 
   "ability.finesse_races.water_damage.title": "Hydrofóbia",
-  "ability.finesse_races.water_damage.desc": "Hráč dostáva poškodenie pri kontakte s vodou. Poškodenie sa výrazne zvyšuje pri úplnom ponorení."
+  "ability.finesse_races.water_damage.desc": "Hráč dostáva poškodenie pri kontakte s vodou. Poškodenie sa výrazne zvyšuje pri úplnom ponorení.",
+
+  "ability.finesse_races.ender_kinship": "Príbuznosť Endu",
+  "ability.finesse_races.ender_kinship.desc": "Endermeni už nebudú agresívni, keď sa im pozriete do očí. Zaútočia len vtedy, ak udriete ako prvý."
 }

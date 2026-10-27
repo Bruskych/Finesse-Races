@@ -49,5 +49,8 @@
   "ability.finesse_races.higher_heat_damage.desc": "Получение повышенного урона от огня, лавы, магмы и любых других источников тепла.",
 
   "ability.finesse_races.water_damage.title": "Гидрофобия",
-  "ability.finesse_races.water_damage.desc": "Получение урона при контакте с водой. Урон существенно возрастает при полном погружении."
+  "ability.finesse_races.water_damage.desc": "Получение урона при контакте с водой. Урон существенно возрастает при полном погружении.",
+
+  "ability.finesse_races.ender_kinship": "Родство Края",
+  "ability.finesse_races.ender_kinship.desc": "Эндермены больше не проявляют агрессию, когда вы смотрите им в глаза. Они нападут только в ответ на ваш удар."
 }

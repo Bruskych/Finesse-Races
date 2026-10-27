@@ -24,7 +24,9 @@ public interface RaceAbility {
     /**
      * Applies the ability logic to the player. Usually called every tick.
      */
-    void apply(Player player);
+    default void apply(Player player) {
+        // Empty
+    }
 
     /**
      * Called when the player finishes using an item (ate, drank, etc.).
