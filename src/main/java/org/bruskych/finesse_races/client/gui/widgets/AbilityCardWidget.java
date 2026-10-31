@@ -62,6 +62,13 @@ public class AbilityCardWidget extends AbstractWidget {
     private Component hoveredCategoryToRender = null;
 
     /**
+     * Retrieves the total number of description pages for this ability card.
+     */
+    public int getTotalPages() {
+        return this.totalPages;
+    }
+
+    /**
      * Constructs a new AbilityCardWidget.
      * Calculates required dimensions, handles text wrapping, and determines pagination
      * based on the provided maximum allowed height.
@@ -179,20 +186,23 @@ public class AbilityCardWidget extends AbstractWidget {
 
         // Render Top Row (Navigation Buttons and Display Items)
         if (this.hasWidgetRow) {
-            int btnOffset = (ITEM_SIZE - BTN_SIZE) / 2;
             int gapToTitle = 8;
 
-            // Render 'Previous Page' Left Button
-            boolean canPrev = currentPage > 0;
-            int leftBtnX = this.getX() + innerPadding;
-            int vLeft = canPrev ? (isHovered(mouseX, mouseY, leftBtnX, currentY + btnOffset, BTN_SIZE, BTN_SIZE) ? 12 : 0) : 24;
-            graphics.blit(TEXTURE_BUTT, leftBtnX, currentY + btnOffset, 0, vLeft, BTN_SIZE, BTN_SIZE);
+            if (this.totalPages > 1) {
+                int btnOffset = displayItems.isEmpty() ? 0 : (ITEM_SIZE - BTN_SIZE) / 2;
 
-            // Render 'Next Page' Right Button
-            boolean canNext = currentPage < totalPages - 1;
-            int rightBtnX = this.getX() + this.width - innerPadding - BTN_SIZE;
-            int vRight = canNext ? (isHovered(mouseX, mouseY, rightBtnX, currentY + btnOffset, BTN_SIZE, BTN_SIZE) ? 12 : 0) : 24;
-            graphics.blit(TEXTURE_BUTT, rightBtnX, currentY + btnOffset, 12, vRight, BTN_SIZE, BTN_SIZE);
+                // Render 'Previous Page' Left Button
+                boolean canPrev = currentPage > 0;
+                int leftBtnX = this.getX() + innerPadding;
+                int vLeft = canPrev ? (isHovered(mouseX, mouseY, leftBtnX, currentY + btnOffset, BTN_SIZE, BTN_SIZE) ? 12 : 0) : 24;
+                graphics.blit(TEXTURE_BUTT, leftBtnX, currentY + btnOffset, 0, vLeft, BTN_SIZE, BTN_SIZE);
+
+                // Render 'Next Page' Right Button
+                boolean canNext = currentPage < totalPages - 1;
+                int rightBtnX = this.getX() + this.width - innerPadding - BTN_SIZE;
+                int vRight = canNext ? (isHovered(mouseX, mouseY, rightBtnX, currentY + btnOffset, BTN_SIZE, BTN_SIZE) ? 12 : 0) : 24;
+                graphics.blit(TEXTURE_BUTT, rightBtnX, currentY + btnOffset, 12, vRight, BTN_SIZE, BTN_SIZE);
+            }
 
             // Render Display Items
             if (!displayItems.isEmpty()) {
@@ -339,11 +349,10 @@ public class AbilityCardWidget extends AbstractWidget {
      */
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        // Only handle Left Click (button 0) and if navigation widget is present
-        if (!hasWidgetRow || button != 0) return false;
+        if (!hasWidgetRow || button != 0 || this.totalPages <= 1) return false;
 
         int innerPadding = 5;
-        int btnOffset = (ITEM_SIZE - BTN_SIZE) / 2;
+        int btnOffset = displayItems.isEmpty() ? 0 : (ITEM_SIZE - BTN_SIZE) / 2;
         int btnY = this.getY() + innerPadding + btnOffset;
 
         // Check Left Button Click (Previous Page)

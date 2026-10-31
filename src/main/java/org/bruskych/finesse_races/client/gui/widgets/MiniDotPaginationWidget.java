@@ -29,7 +29,7 @@ public class MiniDotPaginationWidget extends AbstractWidget {
     private final ResourceLocation texture;
     private final int dotWidth = 8;
     private final int dotHeight = 8;
-    private final int spacing = 2; // Маленький отступ между точками
+    private final int spacing = 2;
     private final int maxWidth;
 
     // UV coordinates (Base U is 36 for mini pagination)
@@ -41,6 +41,7 @@ public class MiniDotPaginationWidget extends AbstractWidget {
     // Pagination state
     private int totalPages;
     private int currentPage;
+    private final boolean hideIfSinglePage;
     private final Consumer<Integer> onPageSelect;
 
     /**
@@ -61,16 +62,15 @@ public class MiniDotPaginationWidget extends AbstractWidget {
      */
     public MiniDotPaginationWidget(
             int x, int y, int maxWidth, int totalPages, int currentPage,
-            ResourceLocation texture, Consumer<Integer> onPageSelect
+            ResourceLocation texture, boolean hideIfSinglePage, Consumer<Integer> onPageSelect
     ) {
         super(x, y, maxWidth, 0, Component.empty());
         this.maxWidth = maxWidth;
         this.totalPages = totalPages;
         this.currentPage = currentPage;
         this.texture = texture;
+        this.hideIfSinglePage = hideIfSinglePage;
         this.onPageSelect = onPageSelect;
-
-        // We calculate the grid of point locations right at the creation stage
         recalculateLayout();
     }
 
@@ -86,10 +86,15 @@ public class MiniDotPaginationWidget extends AbstractWidget {
      */
     private void recalculateLayout() {
         dots.clear();
-        if (totalPages <= 0) {
+        // OFF - pages <= 1
+        if (totalPages <= 0 || (totalPages == 1 && hideIfSinglePage)) {
             this.height = 0;
+            this.visible = false;
             return;
         }
+        // ON - pages > 1
+        this.visible = true;
+
         int currentY = 0;
         int rowWidth = 0;
 

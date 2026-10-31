@@ -7,7 +7,9 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+
 import org.bruskych.remedy_core.client.gui.GuiRenderHelper;
+
 import org.jetbrains.annotations.NotNull;
 
 /**

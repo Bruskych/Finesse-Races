@@ -230,6 +230,7 @@ public class RaceSelectionScreen extends Screen {
 
         this.activeAbilityCards.clear();
         List<List<RaceAbility>> allPages = getAllAbilityPages();
+        boolean hasAbilityPages = allPages.size() > 1;
 
         int gapBetweenButtonHeader = margin - 2;
         int headerHeight = btnSize;
@@ -247,136 +248,61 @@ public class RaceSelectionScreen extends Screen {
                 TEXTURE_BACK, 17, 0, true, VANILLA_WHITE
         ));
 
-        // MINI PAGINATION (На месте, где раньше была надпись "Способности")
-        MiniDotPaginationWidget miniPagination = new MiniDotPaginationWidget(
-                leftPanel.getX() + headerRelX, leftPanel.getY() + subtitleRelY,
-                headerWidth, allPages.size(), leftPageIndex,
-                TEXTURE_BUTT,
-                pageIndex -> {
-                    this.leftPageIndex = pageIndex;
-                    updatePanelButtons();
-                }
-        );
-        leftPanel.addChild(headerRelX, subtitleRelY, miniPagination);
+        int currentRelY;
 
-        if (!availableRaces.isEmpty()) {
-            AbstractRace currentRace = availableRaces.get(currentRaceIndex);
-
-            // 1. PLATE "NAME RACE" -> ТЕПЕРЬ НА ПРАВОЙ ПАНЕЛИ!
-            rightPanel.addChild(headerRelX, margin, new HeaderPlateWidget(
-                    rightPanel.getX() + headerRelX, rightPanel.getY() + margin,
-                    headerWidth, headerHeight, currentRace.getDisplayName(),
-                    TEXTURE_BACK, currentRace.getPlateU(), currentRace.getPlateV(), true, VANILLA_WHITE
-            ));
-
-            // 2. PLATE "RACE STORY" -> ТЕПЕРЬ НАВЕРХУ ЦЕНТРАЛЬНОЙ ПАНЕЛИ!
-            Component storyText = Component.translatable("gui.finesse_races.race_story");
-            centerPanel.addChild(headerRelX, margin, new HeaderPlateWidget(
-                    centerPanel.getX() + headerRelX, centerPanel.getY() + margin,
-                    headerWidth, headerHeight, storyText,
-                    TEXTURE_BACK, 17, 17, true, VANILLA_WHITE
-            ));
-
-            // 3. CARD "STORY"
-            int storyCardY = subtitleRelY + headerHeight + 4;
-            int maxStoryHeight = this.panelHeight - storyCardY - margin;
-
-            StoryCardWidget storyWidget = new StoryCardWidget(
-                    centerPanel.getX() + margin,
-                    centerPanel.getY() + storyCardY,
-                    cardWidth, maxStoryHeight,
-                    currentRace,
-                    TEXTURE_BACK,
+        if (hasAbilityPages) {
+            // MINI DOT PAGINATION
+            MiniDotPaginationWidget miniPagination = new MiniDotPaginationWidget(
+                    leftPanel.getX() + headerRelX, leftPanel.getY() + subtitleRelY,
+                    headerWidth, allPages.size(), leftPageIndex,
+                    TEXTURE_BUTT, true,
                     pageIndex -> {
-                        this.centerPageIndex = pageIndex;
+                        this.leftPageIndex = pageIndex;
                         updatePanelButtons();
                     }
             );
-            storyWidget.setCurrentPage(centerPageIndex); // Устанавливаем страницу перед добавлением
-            centerPanel.addChild(margin, storyCardY, storyWidget);
+            leftPanel.addChild(headerRelX, subtitleRelY, miniPagination);
 
-            // 4. КНОПКИ И ПАГИНАЦИЯ ДЛЯ ИСТОРИИ (показываем только если страниц > 1)
-            int storyPages = storyWidget.getTotalPages();
-            if (storyPages > 1) {
-                // Мини-пагинация на месте старой плашки
-                MiniDotPaginationWidget centerPagination = new MiniDotPaginationWidget(
-                        centerPanel.getX() + headerRelX, centerPanel.getY() + subtitleRelY,
-                        headerWidth, storyPages, centerPageIndex,
-                        TEXTURE_BUTT,
-                        pageIndex -> {
-                            this.centerPageIndex = pageIndex;
+            // Left panel - Previous page button "<<<"
+            ImageButton leftPrevBtn = new ImageButton(
+                    0, 0, btnSize, btnSize,
+                    0, 0, btnSize,
+                    TEXTURE_BUTT, 256, 256,
+                    btn -> {
+                        if (leftPageIndex > 0) {
+                            leftPageIndex--;
                             updatePanelButtons();
                         }
-                );
-                centerPanel.addChild(headerRelX, subtitleRelY, centerPagination);
+                    }
+            );
+            leftPrevBtn.active = leftPageIndex > 0;
+            leftPanel.addChild(margin, margin, leftPrevBtn);
 
-                // Кнопка влево для Истории
-                ImageButton centerPrevBtn = new ImageButton(
-                        0, 0, btnSize, btnSize,
-                        0, 0, btnSize, TEXTURE_BUTT, 256, 256,
-                        btn -> {
-                            if (centerPageIndex > 0) {
-                                centerPageIndex--;
-                                updatePanelButtons();
-                            }
+            // Left panel - Next page button ">>>"
+            ImageButton leftNextBtn = new ImageButton(
+                    0, 0, btnSize, btnSize,
+                    12, 0, btnSize,
+                    TEXTURE_BUTT, 256, 256,
+                    btn -> {
+                        if (leftPageIndex < allPages.size() - 1) {
+                            leftPageIndex++;
+                            updatePanelButtons();
                         }
-                );
-                centerPrevBtn.active = centerPageIndex > 0;
-                centerPanel.addChild(margin, margin, centerPrevBtn);
+                    }
+            );
+            leftNextBtn.active = leftPageIndex < allPages.size() - 1;
+            leftPanel.addChild(leftPanel.getWidth() - btnSize - margin, margin, leftNextBtn);
 
-                // Кнопка вправо для Истории
-                ImageButton centerNextBtn = new ImageButton(
-                        0, 0, btnSize, btnSize,
-                        12, 0, btnSize, TEXTURE_BUTT, 256, 256,
-                        btn -> {
-                            if (centerPageIndex < storyPages - 1) {
-                                centerPageIndex++;
-                                updatePanelButtons();
-                            }
-                        }
-                );
-                centerNextBtn.active = centerPageIndex < storyPages - 1;
-                centerPanel.addChild(centerPanel.getWidth() - btnSize - margin, margin, centerNextBtn);
-            }
+            // Shift cards down to leave space for pagination
+            currentRelY = subtitleRelY + headerHeight + subtitleGap;
+        } else {
+            // Shift start Y coordinate up if there is only 1 page
+            currentRelY = subtitleRelY;
         }
-
-        boolean canLeftPrev = leftPageIndex > 0;
-        boolean canLeftNext = leftPageIndex < allPages.size() - 1;
-
-        // Left panel - Previous page button "<<<"
-        ImageButton leftPrevBtn = new ImageButton(
-                0, 0, btnSize, btnSize,
-                0, 0, btnSize,
-                TEXTURE_BUTT, 256, 256,
-                btn -> {
-                    if (leftPageIndex > 0) {
-                        leftPageIndex--;
-                        updatePanelButtons();
-                    }
-                }
-        );
-        leftPrevBtn.active = canLeftPrev;
-        leftPanel.addChild(margin, margin, leftPrevBtn);
-
-        // Left panel - Next page button ">>>"
-        ImageButton leftNextBtn = new ImageButton(
-                0, 0, btnSize, btnSize,
-                12, 0, btnSize,
-                TEXTURE_BUTT, 256, 256,
-                btn -> {
-                    if (leftPageIndex < allPages.size() - 1) {
-                        leftPageIndex++;
-                        updatePanelButtons();
-                    }
-                }
-        );
-        leftNextBtn.active = canLeftNext;
-        leftPanel.addChild(leftPanel.getWidth() - btnSize - margin, margin, leftNextBtn);
 
         // Adding cards to the left panel (Abilities)
         if (!allPages.isEmpty() && leftPageIndex < allPages.size()) {
             List<RaceAbility> currentAbilities = allPages.get(leftPageIndex);
-            int currentRelY = subtitleRelY + headerHeight + 4;
 
             for (RaceAbility ability : currentAbilities) {
                 int maxAllowedHeight = this.panelHeight - currentRelY - margin;
@@ -390,6 +316,94 @@ public class RaceSelectionScreen extends Screen {
 
                 this.activeAbilityCards.add(cardWidget);
                 currentRelY += cardWidget.getHeight() + 4;
+            }
+        }
+
+        if (!availableRaces.isEmpty()) {
+            AbstractRace currentRace = availableRaces.get(currentRaceIndex);
+
+            // PLATE "NAME RACE"
+            rightPanel.addChild(headerRelX, margin, new HeaderPlateWidget(
+                    rightPanel.getX() + headerRelX, rightPanel.getY() + margin,
+                    headerWidth, headerHeight, currentRace.getDisplayName(),
+                    TEXTURE_BACK, currentRace.getPlateU(), currentRace.getPlateV(), true, VANILLA_WHITE
+            ));
+
+            // PLATE "RACE STORY"
+            Component storyText = Component.translatable("gui.finesse_races.race_story");
+            centerPanel.addChild(headerRelX, margin, new HeaderPlateWidget(
+                    centerPanel.getX() + headerRelX, centerPanel.getY() + margin,
+                    headerWidth, headerHeight, storyText,
+                    TEXTURE_BACK, 17, 17, true, VANILLA_WHITE
+            ));
+
+            // Create story card to check needed pages
+            int storyCardYWithPagination = subtitleRelY + headerHeight + subtitleGap;
+            int maxStoryHeightWithPagination = this.panelHeight - storyCardYWithPagination - margin;
+
+            StoryCardWidget storyWidget = new StoryCardWidget(
+                    centerPanel.getX() + margin,
+                    centerPanel.getY() + storyCardYWithPagination,
+                    cardWidth, maxStoryHeightWithPagination,
+                    currentRace,
+                    TEXTURE_BACK,
+                    pageIndex -> {
+                        this.centerPageIndex = pageIndex;
+                        updatePanelButtons();
+                    }
+            );
+            storyWidget.setCurrentPage(centerPageIndex);
+
+            int storyPages = storyWidget.getTotalPages();
+
+            if (storyPages > 1) {
+                // BUTTONS + PAGINATION FOR STORY
+                MiniDotPaginationWidget centerPagination = new MiniDotPaginationWidget(
+                        centerPanel.getX() + headerRelX, centerPanel.getY() + subtitleRelY,
+                        headerWidth, storyPages, centerPageIndex,
+                        TEXTURE_BUTT, true,
+                        pageIndex -> {
+                            this.centerPageIndex = pageIndex;
+                            updatePanelButtons();
+                        }
+                );
+                centerPanel.addChild(headerRelX, subtitleRelY, centerPagination);
+
+                // BUTTON LEFT - story
+                ImageButton centerPrevBtn = new ImageButton(
+                        0, 0, btnSize, btnSize,
+                        0, 0, btnSize, TEXTURE_BUTT, 256, 256,
+                        btn -> {
+                            if (centerPageIndex > 0) {
+                                centerPageIndex--;
+                                updatePanelButtons();
+                            }
+                        }
+                );
+                centerPrevBtn.active = centerPageIndex > 0;
+                centerPanel.addChild(margin, margin, centerPrevBtn);
+
+                // BUTTON RIGHT - story
+                ImageButton centerNextBtn = new ImageButton(
+                        0, 0, btnSize, btnSize,
+                        12, 0, btnSize, TEXTURE_BUTT, 256, 256,
+                        btn -> {
+                            if (centerPageIndex < storyPages - 1) {
+                                centerPageIndex++;
+                                updatePanelButtons();
+                            }
+                        }
+                );
+                centerNextBtn.active = centerPageIndex < storyPages - 1;
+                centerPanel.addChild(centerPanel.getWidth() - btnSize - margin, margin, centerNextBtn);
+
+                // CARD "STORY"
+                centerPanel.addChild(margin, storyCardYWithPagination, storyWidget);
+            } else {
+                // Shift story card up to replace pagination
+                int shiftedY = subtitleRelY;
+                storyWidget.setY(centerPanel.getY() + shiftedY);
+                centerPanel.addChild(margin, shiftedY, storyWidget);
             }
         }
     }
@@ -536,12 +550,15 @@ public class RaceSelectionScreen extends Screen {
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
 
+        // 1. Scrolling inside cards (Priority 1)
+        // Check ability cards (Left panel)
         for (AbilityCardWidget card : this.activeAbilityCards) {
             if (card.mouseScrolled(mouseX, mouseY, delta)) {
                 return true;
             }
         }
 
+        // Check story card (Center panel)
         for (GuiEventListener child : this.centerPanel.getChildren()) {
             if (child instanceof StoryCardWidget storyCard) {
                 if (storyCard.mouseScrolled(mouseX, mouseY, delta)) {
@@ -550,31 +567,74 @@ public class RaceSelectionScreen extends Screen {
             }
         }
 
-        // If the cards didn’t scroll, trigger the standard scroll.
+        // 2. Scrolling ability pages (Left panel)
+        // If the card has only 1 page, we ignore it and allow the panel to scroll.
+        if (mouseX >= leftPanel.getX() && mouseX <= leftPanel.getX() + leftPanel.getWidth() &&
+                mouseY >= leftPanel.getY() && mouseY <= leftPanel.getY() + leftPanel.getHeight()) {
+
+            // Check if the cursor is specifically over ANY ability card
+            boolean isHoveringOverMultiPageCard = false;
+            for (AbilityCardWidget card : this.activeAbilityCards) {
+                if (
+                        mouseX >= card.getX() &&
+                        mouseX <= card.getX() + card.getWidth() &&
+                        mouseY >= card.getY() &&
+                        mouseY <= card.getY() + card.getHeight()
+                ) {
+                    if (card.getTotalPages() > 1) {
+                        isHoveringOverMultiPageCard = true;
+                    }
+                    // We found the hovered card, no need to check the rest
+                    break;
+                }
+            }
+
+            // Scroll panel pages ONLY if we are NOT hovering over an ability card
+            if (!isHoveringOverMultiPageCard) {
+                List<List<RaceAbility>> allPages = getAllAbilityPages();
+
+                // Scroll up (previous page)
+                if (delta > 0 && leftPageIndex > 0) {
+                    leftPageIndex--;
+                    updatePanelButtons();
+                    return true;
+                }
+                // Scroll down (next page)
+                else if (delta < 0 && leftPageIndex < allPages.size() - 1) {
+                    leftPageIndex++;
+                    updatePanelButtons();
+                    return true;
+                }
+            }
+        }
+
+        // 3. Standard screen scrolling
         if (super.mouseScrolled(mouseX, mouseY, delta)) {
             return true;
         }
 
-        // If the mouse is completely outside the panels, we do nothing.
+        // Ignore if the mouse is completely outside the panels on the Y axis
         if (mouseY < leftPanel.getY() || mouseY > leftPanel.getY() + this.panelHeight) {
             return false;
         }
 
         int padding = 5;
 
-        // LEFT button
+        // 4. Race scrolling (Side global buttons)
+        // Left race button (previous race)
         if (mouseX >= this.globalLeftBtnX - padding && mouseX <= this.globalLeftBtnX + this.globalNavBtnSize + padding) {
             int direction = (int) Math.signum(delta);
             switchRace(direction);
             return true;
         }
 
-        // RIGHT button
+        // Right race button (next race)
         if (mouseX >= this.globalRightBtnX - padding && mouseX <= this.globalRightBtnX + this.globalNavBtnSize + padding) {
             int direction = -(int) Math.signum(delta);
             switchRace(direction);
             return true;
         }
+
         return false;
     }
 }

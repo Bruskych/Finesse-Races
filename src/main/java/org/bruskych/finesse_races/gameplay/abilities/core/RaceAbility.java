@@ -58,11 +58,10 @@ public interface RaceAbility {
     AbilityCategory getCategory();
 
     /**
-     * Specifies which item tag (from JSON) belongs to this ability. Returns null if none.
+     * Specifies which item tag (from JSON) belongs to this ability.
+     * This is mandatory. Return null if no items are needed for a specific ability.
      */
-    default TagKey<Item> getDisplayItemsTag() {
-        return null;
-    }
+    TagKey<Item> getDisplayItemsTag();
 
     /**
      * Automatically converts the specified item tag into a list of real items to display in the menu.

@@ -11,7 +11,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.FormattedCharSequence;
 
-import org.bruskych.finesse_races.core.FinesseRaces;
 import org.bruskych.finesse_races.gameplay.races.core.AbstractRace;
 import org.bruskych.remedy_core.client.gui.GuiRenderHelper;
 import org.jetbrains.annotations.NotNull;
@@ -44,8 +43,19 @@ public class StoryCardWidget extends AbstractWidget {
 
     private final Consumer<Integer> onPageSelect;
 
-    public int getTotalPages() { return this.totalPages; }
-    public void setCurrentPage(int page) { this.currentPage = page; }
+    /**
+     * Retrieves the total number of pages required to display the entire story text.
+     */
+    public int getTotalPages() {
+        return this.totalPages;
+    }
+
+    /**
+     * Sets the current visible page of the story text.
+     */
+    public void setCurrentPage(int page) {
+        this.currentPage = page;
+    }
 
     /**
      * Constructs a new StoryCardWidget.
@@ -111,7 +121,33 @@ public class StoryCardWidget extends AbstractWidget {
         );
 
         int currentY = this.getY() + innerPadding;
-        int gapToStory = 8;
+
+        // Render Story Text Description
+        int startLine = currentPage * this.maxLinesPerPage;
+        int endLine = Math.min(startLine + this.maxLinesPerPage, allLines.size());
+
+        for (int i = startLine; i < endLine; i++) {
+            boolean isLastVisibleLine = (i == endLine - 1);
+            boolean hasMorePages = (currentPage < totalPages - 1);
+
+            // If it's the last line of the current page and there are more pages, append "..."
+            if (isLastVisibleLine && hasMorePages) {
+                int dotsWidth = font.width("...");
+                int dotsX = this.getX() + this.width - innerPadding - dotsWidth;
+
+                // Scissor testing to cut off text that overlaps with the "..."
+                graphics.enableScissor(this.getX(), currentY, dotsX, currentY + font.lineHeight);
+                graphics.drawString(font, allLines.get(i), this.getX() + innerPadding, currentY, VANILLA_DARK, false);
+                graphics.disableScissor();
+
+                // Draw the actual "..." indicator
+                graphics.drawString(font, "...", dotsX, currentY, VANILLA_DARK, false);
+            } else {
+                // Normal line rendering
+                graphics.drawString(font, allLines.get(i), this.getX() + innerPadding, currentY, VANILLA_DARK, false);
+            }
+            currentY += font.lineHeight;
+        }
     }
 
     /**

@@ -4,7 +4,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 
 import org.bruskych.finesse_races.gameplay.abilities.core.AbilityCategory;
