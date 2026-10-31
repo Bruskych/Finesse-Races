@@ -19,8 +19,6 @@ import java.util.function.Consumer;
 
 /**
  * A custom pagination widget in the form of indicator dots.
- * Automatically wraps dots to a new line when `maxWidth` is exceeded,
- * centers them horizontally within each line, and handles click, hover, and scroll events.
  */
 @OnlyIn(Dist.CLIENT)
 public class DotPaginationWidget extends AbstractWidget {

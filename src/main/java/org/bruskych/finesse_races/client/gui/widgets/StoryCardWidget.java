@@ -20,8 +20,6 @@ import java.util.function.Consumer;
 
 /**
  * A graphical user interface (GUI) widget that displays a paginated "Story Card" for a specific race.
- * It renders the race's name centered between navigation arrows, followed by the paginated story text.
- * Extends Minecraft's {@link AbstractWidget} to handle rendering and mouse interactions.
  */
 public class StoryCardWidget extends AbstractWidget {
 

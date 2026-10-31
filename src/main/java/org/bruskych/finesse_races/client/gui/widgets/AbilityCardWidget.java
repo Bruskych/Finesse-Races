@@ -23,9 +23,6 @@ import java.util.List;
 
 /**
  * A graphical user interface (GUI) widget that displays a "card" for a specific race ability.
- * It renders the ability's title, category icon, description (with pagination if needed),
- * and optional display items (e.g., items required or produced by the ability).
- * Extends Minecraft's {@link AbstractWidget} to handle rendering and mouse interactions.
  */
 public class AbilityCardWidget extends AbstractWidget {
 
