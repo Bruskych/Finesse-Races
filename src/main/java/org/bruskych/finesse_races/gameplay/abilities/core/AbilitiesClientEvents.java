@@ -10,9 +10,11 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import org.bruskych.finesse_races.core.FinesseRaces;
-import org.bruskych.finesse_races.gameplay.abilities.HeatResistanceAbility;
+import org.bruskych.finesse_races.gameplay.abilities.modifiers.ILavaVisionModifier;
 import org.bruskych.finesse_races.gameplay.races.core.AbstractRace;
 import org.bruskych.finesse_races.gameplay.races.core.RaceManager;
+
+import java.util.List;
 
 /**
  * Handles client-side only events, such as rendering, fog, and visual effects.
@@ -35,11 +37,12 @@ public class AbilitiesClientEvents {
                 AbstractRace race = RaceManager.getRaceOfPlayer(player);
 
                 if (race != null) {
-                    for (RaceAbility ability : race.getAbilities()) {
+                    List<ILavaVisionModifier> modifiers = race.getLavaVisionModifiers();
 
-                        if (ability instanceof HeatResistanceAbility resistanceAbility) {
-                            if (resistanceAbility.hasBetterLavaVisibility()) {
+                    if (!modifiers.isEmpty()) {
 
+                        for (ILavaVisionModifier modifier : modifiers) {
+                            if (modifier.hasBetterLavaVisibility()) {
                                 // Fog start distance
                                 event.setNearPlaneDistance(0.5f);
 

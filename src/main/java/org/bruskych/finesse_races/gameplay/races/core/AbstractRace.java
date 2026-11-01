@@ -33,6 +33,7 @@ public abstract class AbstractRace {
     private final List<IEnderAngerModifier> enderAngerModifiers = new ArrayList<>();
     private final List<ITickModifier> tickModifiers = new ArrayList<>();
     private final List<IAttackModifier> attackModifiers = new ArrayList<>();
+    private final List<ILavaVisionModifier> lavaVisionModifiers = new ArrayList<>();
 
     /**
      * Sorts abilities by interface for O(1) access during gameplay.
@@ -44,6 +45,7 @@ public abstract class AbstractRace {
         this.enderAngerModifiers.clear();
         this.tickModifiers.clear();
         this.attackModifiers.clear();
+        this.lavaVisionModifiers.clear();
 
         for (RaceAbility ability : getAbilities()) {
             if (ability instanceof IHurtModifier hm) this.hurtModifiers.add(hm);
@@ -52,6 +54,7 @@ public abstract class AbstractRace {
             if (ability instanceof IEnderAngerModifier eam) this.enderAngerModifiers.add(eam);
             if (ability instanceof ITickModifier tm) this.tickModifiers.add(tm);
             if (ability instanceof IAttackModifier am) this.attackModifiers.add(am);
+            if (ability instanceof ILavaVisionModifier lvm) this.lavaVisionModifiers.add(lvm);
         }
     }
 
@@ -61,6 +64,7 @@ public abstract class AbstractRace {
     public List<IPotionSplashModifier> getPotionSplashModifiers() { return this.potionSplashModifiers; }
     public List<IEnderAngerModifier> getEnderAngerModifiers() { return this.enderAngerModifiers; }
     public List<IAttackModifier> getAttackModifiers() { return this.attackModifiers; }
+    public List<ILavaVisionModifier> getLavaVisionModifiers() { return this.lavaVisionModifiers; }
 
     /**
      * @param defaultDisplayOrder List position (default)

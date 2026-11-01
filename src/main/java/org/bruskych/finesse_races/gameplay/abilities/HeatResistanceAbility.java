@@ -15,8 +15,9 @@ import org.bruskych.finesse_races.gameplay.abilities.core.AbilityCategory;
 import org.bruskych.finesse_races.gameplay.abilities.core.RaceAbility;
 import org.bruskych.finesse_races.gameplay.abilities.modifiers.IAttackModifier;
 import org.bruskych.finesse_races.gameplay.abilities.modifiers.IHurtModifier;
+import org.bruskych.finesse_races.gameplay.abilities.modifiers.ILavaVisionModifier;
 
-public class HeatResistanceAbility implements RaceAbility, IHurtModifier, IAttackModifier {
+public class HeatResistanceAbility implements RaceAbility, IHurtModifier, IAttackModifier, ILavaVisionModifier {
 
     public static final TagKey<Item> DISPLAY_ITEMS_TAG = ItemTags.create(
             ResourceLocation.fromNamespaceAndPath("finesse_races", "abilities/heat_resistance")
