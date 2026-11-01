@@ -4,16 +4,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrownPotion;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.EnderManAngerEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import org.bruskych.finesse_races.core.FinesseRaces;
-import org.bruskych.finesse_races.gameplay.abilities.modifiers.IEnderAngerModifier;
-import org.bruskych.finesse_races.gameplay.abilities.modifiers.IHurtModifier;
-import org.bruskych.finesse_races.gameplay.abilities.modifiers.IItemUseModifier;
-import org.bruskych.finesse_races.gameplay.abilities.modifiers.IPotionSplashModifier;
+import org.bruskych.finesse_races.gameplay.abilities.modifiers.*;
 import org.bruskych.finesse_races.gameplay.races.core.AbstractRace;
 import org.bruskych.finesse_races.gameplay.races.core.RaceManager;
 
@@ -41,6 +39,26 @@ public class AbilitiesServerEvents {
                 if (!modifiers.isEmpty()) {
                     for (IHurtModifier modifier : modifiers) {
                         modifier.onHurt(player, event);
+                        if (event.isCanceled()) break;
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Intercepts attacks before hurt animations or sounds are played.
+     * Used for absolute immunities (e.g., magma blocks, fall damage).
+     */
+    @SubscribeEvent
+    public static void onPlayerAttack(LivingAttackEvent event) {
+        if (event.getEntity() instanceof Player player) {
+            AbstractRace race = RaceManager.getRaceOfPlayer(player);
+            if (race != null) {
+                List<IAttackModifier> modifiers = race.getAttackModifiers();
+                if (!modifiers.isEmpty()) {
+                    for (IAttackModifier modifier : modifiers) {
+                        modifier.onAttack(player, event);
                         if (event.isCanceled()) break;
                     }
                 }

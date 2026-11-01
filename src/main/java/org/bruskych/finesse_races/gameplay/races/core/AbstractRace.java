@@ -32,6 +32,7 @@ public abstract class AbstractRace {
     private final List<IPotionSplashModifier> potionSplashModifiers = new ArrayList<>();
     private final List<IEnderAngerModifier> enderAngerModifiers = new ArrayList<>();
     private final List<ITickModifier> tickModifiers = new ArrayList<>();
+    private final List<IAttackModifier> attackModifiers = new ArrayList<>();
 
     /**
      * Sorts abilities by interface for O(1) access during gameplay.
@@ -42,6 +43,7 @@ public abstract class AbstractRace {
         this.potionSplashModifiers.clear();
         this.enderAngerModifiers.clear();
         this.tickModifiers.clear();
+        this.attackModifiers.clear();
 
         for (RaceAbility ability : getAbilities()) {
             if (ability instanceof IHurtModifier hm) this.hurtModifiers.add(hm);
@@ -49,6 +51,7 @@ public abstract class AbstractRace {
             if (ability instanceof IPotionSplashModifier psm) this.potionSplashModifiers.add(psm);
             if (ability instanceof IEnderAngerModifier eam) this.enderAngerModifiers.add(eam);
             if (ability instanceof ITickModifier tm) this.tickModifiers.add(tm);
+            if (ability instanceof IAttackModifier am) this.attackModifiers.add(am);
         }
     }
 
@@ -57,6 +60,7 @@ public abstract class AbstractRace {
     public List<IItemUseModifier> getItemUseModifiers() { return this.itemUseModifiers; }
     public List<IPotionSplashModifier> getPotionSplashModifiers() { return this.potionSplashModifiers; }
     public List<IEnderAngerModifier> getEnderAngerModifiers() { return this.enderAngerModifiers; }
+    public List<IAttackModifier> getAttackModifiers() { return this.attackModifiers; }
 
     /**
      * @param defaultDisplayOrder List position (default)

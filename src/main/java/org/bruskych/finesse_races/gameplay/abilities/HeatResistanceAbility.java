@@ -8,13 +8,15 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 import org.bruskych.finesse_races.gameplay.abilities.core.AbilityCategory;
 import org.bruskych.finesse_races.gameplay.abilities.core.RaceAbility;
+import org.bruskych.finesse_races.gameplay.abilities.modifiers.IAttackModifier;
 import org.bruskych.finesse_races.gameplay.abilities.modifiers.IHurtModifier;
 
-public class HeatResistanceAbility implements RaceAbility, IHurtModifier {
+public class HeatResistanceAbility implements RaceAbility, IHurtModifier, IAttackModifier {
 
     public static final TagKey<Item> DISPLAY_ITEMS_TAG = ItemTags.create(
             ResourceLocation.fromNamespaceAndPath("finesse_races", "abilities/heat_resistance")
@@ -40,12 +42,19 @@ public class HeatResistanceAbility implements RaceAbility, IHurtModifier {
     }
 
     @Override
+    public void onAttack(Player player, LivingAttackEvent event) {
+        // Intercepts the attack before sounds or animations play.
+        // If the damage source is magma and the player is immune, cancel the attack entirely.
+        if (event.getSource().is(DamageTypes.HOT_FLOOR) && this.immuneToMagma) {
+            event.setCanceled(true);
+        }
+    }
+
+    @Override
     public void onHurt(Player player, LivingHurtEvent event) {
-        if (event.getSource().is(DamageTypes.HOT_FLOOR)) {
-            if (this.immuneToMagma) {
-                event.setCanceled(true);
-            }
-        } else if (event.getSource().is(DamageTypeTags.IS_FIRE)) {
+        // Modifies the final damage amount if the attack was not canceled.
+        // Multiplies the damage by the race's specific fire resistance factor.
+        if (event.getSource().is(DamageTypeTags.IS_FIRE)) {
             float originalDamage = event.getAmount();
             event.setAmount(originalDamage * this.fireDamageMultiplier);
         }
