@@ -36,8 +36,10 @@ public class RaceManager {
         // TODO: More race!
     }
 
-    // Registers a new race into the dictionary
+    // Registers a new race into the central registry.
     public static void registerRace(AbstractRace race) {
+        // Cache event listeners immediately to avoid runtime overhead
+        race.cacheAbilityListeners();
         RACES.put(race.getId(), race);
     }
 

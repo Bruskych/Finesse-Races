@@ -14,8 +14,8 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-
 import net.minecraftforge.registries.ForgeRegistries;
+
 import org.bruskych.finesse_races.common.commands.StarterKitCommand;
 import org.bruskych.finesse_races.common.network.FRNetwork;
 import org.bruskych.finesse_races.common.network.OpenRaceScreenS2CPacket;
@@ -79,7 +79,7 @@ public class FRServerEvents {
     public static void onPlayerLeave(PlayerEvent.PlayerLoggedOutEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
             PlayerConditionHandler.setSelectingRace(player, false);
-            RaceManager.unloadPlayerRace(player);
+            RaceManager.unloadPlayerRace(player); // Очистка кэша
         }
     }
 
@@ -89,15 +89,19 @@ public class FRServerEvents {
      */
     @SubscribeEvent
     public static void onPlayerClone(PlayerEvent.Clone event) {
-        String oldRaceId = event.getOriginal().getPersistentData().getString("finesse_race_id");
+        Player original = event.getOriginal();
+        Player newPlayer = event.getEntity();
+
+        String oldRaceId = original.getPersistentData().getString("finesse_race_id");
         if (!oldRaceId.isEmpty()) {
-            event.getEntity().getPersistentData().putString("finesse_race_id", oldRaceId);
+            newPlayer.getPersistentData().putString("finesse_race_id", oldRaceId);
         }
 
-        boolean kitGiven = event.getOriginal().getPersistentData().getBoolean(StarterKitHandler.NBT_STARTER_KIT_GIVEN);
-        event.getEntity().getPersistentData().putBoolean(StarterKitHandler.NBT_STARTER_KIT_GIVEN, kitGiven);
+        boolean kitGiven = original.getPersistentData().getBoolean(StarterKitHandler.NBT_STARTER_KIT_GIVEN);
+        newPlayer.getPersistentData().putBoolean(StarterKitHandler.NBT_STARTER_KIT_GIVEN, kitGiven);
 
-        RaceManager.loadPlayerRace(event.getEntity());
+        RaceManager.unloadPlayerRace(original);
+        RaceManager.loadPlayerRace(newPlayer);
     }
 
     /**
@@ -105,6 +109,7 @@ public class FRServerEvents {
      * Handles race passive abilities and prevents drowning/burning while selecting a race.
      */
     @SubscribeEvent
+    @SuppressWarnings("resource")
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         // Execute logic only at the end of the tick on the logical server
         if (event.phase != TickEvent.Phase.END || event.player.level().isClientSide()) {
@@ -112,21 +117,18 @@ public class FRServerEvents {
         }
 
         Player player = event.player;
+        AbstractRace currentRace = RaceManager.getRaceOfPlayer(player);
 
-        // If the player is currently selecting a race, protect them and skip ability ticks
-        if (PlayerConditionHandler.isSelectingRace(player)) {
+        if (currentRace == null || PlayerConditionHandler.isSelectingRace(player)) {
             player.setAirSupply(player.getMaxAirSupply());
             if (player.isOnFire()) {
                 player.clearFire();
             }
-            return; // Skip race ability logic while in the selection screen
+            return;
         }
 
         // Apply passive race abilities
-        AbstractRace currentRace = RaceManager.getRaceOfPlayer(player);
-        if (currentRace != null) {
-            currentRace.onPlayerTick(player);
-        }
+        currentRace.onPlayerTick(player);
     }
 
     /**
@@ -165,10 +167,8 @@ public class FRServerEvents {
      */
     @SubscribeEvent
     public static void onLivingAttack(LivingAttackEvent event) {
-        if (event.getEntity() instanceof Player player) {
-            if (PlayerConditionHandler.isSelectingRace(player)) {
-                event.setCanceled(true);
-            }
+        if (event.getEntity() instanceof Player player && PlayerConditionHandler.isSelectingRace(player)) {
+            event.setCanceled(true);
         }
     }
 
@@ -177,10 +177,8 @@ public class FRServerEvents {
      */
     @SubscribeEvent
     public static void onLivingKnockBack(LivingKnockBackEvent event) {
-        if (event.getEntity() instanceof Player player) {
-            if (PlayerConditionHandler.isSelectingRace(player)) {
-                event.setCanceled(true);
-            }
+        if (event.getEntity() instanceof Player player && PlayerConditionHandler.isSelectingRace(player)) {
+            event.setCanceled(true);
         }
     }
 
@@ -189,10 +187,8 @@ public class FRServerEvents {
      */
     @SubscribeEvent
     public static void onMobChangeTarget(LivingChangeTargetEvent event) {
-        if (event.getNewTarget() instanceof Player player) {
-            if (PlayerConditionHandler.isSelectingRace(player)) {
-                event.setCanceled(true);
-            }
+        if (event.getNewTarget() instanceof Player player && PlayerConditionHandler.isSelectingRace(player)) {
+            event.setCanceled(true);
         }
     }
 

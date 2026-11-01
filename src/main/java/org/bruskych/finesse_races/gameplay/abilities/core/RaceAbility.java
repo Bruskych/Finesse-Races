@@ -5,11 +5,9 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.ThrownPotion;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.UseAnim;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,27 +18,6 @@ import java.util.List;
  * Ensures that any created ability has an apply method.
  */
 public interface RaceAbility {
-
-    /**
-     * Applies the ability logic to the player. Usually called every tick.
-     */
-    default void apply(Player player) {
-        // Empty
-    }
-
-    /**
-     * Called when the player finishes using an item (ate, drank, etc.).
-     */
-    default void onItemUseFinish(Player player, ItemStack item, UseAnim anim) {
-        // Empty
-    }
-
-    /**
-     * Triggered when a splash potion shatters near the player.
-     */
-    default void onSplashPotionHit(Player player, ThrownPotion potion) {
-        // Empty
-    }
 
     /**
      * Returns the localized title of the ability for the menu.

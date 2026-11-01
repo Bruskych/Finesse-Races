@@ -2,16 +2,19 @@ package org.bruskych.finesse_races.gameplay.abilities;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 import org.bruskych.finesse_races.gameplay.abilities.core.AbilityCategory;
 import org.bruskych.finesse_races.gameplay.abilities.core.RaceAbility;
+import org.bruskych.finesse_races.gameplay.abilities.modifiers.IHurtModifier;
 
-public class HigherHeatDamageAbility implements RaceAbility {
+public class HigherHeatDamageAbility implements RaceAbility, IHurtModifier {
 
-    // List of items to display
     public static final TagKey<Item> DISPLAY_ITEMS_TAG = ItemTags.create(
             ResourceLocation.fromNamespaceAndPath("finesse_races", "abilities/higher_heat_damage")
     );
@@ -22,8 +25,12 @@ public class HigherHeatDamageAbility implements RaceAbility {
         this.damageMultiplier = damageMultiplier;
     }
 
-    public float getDamageMultiplier() {
-        return this.damageMultiplier;
+    @Override
+    public void onHurt(Player player, LivingHurtEvent event) {
+        if (event.getSource().is(DamageTypeTags.IS_FIRE)) {
+            float originalDamage = event.getAmount();
+            event.setAmount(originalDamage * this.damageMultiplier);
+        }
     }
 
     @Override

@@ -3,10 +3,13 @@ package org.bruskych.finesse_races.gameplay.races.core;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+
 import org.bruskych.finesse_races.gameplay.abilities.core.RaceAbility;
+import org.bruskych.finesse_races.gameplay.abilities.modifiers.*;
 import org.bruskych.finesse_races.gameplay.conditions.PlayerConditionHandler;
 import org.bruskych.finesse_races.gameplay.starter.RaceStarterKit;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,6 +25,38 @@ public abstract class AbstractRace {
     private final int plateV;
 
     private RaceStarterKit starterKit = RaceStarterKit.EMPTY;
+
+    // EVENT LISTENERS CACHE
+    private final List<IHurtModifier> hurtModifiers = new ArrayList<>();
+    private final List<IItemUseModifier> itemUseModifiers = new ArrayList<>();
+    private final List<IPotionSplashModifier> potionSplashModifiers = new ArrayList<>();
+    private final List<IEnderAngerModifier> enderAngerModifiers = new ArrayList<>();
+    private final List<ITickModifier> tickModifiers = new ArrayList<>();
+
+    /**
+     * Sorts abilities by interface for O(1) access during gameplay.
+     */
+    public void cacheAbilityListeners() {
+        this.hurtModifiers.clear();
+        this.itemUseModifiers.clear();
+        this.potionSplashModifiers.clear();
+        this.enderAngerModifiers.clear();
+        this.tickModifiers.clear();
+
+        for (RaceAbility ability : getAbilities()) {
+            if (ability instanceof IHurtModifier hm) this.hurtModifiers.add(hm);
+            if (ability instanceof IItemUseModifier ium) this.itemUseModifiers.add(ium);
+            if (ability instanceof IPotionSplashModifier psm) this.potionSplashModifiers.add(psm);
+            if (ability instanceof IEnderAngerModifier eam) this.enderAngerModifiers.add(eam);
+            if (ability instanceof ITickModifier tm) this.tickModifiers.add(tm);
+        }
+    }
+
+    // Fast Getters
+    public List<IHurtModifier> getHurtModifiers() { return this.hurtModifiers; }
+    public List<IItemUseModifier> getItemUseModifiers() { return this.itemUseModifiers; }
+    public List<IPotionSplashModifier> getPotionSplashModifiers() { return this.potionSplashModifiers; }
+    public List<IEnderAngerModifier> getEnderAngerModifiers() { return this.enderAngerModifiers; }
 
     /**
      * @param defaultDisplayOrder List position (default)
@@ -137,8 +172,10 @@ public abstract class AbstractRace {
         if (PlayerConditionHandler.isSelectingRace(player)) {
             return;
         }
-        for (RaceAbility ability : getAbilities()) {
-            ability.apply(player);
+        if (!this.tickModifiers.isEmpty()) {
+            for (ITickModifier modifier : this.tickModifiers) {
+                modifier.onTick(player);
+            }
         }
     }
 }
