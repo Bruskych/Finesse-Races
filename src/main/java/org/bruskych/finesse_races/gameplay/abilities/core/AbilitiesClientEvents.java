@@ -1,5 +1,6 @@
 package org.bruskych.finesse_races.gameplay.abilities.core;
 
+import com.mojang.blaze3d.shaders.FogShape;
 import net.minecraft.client.Camera;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.material.FogType;
@@ -39,12 +40,16 @@ public class AbilitiesClientEvents {
                         if (ability instanceof HeatResistanceAbility resistanceAbility) {
                             if (resistanceAbility.hasBetterLavaVisibility()) {
 
-                                // Where the fog starts
-                                event.setNearPlaneDistance(0.0f);
-                                // Where the fog becomes solid (adjust this value as needed)
-                                event.setFarPlaneDistance(20.0f);
+                                // Fog start distance
+                                event.setNearPlaneDistance(0.5f);
 
-                                // We must cancel the event to override the vanilla fog calculations
+                                // Fog end distance
+                                event.setFarPlaneDistance(6.0f);
+
+                                // Spherical fog shape
+                                event.setFogShape(FogShape.SPHERE);
+
+                                // Apply custom distances
                                 event.setCanceled(true);
                                 return;
                             }
