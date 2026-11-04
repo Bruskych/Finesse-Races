@@ -45,6 +45,9 @@
   "ability.finesse_races.category.harmful": "Harmful Ability (Debuff)",
   "ability.finesse_races.category.neutral": "Neutral Ability",
 
+  "ability.finesse_races.long_reach.title": "Long Reach",
+  "ability.finesse_races.long_reach.desc": "Your long limbs allow you to place, break blocks, and attack entities from further away.",
+
   "ability.finesse_races.heat_resistance.title": "Heat Resistance",
   "ability.finesse_races.heat_resistance.desc": "Complete immunity to magma block damage, reduced damage from fire and lava, and improved visibility while submerged in lava.",
 

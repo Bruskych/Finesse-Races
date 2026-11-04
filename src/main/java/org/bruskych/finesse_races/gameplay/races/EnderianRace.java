@@ -5,6 +5,7 @@ import net.minecraft.network.chat.Component;
 
 import org.bruskych.finesse_races.gameplay.abilities.EnderKinshipAbility;
 import org.bruskych.finesse_races.gameplay.abilities.HeatResistanceAbility;
+import org.bruskych.finesse_races.gameplay.abilities.LongReachAbility;
 import org.bruskych.finesse_races.gameplay.abilities.WaterDamageAbility;
 import org.bruskych.finesse_races.gameplay.abilities.core.RaceAbility;
 import org.bruskych.finesse_races.gameplay.races.core.AbstractRace;
@@ -14,7 +15,8 @@ public class EnderianRace extends AbstractRace {
     private final List<RaceAbility> abilities = List.of(
             new WaterDamageAbility(1.0F, 2.0F),
             new EnderKinshipAbility(),
-            new HeatResistanceAbility(0.5F, true, true)
+            new HeatResistanceAbility(0.5F, true, true),
+            new LongReachAbility(1.5D, 1.0D)
     );
 
     public EnderianRace() {

@@ -45,6 +45,9 @@
   "ability.finesse_races.category.harmful": "Отрицательная способность (Дебафф)",
   "ability.finesse_races.category.neutral": "Нейтральная способность",
 
+  "ability.finesse_races.long_reach.title": "Длинные руки",
+  "ability.finesse_races.long_reach.desc": "Благодаря длинным конечностям вы можете ставить и разрушать блоки, а также атаковать врагов с большего расстояния.",
+
   "ability.finesse_races.heat_resistance.title": "Огнеупорность",
   "ability.finesse_races.heat_resistance.desc": "Полный иммунитет к урону от блоков магмы, пониженный урон от огня и лавы, а также улучшенная видимость при погружении в лаву.",
 

@@ -44,7 +44,7 @@ public class AbilitiesClientEvents {
                         for (ILavaVisionModifier modifier : modifiers) {
                             if (modifier.hasBetterLavaVisibility()) {
                                 // Fog start distance
-                                event.setNearPlaneDistance(0.5f);
+                                event.setNearPlaneDistance(-2.0f);
 
                                 // Fog end distance
                                 event.setFarPlaneDistance(6.0f);

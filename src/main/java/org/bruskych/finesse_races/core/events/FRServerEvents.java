@@ -22,6 +22,7 @@ import org.bruskych.finesse_races.common.network.OpenRaceScreenS2CPacket;
 import org.bruskych.finesse_races.common.network.SyncStarterKitsS2CPacket;
 import org.bruskych.finesse_races.core.FinesseRaces;
 import org.bruskych.finesse_races.core.telemetry.TelemetryManager;
+import org.bruskych.finesse_races.gameplay.abilities.core.AbilitiesServerEvents;
 import org.bruskych.finesse_races.gameplay.conditions.PlayerConditionHandler;
 import org.bruskych.finesse_races.gameplay.races.core.AbstractRace;
 import org.bruskych.finesse_races.gameplay.races.core.RaceManager;
@@ -68,6 +69,8 @@ public class FRServerEvents {
                 PlayerConditionHandler.setSelectingRace(serverPlayer, true);
                 FRNetwork.sendToPlayer(new OpenRaceScreenS2CPacket(), serverPlayer);
             }
+
+            AbilitiesServerEvents.syncReachAttributes(serverPlayer);
         }
     }
 
@@ -102,6 +105,8 @@ public class FRServerEvents {
 
         RaceManager.unloadPlayerRace(original);
         RaceManager.loadPlayerRace(newPlayer);
+
+        AbilitiesServerEvents.syncReachAttributes(newPlayer);
     }
 
     /**

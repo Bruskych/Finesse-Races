@@ -1,5 +1,6 @@
 package org.bruskych.finesse_races.gameplay.abilities.core;
 
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrownPotion;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
@@ -15,7 +16,11 @@ import org.bruskych.finesse_races.gameplay.abilities.modifiers.*;
 import org.bruskych.finesse_races.gameplay.races.core.AbstractRace;
 import org.bruskych.finesse_races.gameplay.races.core.RaceManager;
 
+import static net.minecraftforge.common.ForgeMod.BLOCK_REACH;
+import static net.minecraftforge.common.ForgeMod.ENTITY_REACH;
+
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Automatically registers this class to the Forge Event Bus.
@@ -23,6 +28,10 @@ import java.util.List;
  */
 @Mod.EventBusSubscriber(modid = FinesseRaces.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class AbilitiesServerEvents {
+
+    // Unique UUIDs for attributes
+    private static final UUID BLOCK_REACH_UUID = UUID.fromString("1e5d7a8b-3c4f-4a6b-8b9c-2d1e3f4a5b6c");
+    private static final UUID ENTITY_REACH_UUID = UUID.fromString("7a8b9c0d-1e2f-3a4b-5c6d-7e8f9a0b1c2d");
 
     /**
      * Intercepts incoming damage for players.
@@ -139,6 +148,51 @@ public class AbilitiesServerEvents {
                     }
                 }
             }
+        }
+    }
+
+    /**
+     * Calculates the total reach bonus from all abilities and applies it to the player.
+     * Called when a player joins the world, respawns, or changes race.
+     *
+     * @param player The player whose reach attributes need to be updated.
+     */
+    public static void syncReachAttributes(Player player) {
+        AbstractRace race = RaceManager.getRaceOfPlayer(player);
+
+        var blockReachAttr = player.getAttribute(BLOCK_REACH.get());
+        var entityReachAttr = player.getAttribute(ENTITY_REACH.get());
+
+        if (blockReachAttr == null || entityReachAttr == null) return;
+
+        // Cleanup old modifiers
+        blockReachAttr.removeModifier(BLOCK_REACH_UUID);
+        entityReachAttr.removeModifier(ENTITY_REACH_UUID);
+
+        if (race == null) return;
+
+        double totalBlockBonus = 0.0D;
+        double totalEntityBonus = 0.0D;
+
+        for (IExtendedReachModifier modifier : race.getExtendedReachModifiers()) {
+            totalBlockBonus += modifier.getBlockReachBonus();
+            totalEntityBonus += modifier.getEntityReachBonus();
+        }
+        if (totalBlockBonus > 0) {
+            blockReachAttr.addPermanentModifier(new AttributeModifier(
+                    BLOCK_REACH_UUID,
+                    "Finesse Races Block Reach Bonus",
+                    totalBlockBonus,
+                    AttributeModifier.Operation.ADDITION)
+            );
+        }
+        if (totalEntityBonus > 0) {
+            entityReachAttr.addPermanentModifier(new AttributeModifier(
+                    ENTITY_REACH_UUID,
+                    "Finesse Races Entity Reach Bonus",
+                    totalEntityBonus,
+                    AttributeModifier.Operation.ADDITION)
+            );
         }
     }
 }

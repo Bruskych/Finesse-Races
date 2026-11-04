@@ -6,6 +6,7 @@ import net.minecraftforge.network.NetworkEvent;
 
 import org.bruskych.finesse_races.common.network.core.IFinessePacket;
 import org.bruskych.finesse_races.core.telemetry.TelemetryManager;
+import org.bruskych.finesse_races.gameplay.abilities.core.AbilitiesServerEvents;
 import org.bruskych.finesse_races.gameplay.conditions.PlayerConditionHandler;
 import org.bruskych.finesse_races.gameplay.races.core.AbstractRace;
 import org.bruskych.finesse_races.gameplay.races.core.RaceManager;
@@ -46,10 +47,13 @@ public class RaceSelectionC2SPacket implements IFinessePacket {
 
                     // RACE
                     RaceManager.setPlayerRace(player, race);
+
                     // STARTER KIT
                     StarterKitHandler.tryGiveRaceStarterKit(player, race);
+
                     // DISABLE immortality
                     PlayerConditionHandler.setSelectingRace(player, false);
+
                     // TRACKING race selection
                     TelemetryManager.sendEvent(player, "RACE_SELECTED", "MANUAL_SELECTION");
 
@@ -61,6 +65,9 @@ public class RaceSelectionC2SPacket implements IFinessePacket {
                             player.getOffhandItem().shrink(1);
                         }
                     }
+
+                    // SYNC REACH ATTRIBUTES
+                    AbilitiesServerEvents.syncReachAttributes(player);
                 }
             }
         });

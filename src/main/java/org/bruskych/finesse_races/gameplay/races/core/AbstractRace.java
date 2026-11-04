@@ -34,7 +34,7 @@ public abstract class AbstractRace {
     private final List<ITickModifier> tickModifiers = new ArrayList<>();
     private final List<IAttackModifier> attackModifiers = new ArrayList<>();
     private final List<ILavaVisionModifier> lavaVisionModifiers = new ArrayList<>();
-
+    private final List<IExtendedReachModifier> extendedReachModifiers = new ArrayList<>();
     /**
      * Sorts abilities by interface for O(1) access during gameplay.
      */
@@ -46,6 +46,7 @@ public abstract class AbstractRace {
         this.tickModifiers.clear();
         this.attackModifiers.clear();
         this.lavaVisionModifiers.clear();
+        this.extendedReachModifiers.clear();
 
         for (RaceAbility ability : getAbilities()) {
             if (ability instanceof IHurtModifier hm) this.hurtModifiers.add(hm);
@@ -55,6 +56,7 @@ public abstract class AbstractRace {
             if (ability instanceof ITickModifier tm) this.tickModifiers.add(tm);
             if (ability instanceof IAttackModifier am) this.attackModifiers.add(am);
             if (ability instanceof ILavaVisionModifier lvm) this.lavaVisionModifiers.add(lvm);
+            if (ability instanceof IExtendedReachModifier erm) this.extendedReachModifiers.add(erm);
         }
     }
 
@@ -65,6 +67,7 @@ public abstract class AbstractRace {
     public List<IEnderAngerModifier> getEnderAngerModifiers() { return this.enderAngerModifiers; }
     public List<IAttackModifier> getAttackModifiers() { return this.attackModifiers; }
     public List<ILavaVisionModifier> getLavaVisionModifiers() { return this.lavaVisionModifiers; }
+    public List<IExtendedReachModifier> getExtendedReachModifiers() { return this.extendedReachModifiers; }
 
     /**
      * @param defaultDisplayOrder List position (default)
