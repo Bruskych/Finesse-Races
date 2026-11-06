@@ -17,6 +17,10 @@ import org.bruskych.finesse_races.gameplay.abilities.modifiers.IAttackModifier;
 import org.bruskych.finesse_races.gameplay.abilities.modifiers.IHurtModifier;
 import org.bruskych.finesse_races.gameplay.abilities.modifiers.ILavaVisionModifier;
 
+/**
+ * Provides configurable resistance to heat-based damage sources.
+ * Can reduce fire damage, grant magma immunity, and improve underwater lava visibility.
+ */
 public class HeatResistanceAbility implements RaceAbility, IHurtModifier, IAttackModifier, ILavaVisionModifier {
 
     public static final TagKey<Item> DISPLAY_ITEMS_TAG = ItemTags.create(

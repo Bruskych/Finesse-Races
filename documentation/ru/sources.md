@@ -681,7 +681,7 @@
 
 - Дата доступа: 27.10.2026
 - Название: Class EnderManAngerEvent (Minecraft Forge 1.20.1 API)
-- Автор: Lexxie / Команда разработчиков Forge
+- Автор: Forge Development LLC / Lexxie
 - Ссылка: https://lexxie.dev/forge/1.20.1/net/minecraftforge/event/entity/living/EnderManAngerEvent.html
 - Платформа: Lexxie.dev (Forge Javadocs)
 - Дата публикации: Не указана
@@ -739,7 +739,7 @@
 
 - Дата доступа: 04.11.2026
 - Название: Class AttributeModifier (Minecraft Forge 1.20.1 API)
-- Автор: Lexxie / Команда разработчиков Forge
+- Автор: Forge Development LLC / Lexxie
 - Ссылка: https://lexxie.dev/forge/1.20.1/net/minecraft/world/entity/ai/attributes/AttributeModifier.html
 - Платформа: Lexxie.dev (Forge Javadocs)
 - Дата публикации: Не указана
@@ -770,6 +770,87 @@
 ### Где использовано
 
 - В классе `AbilitiesServerEvents` для инициализации статических констант `BLOCK_REACH_UUID` и `ENTITY_REACH_UUID`. Жесткая фиксация этих идентификаторов позволила системе безошибочно находить и удалять старые модификаторы расы (removeModifier) при смене формы или возрождении, что полностью предотвратило баг «бесконечного стакания» характеристик.
+
+---
+
+## S038
+
+- Дата доступа: 06.11.2026
+- Название: Guide to WeakHashMap in Java
+- Автор: Baeldung
+- Ссылка: https://www.baeldung.com/java-weakhashmap
+- Платформа: Baeldung
+- Дата публикации: Не указана
+
+### Что изучено
+
+- Механика работы слабых ссылок (Weak References) в Java.
+- Принцип работы автоматической сборки мусора (Garbage Collection) с коллекцией WeakHashMap, которая автоматически удаляет ключи, если на них не осталось сильных ссылок в остальной части программы.
+
+### Где использовано
+
+- В классе `AbilitiesServerEvents` для инициализации серверного трекера летящих жемчужин (EVAPORATING_PEARLS). Это архитектурное решение позволило безопасно отслеживать полет жемчуга каждый тик и исключило риск утечек памяти (Memory Leaks) в случаях, когда сущность жемчуга удаляется движком игры или сторонними командами.
+
+---
+
+## S039
+
+- Дата доступа: 06.11.2026
+- Название: Class ThrownEnderpearl
+- Автор: Forge Development LLC / Lexxie
+- Ссылка: https://lexxie.dev/forge/1.20.1/net/minecraft/world/entity/projectile/ThrownEnderpearl.html
+- Платформа: Lexxie.dev (Forge Javadocs)
+- Дата публикации: Не указана
+
+### Что изучено
+
+- Внутренняя структура сущности брошенного эндер-жемчуга (Ender Pearl) в Minecraft.
+- Методы работы с вектором движения сущности (getDeltaMovement, setDeltaMovement).
+- Взаимодействие с системой FluidState для точного определения нахождения сущности внутри жидкостей (isInWater, isInLava, getFluidState), в том числе зарегистрированных другими модами.
+
+### Где использовано
+
+- В обработчиках событий ядра способностей для модификации физики полета жемчуга (умножение скорости и дальности броска на 50%) и для реализации механики его разрушения (испарения) при контакте с водой, лавой или любой другой модифицированной жидкостью.
+
+---
+
+## S040
+
+- Дата доступа: 06.11.2026
+- Название: Class EntityJoinLevelEvent
+- Автор: Forge Development LLC / Lexxie
+- Ссылка: https://lexxie.dev/forge/1.20.1/net/minecraftforge/event/entity/EntityJoinLevelEvent.html
+- Платформа: Lexxie.dev (Forge Javadocs)
+- Дата публикации: Не указана
+
+### Что изучено
+
+- Механизм перехвата события спавна (добавления) любой сущности в игровой мир на стороне сервера.
+- Способы безопасного приведения типов и получения владельца снаряда (игрока, который его бросил) через метод getOwner().
+
+### Где использовано
+
+- В методе `onEntityJoinLevel`, класс `AbilitiesServerEvents`. Событие используется для идентификации момента, когда игрок выбранной расы бросает жемчуг, чтобы мгновенно применить к сущности множитель скорости и добавить ее в трекер жидкостей, не прибегая к инъекциям байт-кода (Mixin).
+
+---
+
+## S041
+
+- Дата доступа: 06.11.2026
+- Название: Class EntityTeleportEvent (and EnderPearl subclass)
+- Автор: Forge Development LLC / Lexxie
+- Ссылка: https://lexxie.dev/forge/1.20.1/net/minecraftforge/event/entity/EntityTeleportEvent.html
+- Платформа: Lexxie.dev (Forge Javadocs)
+- Дата публикации: Не указана
+
+### Что изучено
+
+- Жизненный цикл события EntityTeleportEvent.EnderPearl, которое Forge вызывает непосредственно перед перемещением сущности.
+- Обнаружен встроенный метод setAttackDamage(), позволяющий модифицировать или обнулять жестко закодированный урон от падения (по умолчанию 5.0F), наносимый при приземлении жемчуга.
+
+### Где использовано
+
+- В методе `onEnderPearlTeleport` ядра событий. Использование этого узконаправленного события позволило полностью отменить урон от телепортации для способности `EnderPearlMasteryAbility`, обеспечив 100% надежность (отсутствие ложных срабатываний, характерных для обычного LivingFallEvent) и максимальную производительность сервера.
 
 ---
 

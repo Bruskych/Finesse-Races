@@ -13,6 +13,10 @@ import org.bruskych.finesse_races.gameplay.abilities.core.AbilityCategory;
 import org.bruskych.finesse_races.gameplay.abilities.core.RaceAbility;
 import org.bruskych.finesse_races.gameplay.abilities.modifiers.IEnderAngerModifier;
 
+/**
+ * Grants immunity to Enderman aggression.
+ * Endermen will remain neutral even if the player looks directly at them.
+ */
 public class EnderKinshipAbility implements RaceAbility, IEnderAngerModifier {
 
     public static final TagKey<Item> DISPLAY_ITEMS_TAG = ItemTags.create(
@@ -21,6 +25,7 @@ public class EnderKinshipAbility implements RaceAbility, IEnderAngerModifier {
 
     @Override
     public void onEnderManAnger(Player player, EnderManAngerEvent event) {
+        // Suppresses the vanilla trigger that causes Endermen to attack
         event.setCanceled(true);
     }
 

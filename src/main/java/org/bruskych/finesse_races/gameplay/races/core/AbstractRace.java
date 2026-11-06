@@ -19,6 +19,7 @@ import java.util.List;
  */
 public abstract class AbstractRace {
 
+    // --- DISPLAY & GUI SETTINGS ---
     private int displayOrder;
     private int difficulty;
     private final int plateU;
@@ -26,7 +27,9 @@ public abstract class AbstractRace {
 
     private RaceStarterKit starterKit = RaceStarterKit.EMPTY;
 
-    // EVENT LISTENERS CACHE
+    // --- EVENT LISTENERS CACHE ---
+    // We store abilities in separate lists based on their implemented interfaces.
+    // This allows the server to instantly find relevant abilities without checking every single one.
     private final List<IHurtModifier> hurtModifiers = new ArrayList<>();
     private final List<IItemUseModifier> itemUseModifiers = new ArrayList<>();
     private final List<IPotionSplashModifier> potionSplashModifiers = new ArrayList<>();
@@ -35,8 +38,12 @@ public abstract class AbstractRace {
     private final List<IAttackModifier> attackModifiers = new ArrayList<>();
     private final List<ILavaVisionModifier> lavaVisionModifiers = new ArrayList<>();
     private final List<IExtendedReachModifier> extendedReachModifiers = new ArrayList<>();
+    private final List<IEnderPearlModifier> enderPearlModifiers = new ArrayList<>();
+
     /**
-     * Sorts abilities by interface for O(1) access during gameplay.
+     * Initializes the event listener caches.
+     * Iterates through all abilities belonging to this race and categorizes them by interface.
+     * This guarantees O(1) performance during gameplay, protecting server TPS.
      */
     public void cacheAbilityListeners() {
         this.hurtModifiers.clear();
@@ -47,6 +54,7 @@ public abstract class AbstractRace {
         this.attackModifiers.clear();
         this.lavaVisionModifiers.clear();
         this.extendedReachModifiers.clear();
+        this.enderPearlModifiers.clear();
 
         for (RaceAbility ability : getAbilities()) {
             if (ability instanceof IHurtModifier hm) this.hurtModifiers.add(hm);
@@ -57,10 +65,12 @@ public abstract class AbstractRace {
             if (ability instanceof IAttackModifier am) this.attackModifiers.add(am);
             if (ability instanceof ILavaVisionModifier lvm) this.lavaVisionModifiers.add(lvm);
             if (ability instanceof IExtendedReachModifier erm) this.extendedReachModifiers.add(erm);
+            if (ability instanceof IEnderPearlModifier epm) this.enderPearlModifiers.add(epm);
         }
     }
 
-    // Fast Getters
+    // --- FAST GETTERS ---
+    // These methods provide instant access to the cached abilities for Forge event handlers.
     public List<IHurtModifier> getHurtModifiers() { return this.hurtModifiers; }
     public List<IItemUseModifier> getItemUseModifiers() { return this.itemUseModifiers; }
     public List<IPotionSplashModifier> getPotionSplashModifiers() { return this.potionSplashModifiers; }
@@ -68,6 +78,7 @@ public abstract class AbstractRace {
     public List<IAttackModifier> getAttackModifiers() { return this.attackModifiers; }
     public List<ILavaVisionModifier> getLavaVisionModifiers() { return this.lavaVisionModifiers; }
     public List<IExtendedReachModifier> getExtendedReachModifiers() { return this.extendedReachModifiers; }
+    public List<IEnderPearlModifier> getEnderPearlModifiers() { return this.enderPearlModifiers; }
 
     /**
      * @param defaultDisplayOrder List position (default)

@@ -18,6 +18,10 @@ import org.bruskych.finesse_races.gameplay.abilities.modifiers.ITickModifier;
 import org.bruskych.finesse_races.gameplay.conditions.PlayerConditionHandler;
 import org.bruskych.finesse_races.gameplay.damage.FineDamageSources;
 
+/**
+ * A harmful ability that damages the player when they interact with water.
+ * This includes being submerged, standing in rain, drinking potions, or being hit by splash potions.
+ */
 public class WaterDamageAbility implements RaceAbility, IItemUseModifier, IPotionSplashModifier, ITickModifier {
 
     public static final TagKey<Item> DISPLAY_ITEMS_TAG = ItemTags.create(
@@ -27,6 +31,10 @@ public class WaterDamageAbility implements RaceAbility, IItemUseModifier, IPotio
     private final float partialDamage;
     private final float fullDamage;
 
+    /**
+     * @param partialDamage Damage taken per interval from light water exposure (e.g., rain, shallow water).
+     * @param fullDamage    Damage taken per interval from heavy exposure (e.g., full submersion, drinking).
+     */
     public WaterDamageAbility(float partialDamage, float fullDamage) {
         this.partialDamage = partialDamage;
         this.fullDamage = fullDamage;

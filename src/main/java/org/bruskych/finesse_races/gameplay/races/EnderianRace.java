@@ -8,15 +8,17 @@ import org.bruskych.finesse_races.gameplay.abilities.HeatResistanceAbility;
 import org.bruskych.finesse_races.gameplay.abilities.LongReachAbility;
 import org.bruskych.finesse_races.gameplay.abilities.WaterDamageAbility;
 import org.bruskych.finesse_races.gameplay.abilities.core.RaceAbility;
+import org.bruskych.finesse_races.gameplay.abilities.EnderPearlMasteryAbility;
 import org.bruskych.finesse_races.gameplay.races.core.AbstractRace;
 
 public class EnderianRace extends AbstractRace {
 
     private final List<RaceAbility> abilities = List.of(
-            new WaterDamageAbility(1.0F, 2.0F),
             new EnderKinshipAbility(),
+            new WaterDamageAbility(1.0F, 2.0F),
+            new LongReachAbility(1.5D, 1.0D),
             new HeatResistanceAbility(0.5F, true, true),
-            new LongReachAbility(1.5D, 1.0D)
+            new EnderPearlMasteryAbility(1.5F, true, true)
     );
 
     public EnderianRace() {

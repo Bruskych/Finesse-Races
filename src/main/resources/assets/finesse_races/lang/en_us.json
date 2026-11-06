@@ -45,6 +45,9 @@
   "ability.finesse_races.category.harmful": "Harmful Ability (Debuff)",
   "ability.finesse_races.category.neutral": "Neutral Ability",
 
+  "ability.finesse_races.ender_pearl_mastery.title": "Mastery",
+  "ability.finesse_races.ender_pearl_mastery.desc": "Your Ender Pearls travel farther than usual, and teleportation no longer hurts you. But the moment a pearl touches any liquid, it instantly evaporates.Your Ender Pearls travel farther than usual, and teleportation no longer hurts you. But the moment a pearl touches any liquid, it instantly evaporates.",
+
   "ability.finesse_races.long_reach.title": "Long Reach",
   "ability.finesse_races.long_reach.desc": "Your long limbs allow you to place, break blocks, and attack entities from further away.",
 

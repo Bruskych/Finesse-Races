@@ -13,6 +13,9 @@ import org.bruskych.finesse_races.gameplay.abilities.core.AbilityCategory;
 import org.bruskych.finesse_races.gameplay.abilities.core.RaceAbility;
 import org.bruskych.finesse_races.gameplay.abilities.modifiers.IHurtModifier;
 
+/**
+ * A harmful ability that amplifies damage taken from heat-based sources (fire, lava).
+ */
 public class HigherHeatDamageAbility implements RaceAbility, IHurtModifier {
 
     public static final TagKey<Item> DISPLAY_ITEMS_TAG = ItemTags.create(
@@ -21,12 +24,16 @@ public class HigherHeatDamageAbility implements RaceAbility, IHurtModifier {
 
     private final float damageMultiplier;
 
+    /**
+     * @param damageMultiplier The multiplier to apply to incoming fire damage (e.g., 2.0f for double damage).
+     */
     public HigherHeatDamageAbility(float damageMultiplier) {
         this.damageMultiplier = damageMultiplier;
     }
 
     @Override
     public void onHurt(Player player, LivingHurtEvent event) {
+        // Multiplies any incoming fire or lava damage by the configured factor.
         if (event.getSource().is(DamageTypeTags.IS_FIRE)) {
             float originalDamage = event.getAmount();
             event.setAmount(originalDamage * this.damageMultiplier);

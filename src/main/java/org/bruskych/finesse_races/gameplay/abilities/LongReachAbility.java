@@ -11,7 +11,8 @@ import org.bruskych.finesse_races.gameplay.abilities.core.RaceAbility;
 import org.bruskych.finesse_races.gameplay.abilities.modifiers.IExtendedReachModifier;
 
 /**
- * Ability that increases the player's block and entity reach.
+ * Increases the player's interaction range for blocks and entities.
+ * These values are safely applied as Forge Attribute Modifiers to avoid conflicts.
  */
 public class LongReachAbility implements RaceAbility, IExtendedReachModifier {
 
@@ -22,6 +23,10 @@ public class LongReachAbility implements RaceAbility, IExtendedReachModifier {
     private final double blockReachBonus;
     private final double entityReachBonus;
 
+    /**
+     * @param blockReachBonus  Additional reach distance in blocks for placing/mining.
+     * @param entityReachBonus Additional reach distance in blocks for attacking/interacting with entities.
+     */
     public LongReachAbility(double blockReachBonus, double entityReachBonus) {
         this.blockReachBonus = blockReachBonus;
         this.entityReachBonus = entityReachBonus;

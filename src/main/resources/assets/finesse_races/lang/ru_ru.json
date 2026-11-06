@@ -45,6 +45,9 @@
   "ability.finesse_races.category.harmful": "Отрицательная способность (Дебафф)",
   "ability.finesse_races.category.neutral": "Нейтральная способность",
 
+  "ability.finesse_races.ender_pearl_mastery.title": "Мастерство",
+  "ability.finesse_races.ender_pearl_mastery.desc": "Твои эндер-жемчуги летят дальше обычного, а телепортация больше не причиняет тебе вреда. Но стоит жемчугу коснуться любой жидкости — и он тут же испарится.",
+
   "ability.finesse_races.long_reach.title": "Длинные руки",
   "ability.finesse_races.long_reach.desc": "Благодаря длинным конечностям вы можете ставить и разрушать блоки, а также атаковать врагов с большего расстояния.",
 
