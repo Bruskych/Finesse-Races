@@ -361,7 +361,7 @@ Výsledky tejto bakalárskej práce majú vysokú praktickú hodnotu a sú pripr
 ### A1 Hlavná modifikácia (Finesse Races)
 - Účel: Implementácia systémov asymetrických rás, pasívnych mechaník, integrácie s modifikáciami a používateľského rozhrania.
 - Odkaz na repozitár: https://github.com/Bruskych/Finesse-Races
-- 
+
 ### A2 Modul telemetrie (Finesse Races Telemetry)
 - Účel: Serverový doplnok (na báze Spring Boot) na asynchrónny zber analytických metadát a súťažných štatistík.
 - Odkaz na repozitár: https://github.com/Bruskych/Finesse-Races-Telemetry
