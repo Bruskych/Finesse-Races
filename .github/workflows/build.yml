@@ -10,12 +10,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Download code in server
-      - name: Checkout repository
+      # Download main mod code (folder: main-mod)
+      - name: Checkout main repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0      # Download commits history (ALL)
-          fetch-tags: true    # Download tags
+          path: main-mod
+
+      # Download private API core (folder: remedy-core-1-20-x)
+      - name: Checkout remedy-core
+        uses: actions/checkout@v4
+        with:
+          repository: Bruskych/remedy-core-1-20-x  # Private repo link
+          path: remedy-core-1-20-x                 # Folder name for includeFlat
+          token: ${{ secrets.API_TOKEN }}          # Secret access key
 
       # Download Java 17
       - name: Setup JDK 17
@@ -28,10 +35,10 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      # Run the gradlew build file (TRUE)
+      # Run the gradlew build file (TRUE) in main-mod folder
       - name: Make Gradle wrapper executable
-        run: chmod +x ./gradlew
+        run: cd main-mod && chmod +x ./gradlew
 
-      # Start mod compilation (.jar file)
+      # Start mod compilation (.jar file) in main-mod folder
       - name: Build with Gradle
-        run: ./gradlew build
+        run: cd main-mod && ./gradlew build
