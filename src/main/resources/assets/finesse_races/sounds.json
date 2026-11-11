@@ -3,7 +3,9 @@
     "category": "hurt",
     "subtitle": "subtitles.finesse_races.water_damage",
     "sounds": [
-      "finesse_races:entity/player/hurt/water_damage1"
+      "finesse_races:entity/player/hurt/scald_hurt1",
+      "finesse_races:entity/player/hurt/scald_hurt2",
+      "finesse_races:entity/player/hurt/scald_hurt3"
     ]
   }
 }
