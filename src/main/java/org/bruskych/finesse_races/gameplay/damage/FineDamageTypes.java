@@ -12,11 +12,11 @@ import org.bruskych.finesse_races.core.FinesseRaces;
  */
 public class FineDamageTypes {
 
-    public static final ResourceKey<DamageType> WATER_DAMAGE = ResourceKey.create(
+    public static final ResourceKey<DamageType> ENDERIAN_WATER_DAMAGE = ResourceKey.create(
             Registries.DAMAGE_TYPE,
             ResourceLocation.fromNamespaceAndPath(
                     FinesseRaces.MOD_ID,
-                    "water_damage"
+                    "enderian_water_damage"
             )
     );
 }

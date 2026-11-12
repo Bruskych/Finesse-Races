@@ -25,8 +25,8 @@ public abstract class PlayerMixin {
      */
     @Inject(method = "getHurtSound", at = @At("HEAD"), cancellable = true)
     private void finesse_races$onGetHurtSound(DamageSource source, CallbackInfoReturnable<SoundEvent> cir) {
-        if (source.is(FineDamageTypes.WATER_DAMAGE)) {
-            cir.setReturnValue(FineSounds.WATER_DAMAGE_HURT.get());
+        if (source.is(FineDamageTypes.ENDERIAN_WATER_DAMAGE)) {
+            cir.setReturnValue(FineSounds.ENDERIAN_WATER_DAMAGE.get());
         }
     }
 

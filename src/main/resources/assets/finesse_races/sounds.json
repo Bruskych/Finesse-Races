@@ -1,7 +1,7 @@
 {
-  "ender_water_damage": {
-    "category": "hurt",
-    "subtitle": "subtitles.finesse_races.water_damage",
+  "enderian_water_damage": {
+    "category": "player",
+    "subtitle": "subtitles.finesse_races.enderian_water_damage",
     "sounds": [
       "finesse_races:entity/player/hurt/scald_hurt1",
       "finesse_races:entity/player/hurt/scald_hurt2",

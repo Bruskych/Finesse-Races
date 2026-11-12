@@ -34,12 +34,12 @@
 
   "item.finesse_races.race_orb": "Sféra pôvodov",
 
-  "subtitles.finesse_races.water_damage": "Mäso syčí vo vode",
+  "subtitles.finesse_races.enderian_water_damage": "Mäso syčí vo vode",
 
   "commands.finesse_races.starterkit.unknown_race": "Neznáme ID rasy: %s",
   "commands.finesse_races.starterkit.success": "Balíček rasy '%s' vydaný %s",
 
-  "death.attack.finesse_races.water_damage": "%1$s sa rozpustil vo vode",
+  "death.attack.finesse_races.enderian_water_damage": "%1$s sa rozpustil vo vode",
 
   "ability.finesse_races.category.beneficial": "Pozitívna schopnosť (Buff)",
   "ability.finesse_races.category.harmful": "Negatívna schopnosť (Debuff)",
@@ -57,8 +57,8 @@
   "ability.finesse_races.higher_heat_damage.title": "Spekavosť",
   "ability.finesse_races.higher_heat_damage.desc": "Hráč podlieha zvýšenému poškodeniu od ohňa, lávy, magmy a iných zdrojov tepla.",
 
-  "ability.finesse_races.water_damage.title": "Hydrofóbia",
-  "ability.finesse_races.water_damage.desc": "Hráč dostáva poškodenie pri kontakte s vodou. Poškodenie sa výrazne zvyšuje pri úplnom ponorení.",
+  "ability.finesse_races.enderian_water_damage.title": "Hydrofóbia",
+  "ability.finesse_races.enderian_water_damage.desc": "Hráč dostáva poškodenie pri kontakte s vodou. Poškodenie sa výrazne zvyšuje pri úplnom ponorení.",
 
   "ability.finesse_races.ender_kinship": "Príbuznosť Endu",
   "ability.finesse_races.ender_kinship.desc": "Endermeni už nebudú agresívni, keď sa im pozriete do očí. Zaútočia len vtedy, ak udriete ako prvý."

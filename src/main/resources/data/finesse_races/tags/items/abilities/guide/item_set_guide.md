@@ -9,7 +9,7 @@ These items are not hardcoded into the mod. You can easily modify them using a s
 Each ability reads its own specific tag file. In your datapack, the directory path must look like this:
 `data/finesse_races/tags/items/abilities/<ability_name>.json`
 
-For example: `data/finesse_races/tags/items/abilities/water_damage.json`
+For example: `data/finesse_races/tags/items/abilities/enderian_water_damage.json`
 
 ## Proper JSON Formatting
 
