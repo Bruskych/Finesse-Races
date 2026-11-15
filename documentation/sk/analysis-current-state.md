@@ -87,18 +87,22 @@ Z výslednej vzorky boli zámerne vylúčené uzavreté komerčné serverové z�
 ### 1.3.2 Podrobná analýza systémov rás a tried
 Implementácia asymetrickej hrateľnosti zmenou samotnej entity hráča (pridaním rás) je náročná úloha, ktorá si vyžaduje rovnováhu medzi technickou flexibilitou a výkonom. V súčasnosti sú na platforme zastúpené tri hlavné prístupy k jej riešeniu.
 
-1. Modifikácia „Origins“ (Apace100, 2021) — Data-Driven architektúra
+1. Modifikácia „Origins“ (Apace100, 2021) — Data-Driven architektúra.
+
 Origins predstavuje široko používaný framework na implementáciu rasových mechaník v hre Minecraft. Ako ukazuje prax tvorby modifikácií (moddingu), v prípade zložitých oblastí (ako je vytvorenie unikátneho a ľahko rozšíriteľného systému herných rás) sa komunita často konsoliduje okolo jedného flexibilne nastaviteľného frameworku. Pri vstupe do sveta sa hráčovi zobrazí grafické rozhranie výberu rasy (pôvodu), ktorej profil sa uloží do NBT údajov postavy.
 - Architektúra a výkon: Origins je predovšetkým flexibilný framework postavený na paradigme Data-Driven (údajovo riadenej architektúry). Celá logika schopností, podmienok a modifikátorov je riadená prostredníctvom externých súborov JSON s využitím továrenských metód (factory methods). Framework preberá náročnú prácu spojenú s implementáciou obrazovky výberu triedy, sledovaním NBT značiek a synchronizáciou schopností medzi klientom a serverom. Hlavná výhoda spočíva v tom, že koncoví používatelia môžu vytvárať vlastné rasy bez písania kódu v jazyku Java. Data-Driven architektúra však môže vytvárať dodatočnú výpočtovú réžiu pri pravidelnom vyhodnocovaní veľkého množstva zložitých, vnorených podmienok a modifikátorov. Ako sa zdôrazňuje vo výskumoch softvérového inžinierstva videohier, zabezpečenie stabilnej architektúry a vysokého výkonu (vrátane snímkovej frekvencie a odozvy servera) je kritickou požiadavkou, ktorá odlišuje vývoj hier od tradičného softvéru (Ampatzoglou a Stamelos, 2010). Skutočný vplyv týchto procesov na výkon servera (TPS) nie je konštantný a priamo závisí od konkrétnej implementácie, ako aj od miery optimalizácie logiky autormi používateľských doplnkov (addonov).
 - Herný dizajn a rovnováha doplnkov: Keďže Origins je len základom, zodpovednosť za herný dizajn spočíva na autoroch konkrétnych rás a doplnkov. Analýza základného balíka rás ukazuje, že často vykazujú vychýlenú rovnováhu (Beau a Bakkes, 2016). Najspornejším dizajnovým rozhodnutím základnej modifikácie je prítomnosť „Obyčajného človeka“ (Human) v zozname volieb, ktorý nemá žiadne nevýhody. V praxi si značná časť hráčov volí práve túto triedu v snahe vyhnúť sa postihom pri prežití, čo znižuje potenciál formovania asymetrického súťažného prostredia.
 - Rozsiahly doplnok „Medieval Origins Revival“ (MuonR, 2026): Príkladom rozšírenia ekosystému Origins je tento doplnok, ktorý zavádza rasy založené na mytológii a stredovekom fantasy (napríklad Pixie, Upíri-Revenanti, Víly). Projekt demonštruje funkčnosť frameworku, no zároveň odhaľuje jeho architektonické kompromisy. Pre plnohodnotnú realizáciu zložitých mechaník (ako je zmena veľkosti kolízneho boxu — hitboxu alebo integrácia magických atribútov) si doplnok v určitých zostavách vyžaduje inštaláciu ďalších knižníc, ako sú *Pehkui* alebo *Spell Power Attributes*, čo komplikuje administráciu servera. Okrem toho implementácia aktívnych schopností v Origins, ktoré sa spúšťajú stlačením klávesov, často nekorešponduje s autentickým dizajnom hry Minecraft, kde aktívnou funkcionalitou tradične disponujú nástroje, a nie samotné telo postavy (Bergensten, 2019). Napokon, v dôsledku univerzálnosti frameworku trpí hlboká integrácia s hrou: rasové poškodenie (napríklad z vody) je často sprevádzané štandardnými zvukmi topenia sa, čo znižuje celkovú konzistentnosť herného procesu.
 
-2. Modifikácia „Dragon Survival“ (BlackAures, 2026) — Globálna úplná transformácia
+2. Modifikácia „Dragon Survival“ (BlackAures, 2026) — Globálna úplná transformácia.
+
 - Princíp fungovania: Globálna modifikácia ponúkajúca radikálny prístup k asymetrii — hráč sa úplne transformuje na draka jedného z troch typov (Lesný, Jaskynný alebo Morský), so zmenou hitboxu, modelu a základných mechaník interakcie so svetom. Modifikácia nevyužíva externé frameworky a je napísaná s využitím hlbokého pevného kódovania — hardcodingu (Java).
 - Kritické zhodnotenie: Projekt je výrazným príkladom vytvorenia hlbokej asymetrie. Zmena typu entity hráča mení samotný princíp prežitia. V kontexte súťažného PvP prežitia (SMP) však modifikácia vytvára príliš veľkú priepasť medzi ľudskými hráčmi a dračími hráčmi. Projekt je orientovaný skôr na kooperatívne hranie rolí (RPG) a tematické balíky modifikácií, keďže mechaniky drakov (lietanie, mágia, unikátne hniezdenie) je ťažké vyvážiť so základnou (vanilla) ekonomikou bez narušenia horizontálnej progresie.
 
-3. Modifikácia „Class Enhancement“ (M3t4l_G34r, 2023) — Statické profesie
+3. Modifikácia „Class Enhancement“ (M3t4l_G34r, 2023) — Statické profesie.
+
 Projekt s uzavretým zdrojovým kódom, ktorý ponúka výber profesie (triedy) pri prvom objavení sa vo svete.
+- Princíp fungovania: Konceptuálne sa modifikácia podobá na systém Origins, avšak namiesto biologických rás je zameraná na statické profesie (triedy). Pri prvom vstupe do sveta si hráč volí povolanie, ktoré mu pridelí špecifickú štartovaciu sadu predmetov a natrvalo zmení jeho základné číselné ukazovatele (napríklad maximálnu zásobu zdravia, rýchlosť pohybu, alebo základnú úroveň obrany).
 - Kritické zhodnotenie: Tento projekt vykazuje obmedzený rozsah a neformuje dlhodobú súťažnú asymetriu. Zmeny sa redukujú na triviálnu manipuláciu so základnými číselnými atribútmi (zdravie, rýchlosť pohybu) a prideľovaná štartovacia sada predmetov (napríklad meč a štít pre triedu „Rytier“) stráca v raných fázach hry aktuálnosť. Modifikácia neponúka unikátne mechaniky interakcie so svetom.
 
 ### 1.3.3 Stručný prehľad ostatných súťažných modifikácií
@@ -113,22 +117,22 @@ Tabuľka 1 Porovnávacia analýza existujúcich modifikácií
 
 | Modifikácia (Kategória) | Typ progresie | Zachovanie rovnováhy základu | Asymetria hráča | Architektúra |
 | :--- | :--- | :--- | :--- | :--- |
-| Passive Skill Tree (Daripher, 2023) | Vertikálna (rast atribútov) | Nízke (trivializácia hrozieb) | Nie (len lineárne bonusy) | Strom údajov (JSON / Config) |
-| L_Ender's Cataclysm (L_Ender, 2022) | Vertikálna (výbava) | Kriticky nízke (power creep) | Nie (závislosť od brnenia) | Hardcode (Java) |
-| Iron's Spells (Iron431, 2023) | Vertikálna (poškodenie kúziel) | Nízke (nahradenie elixírov a očarovaní) | Aktívne bojové zručnosti | Hybridná (Java + JSON) |
-| Born in Chaos (Mongoose_Artist, 2022) | Horizontálno-vertikálna | Stredné (izolovaná výroba) | Nie | Hardcode (Java) |
-| Immersive Aircraft (Conczin, 2022) | Vertikálna (zrýchlenie) | Nízke (znehodnotenie krídel Elytra) | Nie | Hardcode / Data |
-| Epic Fight (Maninthe_home, 2020) | Vertikálno-mechanická | Nízke (konflikt s fyzikou) | Bojové postoje a animácie | Hardcode (Java) |
-| Savage & Ravage (TeamAbnormals, 2020) | Horizontálna | Vysoké (rozšírenie nájazdov) | Nie | Hardcode (Java) |
-| Heart Crystals (Rosemods, 2023) | Horizontálno-obmedzujúca | Vysoké (prepojenie s alchýmiou) | Štartovací limit zdravia | Hardcode + Config |
-| Sortilege (Limitable, 2024) | Horizontálna (sidegrade) | Vysoké (rovnováha očarovaní a palíc) | Nie | Hardcode + Config |
-| Species (Ninni, 2023) | Horizontálna | Vysoké (integrácia mechaník) | Nie | Hardcode (Java) |
-| Field Guide (Evocation, 2024) | Horizontálna (informačná) | Vysoké (využitie ďalekohľadu) | Nie | Hardcode + Data |
+| Passive Skill Tree (Daripher, 2023) | Vertikálna (rast atribútov) | Nízke (trivializácia hrozieb) | Nie (len lineárne bonusy) | Dátovo riadená (JSON/Config) |
+| L_Ender's Cataclysm (L_Ender, 2022) | Vertikálna (výbava) | Kriticky nízke (power creep) | Nie (závislosť od brnenia) | Pevné kódovanie (Java) |
+| Iron's Spells (Iron431, 2023) | Vertikálna (poškodenie kúziel) | Nízke (nahradenie elixírov a očarovaní) | Aktívne bojové zručnosti | Hybridný model (Java + JSON) |
+| Born in Chaos (Mongoose_Artist, 2022) | Horizontálno-vertikálna | Stredné (izolovaná výroba) | Nie | Automatizovane generovaný kód (MCreator) |
+| Immersive Aircraft (Conczin, 2022) | Vertikálna (zrýchlenie) | Nízke (znehodnotenie krídel Elytra) | Nie | Hybridný model (Java + JSON) |
+| Epic Fight (Maninthe_home, 2020) | Vertikálno-mechanická | Nízke (konflikt s fyzikou) | Bojové postoje a animácie | Hybridný model (Java + JSON) |
+| Savage & Ravage (TeamAbnormals, 2020) | Horizontálna | Vysoké (rozšírenie nájazdov) | Nie | Pevné kódovanie (Java) |
+| Heart Crystals (Rosemods, 2023) | Horizontálno-obmedzujúca | Vysoké (prepojenie s alchýmiou) | Štartovací limit zdravia | Hybridný model (Java + JSON) |
+| Sortilege (Limitable, 2024) | Horizontálna (sidegrade) | Vysoké (rovnováha očarovaní a palíc) | Nie | Hybridný model (Java + JSON) |
+| Species (Ninni, 2023) | Horizontálna | Vysoké (integrácia mechaník) | Nie | Hybridný model (Java + JSON) |
+| Field Guide (Evocation, 2024) | Horizontálna (informačná) | Vysoké (využitie ďalekohľadu) | Nie | Dátovo riadená + Java |
 | Create (Simibubi, 2019) | Horizontálna (inžinierska) | Vysoké (mechanické úlohy) | Nie | Modulárne OOP (Java) |
-| Class Enhancement (M3t4l_G34r, 2023) | Statická (štartovacia) | Vysoké | Minimálna (základné štatistiky) | Uzavretý kód (Config) |
-| Origins (Apace100, 2021) | Horizontálna (asymetrická) | Stredné (slabá rovnováha rás) | Vysoká (pasívne + aktívne schopnosti) | Data-Driven (JSON) |
-| Medieval Origins Revival (MuonR, 2026) | Horizontálna (asymetrická) | Nízke (závislosť od modifikácií) | Vysoká (silná mágia) | Data-Driven (JSON) |
-| Dragon Survival (BlackAures, 2026) | Úplná transformácia (RPG) | Nízke (presun ťažiska na RPG) | Radikálna (zmena tela) | Hardcode (Java) |
+| Class Enhancement (M3t4l_G34r, 2023) | Statická (štartovacia) | Vysoké | Minimálna (základné štatistiky) | Uzavretý zdrojový kód |
+| Origins (Apace100, 2021) | Horizontálna (asymetrická) | Stredné (slabá rovnováha rás) | Vysoká (pasívne + aktívne schopnosti) | Dátovo riadená architektúra (JSON) |
+| Medieval Origins Revival (MuonR, 2026) | Horizontálna (asymetrická) | Nízke (závislosť od modifikácií) | Vysoká (silná mágia) | Dátovo riadená architektúra (JSON) |
+| Dragon Survival (BlackAures, 2026) | Úplná transformácia (RPG) | Nízke (presun ťažiska na RPG) | Radikálna (zmena tela) | Pevné kódovanie (Java) |
 
 Zdroj: vlastné spracovanie
 
@@ -356,7 +360,7 @@ Výsledky tejto bakalárskej práce majú vysokú praktickú hodnotu a sú pripr
 
 # Zoznam príloh
 
-## Príloha A - Zdrojový kód softvéru
+## Príloha A — Zdrojový kód softvéru
 
 ### A1 Hlavná modifikácia (Finesse Races)
 - Účel: Implementácia systémov asymetrických rás, pasívnych mechaník, integrácie s modifikáciami a používateľského rozhrania.
@@ -370,7 +374,7 @@ Výsledky tejto bakalárskej práce majú vysokú praktickú hodnotu a sú pripr
 - Účel: Nezávislá základná knižnica obsahujúca systémové mixiny, pomocné utility, ako aj štandardizované nástroje na vykresľovanie modulárnych prvkov GUI a škálovanie (Nine-Slice Scaling).
 - Odkaz na repozitár: https://github.com/Bruskych/Remedy-Core
 
-## Príloha B - Analýza kazualizácie a evolúcie herného dizajnu hry Minecraft
+## Príloha B — Analýza kazualizácie a evolúcie herného dizajnu hry Minecraft
 
 ### B1 Fenomén kazualizácie a vstupný prah
 V teórii herného dizajnu sa pod kazuálnosťou rozumie vlastnosť videohry byť intuitívne zrozumiteľnou a prístupnou pre čo najširšie publikum. Pri opise fundamentálnych princípov kazuálnosti Jesper Juul zdôrazňuje, že "kazuálny herný dizajn [...] sa vyznačuje zhovievavými trestami za chyby" (Juul, 2010, s. 50), zatiaľ čo hardcore projekty nútia hráča platiť za zlyhanie vážnou stratou postupu. Nadmerná kazuálnosť v sebe nesie deštruktívny potenciál. Opierajúc sa o teóriu stavu flow, výskumníci zdôrazňujú nevyhnutnosť vyvažovania výziev a uvádzajú, že "efektívny systém dynamického škálovania náročnosti, postavený okolo konštruktov stavu flow, musí dokázať prispôsobovať úroveň náročnosti [...], aby sa predišlo negatívnym duševným stavom, akými sú nuda, apatia alebo úzkosť" (Arzate Cruz a Ramirez Uresti, 2017, s. 15).
@@ -385,7 +389,7 @@ Problémom komunity hry Minecraft je umelé posilňovanie kazuálnosti prostredn
 ### B2 Evolúcia filozofie dizajnu
 Evolúciu hry možno rozdeliť na dve etapy. V ére tvorcu Markusa Perssona (Notch) sa projekt vyvíjal ako nezávislá (indie) hra so zameraním na drsné prežitie (mechanika hladu, dimenzia Nether). Súčasný prístup korporácie Microsoft sa vyznačuje minimalizáciou rizík. Vývojári sa snažia vyhovieť širokému publiku a rozširujú hru „do šírky“ (dekoratívne bloky, mobovia) bez narušenia zaužívanej rovnováhy. Vzácnou výnimkou bolo v roku 2026 oznámenie štvrtej dimenzie The Sift (Chen, 2026), ktoré dokazuje potrebu kardinálnych štrukturálnych zmien na udržanie publika.
 
-## Príloha C - Podrobný prehľad modifikácií tretích strán pre hru Minecraft
+## Príloha C — Podrobný prehľad modifikácií tretích strán pre hru Minecraft
 
 ### C1 - Modifikácie s vertikálnou progresiou a nekompatibilnými žánrovými mechanikami
 Táto kategória modifikácií sa v komunite teší vysokej popularite, keďže preberá známe mechaniky z klasických hier na hrdinov (RPG) a akčných hier. Ich podrobné testovanie a analýza však odhaľujú závažné problémy s kompatibilitou so základným herným dizajnom sandboxu Minecraft.
@@ -494,7 +498,8 @@ Keďže matematické vyvažovanie asymetrického systému si vyžaduje dlhodobé
 
 ---
 
-1. Trpaslík (Dverg, Podhorník) - Plánované
+1. Trpaslík (Dverg, Podhorník) – Plánované
+
 Možnosti tela: Poškodenie holou rukou (Silno +), Chôdza (Slabo -), Plávanie (Slabo -), Ponáranie (Silno +), Chlad (Silno +), Horúčava (Slabo -), Nosnosť a Výdrž (Silno +).
    
 Výhody:
@@ -513,7 +518,8 @@ Nevýhody:
 Vlastnosti a vizuál: Vstavaný pracovný stôl v inventári. Ukazovateľ alkoholu (nutnosť piť). Brada (poskytuje ochranu pred chladom, dá sa ostrihať na nite). Vzrast 1 – 1.5 bloku. Častice prachu pri ťažbe kameňa/rudy.
 Súvisiace predmety/bloky: Nové drahokamy (ignit, rubín, zafír) a stôl drahokamov (dočasné posilnenie zbraní). Opustené podzemné vyhne. Nástroje: Vrták a Píla (z liatiny). Trpasličí šrot (kov zo štruktúr/meteoritov/tavenia v Create). Rum (alkohol z cukrovej trstiny).
 
-2. Obojživelník (Merlin, Vodník) - Plánované
+2. Obojživelník (Merlin, Vodník) – Plánované
+
 Možnosti tela: Chôdza (Slabo +), Plávanie (Silno +), Ponáranie (Slabo -), Chlad (Silno +), Horúčava (Slabo -), Nosnosť (Slabo -), Výdrž (Silno +).
    
 Výhody:
@@ -531,7 +537,8 @@ Nevýhody:
 Vlastnosti a vizuál: Úplné vypnutie ukazovateľa vzduchu (no môže sa udusiť). Prítomnosť ukazovateľa vlhkosti (dopĺňa sa vodou, dažďom, pitím; v horúčave sa rýchlejšie míňa). Štandardný (vanilla) vzrast, žiabre a plutvy. Vizuálne bublinky pod vodou a stopa pri plávaní.
 Súvisiace predmety/bloky: Elixíry zadržania vlhkosti. Prípravky na brnenie (aloe, tuk, vosk na udržanie vlahy). Podvodné plodiny a lastúrové podložie (poskytuje kostnú múčku). Harpúny (podvodná zbraň na priťahovanie nepriateľov/hráča). Mobovia: Sumec, Homár, Medúza (obyčajná, elektrická, svetielkujúca). Gél z medúzy: blok na zvlhčovanie záhonov (umožňuje sadiť v dimenzii Nether). Elektro-gél: zasahuje elektrickým prúdom (Elektrošok). Lumi-gél: svieti a umožňuje pestovať plodiny v tme. Morské hrozno (rozrastá sa od kotvy). Obrovská chaluha (hustá, spomaľuje člny, spracováva sa na dosky/palice).
 
-3. Upír (Krvipijca, Upír, Dhampír) - Plánované
+3. Upír (Krvipijca, Upír, Dhampír) – Plánované
+
 Možnosti tela: Poškodenie holou rukou (Silno +), Chôdza (Silno +), Chlad (Silno +), Horúčava (Slabo -), Výdrž (Silno +).
    
 Výhody:
@@ -546,7 +553,8 @@ Nevýhody:
 Vlastnosti a vizuál: Ukazovateľ krvi (dopĺňa sa pitím a útokmi). Spánok výlučne v rakve (integrácia Sleep Tight). Štandardný vzrast (alebo mierne nad 2 bloky), špicaté biele uši. Častice krvi a zvuk uhryznutia pri útoku. Tlmený tlkot srdca v blízkosti živých tvorov. Tmavé častice okolo hráča v noci.
 Súvisiace predmety/bloky: Krvavé jedlo (pivo, kokteil, zmrzlina, torta). Špeciálne brnenie proti slnku (stráca životnosť). Rakva a Ostnatá rakva (zabíja ostatné rasy pri pokuse ľahnúť si). Kapsuly/súprava na uchovávanie krvi (integrácia Sully's). Strieborný injektor (odber krvi s poškodením). Strieborné šípy (oslabujú schopnosti, blokujú regeneráciu). Fľaštičky/vedrá s krvou. Očarovania/elixíry vampirizmu. Noví mobovia: upíri (s profesiami hrobár, rituálnik a i.), lovci-illageri (so striebornými šípmi, lovia nemŕtvych/vlkolakov). Upírske zámky, tábory lovcov.
 
-4. Enderec (Enderian) - Plánované
+4. Enderec (Enderian) – Plánované
+
 Možnosti tela: Poškodenie holou rukou (Silno +), Výška kroku (Silno +), Chôdza (Silno +), Plávanie (Slabo -), Ponáranie (Silno +), Horúčava (Silno +), Nosnosť a Výdrž (Silno +).
    
 Výhody:
@@ -565,7 +573,8 @@ Nevýhody:
 Vlastnosti a vizuál: Ender perla sa v kvapalinách rozbíja. Šanca 10 % na náhodnú teleportáciu pri utŕžení poškodenia z vody. Zraniteľnosť voči maskovaniu (entity v tekviciach sú neviditeľné). Pri zrakovom kontakte s cudzincom sa obrazovka trasie a postava začne neúmyselne útočiť na cieľ. Vysoký vzrast (2.5 - 3 bloky). Častice, zvuk podráždenia pri zrakovom kontakte, stopa (avatar) pri utŕžení poškodenia alebo teleportácii.
 Súvisiace predmety/bloky: Vodná pištoľ (náboje: voda, kyselina, limonáda; odráža, spomaľuje, kyselina rozožiera brnenie).
 
-5. Mechar (Robot, Ozubenec) - Plánované
+5. Mechar (Robot, Ozubenec) – Plánované
+
 Možnosti tela: Poškodenie holou rukou (Silno +), Chôdza (Silno +), Plávanie (Slabo -), Ponáranie (Silno +), Chlad (Slabo -), Horúčava (Silno +), Nosnosť a Výdrž (Silno +).
    
 Výhody:
@@ -580,7 +589,8 @@ Nevýhody:
 Vlastnosti a vizuál: Absencia ukazovateľa hladu (nahradený ukazovateľom nabitia; pri vybití sa spomaľuje, no neumiera). Štandardný vzrast, mechanická ruka. Iskry a kovový zvuk pri utŕžení poškodenia. Zvuky pohonov, iskry pri nabíjaní bleskom, zvuky inštalácie súčiastok.
 Súvisiace predmety/bloky: Ozubené kolesá a kovový šrot (integrácia Alex's Caves). Nabíjacia stanica (spánok + nabíjanie). Batérie (blok/predmet). Cievka pre Create (pri otáčaní zasahuje prúdom). Vylepšovacie moduly (prázdne a plniteľné cez bioanalyzátor zvierat). Meteority, skládky, noví mobovia zhadzujúci kovový šrot. Typy modulov: spracovanie jedla na palivo, bezpečné plávanie, vstavané osvetlenie (zapína sa z inventára), tepelná ochrana, regenerácia, dvojskok, pružiny, lezenie po stenách, nosnosť, nočné videnie.
 
-6. Vták (Avian, Nebesťan) - Plánované
+6. Vták (Avian, Nebesťan) – Plánované
+
 Možnosti tela: Výška kroku (Silno +), Chôdza (Silno +), Plávanie (Slabo -), Ponáranie (Slabo -), Chlad (Slabo -), Horúčava (Silno +), Nosnosť (Slabo -), Výdrž (Silno +).
    
 Výhody:
@@ -599,7 +609,8 @@ Nevýhody:
 Vlastnosti a vizuál: Periodicky znáša vajcia a zhadzuje perie. Štandardný vzrast. Model s krídlami na chrbte a operením na pleciach. Pri pobyte pod zemou dostáva vizuálne/zvukové postihy (klaustrofóbia). Častice peria pri plachtení, zvuk pri vypadnutí vajca.
 Súvisiace predmety/bloky: Nové ohňostroje na zrýchlenie. Vajcia a perie vtáka. Dekoratívne bloky (palice na hniezda). Štruktúry ľadových a obyčajných horských hniezd.
 
-7. Vlkolak (Vlkodlak, Vurdalak, Lykantrop) - Plánované
+7. Vlkolak (Vlkodlak, Vurdalak, Lykantrop) – Plánované
+
 Možnosti tela: Výška kroku (Silno +), Chlad (Silno +), Horúčava (Slabo -), Výdrž (Silno +).
    
 Výhody:
@@ -622,7 +633,8 @@ Nevýhody:
 Vlastnosti a vizuál: Sila transformácie závisí od fázy Mesiaca (maximálna počas splnu). Štandardný vzrast. Samostatný model vlka (srsť, veľké končatiny, tesáky) s efektom plynulej premeny. Stupňujúce sa zavýjanie pred premenou, praskanie kostí. Ťažké dýchanie, kroky šelmy, vrčanie (podráždené pri nízkej zúrivosti). Zvuky pri zabití (rast zúrivosti).
 Súvisiace predmety/bloky: Strieborný amulet (blokuje premenu, láme sa, nefunguje počas splnu). Prilbica (Aconitum / vlčí mor — vzácny horský kvet, nerozmnožuje sa kostnou múčkou, kupuje sa u liečiteľa). Elixíry lykantropie. Strieborné zbrane.
 
-8. Lesný duch (Ent, Verdian) - Plánované (vyžaduje Serene Seasons)
+8. Lesný duch (Ent, Verdian) – Plánované (vyžaduje Serene Seasons)
+
 Možnosti tela: Ponáranie (Slabo -).
    
 Výhody:
@@ -640,7 +652,8 @@ Nevýhody:
 Vlastnosti a vizuál: Počas jedenia generuje kompost. Integrácia s ročnými obdobiami: Leto (telo je tŕnisté, spôsobuje odvetné poškodenie). Jar (regenerácia zo slnka, urýchlenie rastu plodín, včely sa opeľujú o hráča). Jeseň (zvýšená rýchlosť a výdrž). Štandardný vzrast, kvety/konáre/kôra na tele.
 Súvisiace predmety/bloky: Rastová formula (kontrola ročných období). Kvety/kôra hráča. Štruktúry: divoké včelíny, zemľanky, včelíny v dedinách. Rôzne druhy kompostu.
 
-9. Démon (Ohník) - Plánované
+9. Démon (Ohník) – Plánované
+
 Možnosti tela: Chlad (Slabo -), Horúčava (Silno +).
    
 Výhody:
@@ -660,7 +673,8 @@ Nevýhody:
 Vlastnosti a vizuál: Štartovacie objavenie sa (spawn) v dimenzii Nether. Pekelný ukazovateľ: vyčerpáva sa v obyčajnom svete, pri úplnom vyčerpaní nútene teleportuje hráča do dimenzie Nether (dopĺňa sa jedlom z Netheru). Duše sa uchovávajú v inventári (limit 10 - 20). Štandardný vzrast. Rohy a malý chvost. Zriedkavé častice tlejúceho popola z tela.
 Súvisiace predmety/bloky: Obväz/čelenka (skryje rohy pre prechod v úzkych miestach). Entita Duša (možno ju chytiť do ampulky/fľaše). Zvitky. Zvitok duše (dostupný len pre Démona, zapečaťuje mobov, ostatným rasám spôsobuje poškodenie). Strieborné ampulky (uchovávanie duší, hromadné liečenie). Okrídlení nether-démoni (aplikujú Prekliatie). Zub démona (výroba vidiel/elixíru Prekliatia). Pekelné vidly (obojručná zbraň s krvácaním).
 
-10. Nemŕtvy (Povstalec) - Plánované
+10. Nemŕtvy (Povstalec) – Plánované
+
 Možnosti tela: Základné štatistiky nie sú zmenené.
 
 Výhody:
@@ -678,7 +692,8 @@ Nevýhody:
 Vlastnosti a vizuál: Ukazovateľ hniloby: zvyšuje obranu a nosnosť, v bojoch sa rýchlo míňa, dopĺňa sa zhnitým jedlom. Zabitie dedinčana ho premení na zombíka. Invertovaná alchýmia (elixíry zranenia/otryavy liečia a elixíry liečenia/regenerácie spôsobujú poškodenie). Spánok len v rakvách. Štandardný vzrast. Model so zhnitými časťami tela. Odpudzujúce, mľaskavé zvuky pri konzumácii jedla.
 Súvisiace predmety/bloky: Ľudský amulet (dočasne skryje podobu nemŕtveho na obchodovanie, pri kontakte s nemŕtvym sa rozbije). Štruktúry: opustené cintoríny. Náhrobky (dekoratívne tabuľky). Profesia Hrobára pre dedinčanov. Kaďa rozkladu (vytvára "Hnilobu" z mäsa/tkaniva). Hniloba (hnojivo a jedlo pre Nemŕtveho). Strieborné spomienkové sviečky.
 
-11. Mimozemšťan (Xenos, Radian, Astronit) - Plánované (vyžaduje Alex's Caves)
+11. Mimozemšťan (Xenos, Radian, Astronit) – Plánované (vyžaduje Alex's Caves)
+
 Možnosti tela: Základné štatistiky nie sú zmenené.
 
 Výhody:
