@@ -188,7 +188,7 @@ public class RaceSelectionScreen extends Screen {
             this.addRenderableWidget(NineSliceButton.builder(closeText, TEXTURE_BUTT, btn -> this.onClose())
                     .bounds(groupStartX, bottomY, btnWidth, buttonHeight)
                     .sliceParams(9, 2).uv(196, 0)
-                    .textColors(FRColors.WHITE, 0x555555)
+                    .textColors(FRColors.WHITE, FRColors.INACTIVE_GRAY)
                     .build());
 
             // SELECT - RIGHT
@@ -202,7 +202,7 @@ public class RaceSelectionScreen extends Screen {
                             })
                     .bounds(groupStartX + btnWidth + buttonGap, bottomY, btnWidth, buttonHeight)
                     .sliceParams(9, 2).uv(196, 0)
-                    .textColors(FRColors.WHITE, 0x555555)
+                    .textColors(FRColors.WHITE, FRColors.INACTIVE_GRAY)
                     .build());
         } else {
             // 1 BUTTON - SELECT
@@ -217,7 +217,7 @@ public class RaceSelectionScreen extends Screen {
                             })
                     .bounds(singleStartX, bottomY, btnWidth, buttonHeight)
                     .sliceParams(9, 2).uv(196, 0)
-                    .textColors(FRColors.WHITE, 0x555555)
+                    .textColors(FRColors.WHITE, FRColors.INACTIVE_GRAY)
                     .build());
         }
         updatePanelButtons();
