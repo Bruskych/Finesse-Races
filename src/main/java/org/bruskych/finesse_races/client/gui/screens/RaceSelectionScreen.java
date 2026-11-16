@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
+import org.bruskych.finesse_races.client.gui.FRColors;
 import org.bruskych.finesse_races.client.gui.widgets.*;
 import org.bruskych.finesse_races.common.items.RaceOrbItem;
 import org.bruskych.finesse_races.common.network.FRNetwork;
@@ -57,9 +58,6 @@ public class RaceSelectionScreen extends Screen {
 
     int btnSize = 12;
     int margin = 8;
-
-    int VANILLA_WHITE = 0xFFFFFF;
-    int VANILLA_DARK = 0x404040;
 
     private DotPaginationWidget paginationWidget;
     private final List<AbilityCardWidget> activeAbilityCards = new ArrayList<>();
@@ -190,7 +188,7 @@ public class RaceSelectionScreen extends Screen {
             this.addRenderableWidget(NineSliceButton.builder(closeText, TEXTURE_BUTT, btn -> this.onClose())
                     .bounds(groupStartX, bottomY, btnWidth, buttonHeight)
                     .sliceParams(9, 2).uv(196, 0)
-                    .textColors(VANILLA_WHITE, 0x555555)
+                    .textColors(FRColors.WHITE, 0x555555)
                     .build());
 
             // SELECT - RIGHT
@@ -204,7 +202,7 @@ public class RaceSelectionScreen extends Screen {
                             })
                     .bounds(groupStartX + btnWidth + buttonGap, bottomY, btnWidth, buttonHeight)
                     .sliceParams(9, 2).uv(196, 0)
-                    .textColors(VANILLA_WHITE, 0x555555)
+                    .textColors(FRColors.WHITE, 0x555555)
                     .build());
         } else {
             // 1 BUTTON - SELECT
@@ -219,7 +217,7 @@ public class RaceSelectionScreen extends Screen {
                             })
                     .bounds(singleStartX, bottomY, btnWidth, buttonHeight)
                     .sliceParams(9, 2).uv(196, 0)
-                    .textColors(VANILLA_WHITE, 0x555555)
+                    .textColors(FRColors.WHITE, 0x555555)
                     .build());
         }
         updatePanelButtons();
@@ -250,7 +248,7 @@ public class RaceSelectionScreen extends Screen {
         leftPanel.addChild(headerRelX, margin, new HeaderPlateWidget(
                 leftPanel.getX() + headerRelX, leftPanel.getY() + margin,
                 headerWidth, headerHeight, abilitiesText,
-                TEXTURE_BACK, 17, 0, true, VANILLA_WHITE
+                TEXTURE_BACK, 17, 0, true, FRColors.WHITE
         ));
 
         int currentRelY;
@@ -331,7 +329,7 @@ public class RaceSelectionScreen extends Screen {
             rightPanel.addChild(headerRelX, margin, new HeaderPlateWidget(
                     rightPanel.getX() + headerRelX, rightPanel.getY() + margin,
                     headerWidth, headerHeight, currentRace.getDisplayName(),
-                    TEXTURE_BACK, currentRace.getPlateU(), currentRace.getPlateV(), true, VANILLA_WHITE
+                    TEXTURE_BACK, currentRace.getPlateU(), currentRace.getPlateV(), true, FRColors.WHITE
             ));
 
             // TRAITS
@@ -340,7 +338,7 @@ public class RaceSelectionScreen extends Screen {
 
             if (!traits.isEmpty()) {
                 int traitHeight = 18;
-                int traitMargin = 4;
+                int traitMargin = 2;
                 int currentTraitY = margin + headerHeight + margin;
 
                 int iconSize = 12;
@@ -374,7 +372,7 @@ public class RaceSelectionScreen extends Screen {
                             displayComponent,
                             TEXTURE_BACK, TEXTURE_WIDG,
                             trait.getIconU(), trait.getIconV(),
-                            VANILLA_WHITE
+                            FRColors.WHITE
                     );
                     traitWidget.setTooltip(Tooltip.create(trait.getTooltip()));
 
@@ -390,7 +388,7 @@ public class RaceSelectionScreen extends Screen {
             centerPanel.addChild(headerRelX, margin, new HeaderPlateWidget(
                     centerPanel.getX() + headerRelX, centerPanel.getY() + margin,
                     headerWidth, headerHeight, storyText,
-                    TEXTURE_BACK, 17, 17, true, VANILLA_WHITE
+                    TEXTURE_BACK, 17, 17, true, FRColors.WHITE
             ));
 
             // Create story card to check needed pages

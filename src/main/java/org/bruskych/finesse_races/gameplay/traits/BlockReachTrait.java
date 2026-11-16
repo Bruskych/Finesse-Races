@@ -2,6 +2,7 @@ package org.bruskych.finesse_races.gameplay.traits;
 
 import net.minecraft.network.chat.Component;
 
+import org.bruskych.finesse_races.client.gui.FRColors;
 import org.bruskych.finesse_races.gameplay.traits.core.RaceTrait;
 import org.bruskych.finesse_races.gameplay.traits.modifiers.IBlockReachModifier;
 
@@ -47,6 +48,16 @@ public class BlockReachTrait implements RaceTrait, IBlockReachModifier {
 
     @Override
     public Component getTooltip() {
-        return Component.translatable("trait.finesse_races.block_reach.tooltip", this.displayValue);
+        int color = FRColors.getTraitColor(this.getTraitValue().doubleValue());
+        Component coloredValue = Component
+                .literal(this.displayValue)
+                .withStyle(style -> style.withColor(color));
+
+        return Component.translatable("trait.finesse_races.block_reach.tooltip", coloredValue);
+    }
+
+    @Override
+    public Number getTraitValue() {
+        return this.bonus;
     }
 }

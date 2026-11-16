@@ -14,6 +14,7 @@ import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.network.chat.Component;
 
+import org.bruskych.finesse_races.client.gui.FRColors;
 import org.bruskych.finesse_races.core.FinesseRaces;
 import org.bruskych.finesse_races.gameplay.abilities.core.RaceAbility;
 import org.bruskych.remedy_core.client.gui.GuiRenderHelper;
@@ -40,9 +41,6 @@ public class AbilityCardWidget extends AbstractWidget {
     private static final ResourceLocation TEXTURE_WIDGETS = ResourceLocation.fromNamespaceAndPath(
             FinesseRaces.MOD_ID, "textures/gui/widgets.png"
     );
-
-    int VANILLA_WHITE = 0xFFFFFF;
-    int VANILLA_DARK = 0x404040;
 
     private final RaceAbility ability;
     private final ResourceLocation textureBack;
@@ -254,7 +252,7 @@ public class AbilityCardWidget extends AbstractWidget {
         // Render Headline & Category Icon (Only visible on the first page)
         if (this.currentPage == 0) {
             int titleColor = switch (this.ability.getCategory()) {
-                case BENEFICIAL, HARMFUL, NEUTRAL -> VANILLA_DARK;
+                case BENEFICIAL, HARMFUL, NEUTRAL -> FRColors.DARK_GRAY;
             };
 
             // Draw Ability Title
@@ -308,14 +306,14 @@ public class AbilityCardWidget extends AbstractWidget {
 
                 // Scissor testing to cut off text that overlaps with the "..."
                 graphics.enableScissor(this.getX(), currentY, dotsX, currentY + font.lineHeight);
-                graphics.drawString(font, allLines.get(i), this.getX() + innerPadding, currentY, VANILLA_DARK, false);
+                graphics.drawString(font, allLines.get(i), this.getX() + innerPadding, currentY, FRColors.DARK_GRAY, false);
                 graphics.disableScissor();
 
                 // Draw the actual "..." indicator
-                graphics.drawString(font, "...", dotsX, currentY, VANILLA_DARK, false);
+                graphics.drawString(font, "...", dotsX, currentY, FRColors.DARK_GRAY, false);
             } else {
                 // Normal line rendering
-                graphics.drawString(font, allLines.get(i), this.getX() + innerPadding, currentY, VANILLA_DARK, false);
+                graphics.drawString(font, allLines.get(i), this.getX() + innerPadding, currentY, FRColors.DARK_GRAY, false);
             }
             currentY += font.lineHeight;
         }

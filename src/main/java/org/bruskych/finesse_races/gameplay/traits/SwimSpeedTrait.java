@@ -2,6 +2,7 @@ package org.bruskych.finesse_races.gameplay.traits;
 
 import net.minecraft.network.chat.Component;
 
+import org.bruskych.finesse_races.client.gui.FRColors;
 import org.bruskych.finesse_races.gameplay.traits.modifiers.ISwimSpeedModifier;
 import org.bruskych.finesse_races.gameplay.traits.core.RaceTrait; // Если RaceTrait у вас интерфейс
 
@@ -47,6 +48,16 @@ public class SwimSpeedTrait implements RaceTrait, ISwimSpeedModifier {
 
     @Override
     public Component getTooltip() {
-        return Component.translatable("trait.finesse_races.swim_speed.tooltip", this.displayValue);
+        int color = FRColors.getTraitColor(this.getTraitValue().doubleValue());
+        Component coloredValue = Component
+                .literal(this.displayValue)
+                .withStyle(style -> style.withColor(color));
+
+        return Component.translatable("trait.finesse_races.swim_speed.tooltip", coloredValue);
+    }
+
+    @Override
+    public Number getTraitValue() {
+        return this.speedMultiplier;
     }
 }

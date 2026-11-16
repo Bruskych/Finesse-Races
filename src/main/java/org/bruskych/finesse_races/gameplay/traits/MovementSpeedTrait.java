@@ -1,6 +1,7 @@
 package org.bruskych.finesse_races.gameplay.traits;
 
 import net.minecraft.network.chat.Component;
+import org.bruskych.finesse_races.client.gui.FRColors;
 import org.bruskych.finesse_races.gameplay.traits.modifiers.IMovementSpeedModifier;
 import org.bruskych.finesse_races.gameplay.traits.core.RaceTrait;
 
@@ -46,6 +47,16 @@ public class MovementSpeedTrait implements RaceTrait, IMovementSpeedModifier {
 
     @Override
     public Component getTooltip() {
-        return Component.translatable("trait.finesse_races.movement_speed.tooltip", this.displayValue);
+        int color = FRColors.getTraitColor(this.getTraitValue().doubleValue());
+        Component coloredValue = Component
+                .literal(this.displayValue)
+                .withStyle(style -> style.withColor(color));
+
+        return Component.translatable("trait.finesse_races.movement_speed.tooltip", coloredValue);
+    }
+
+    @Override
+    public Number getTraitValue() {
+        return this.bonusPercent;
     }
 }

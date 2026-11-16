@@ -37,4 +37,14 @@ public interface RaceTrait extends RaceFeature {
      * @return A translatable component (e.g., "Step Height: +0.5").
      */
     Component getTooltip();
+
+    /**
+     * Retrieves the mechanical numerical value of this trait.
+     * Uses the generic Number class to seamlessly support both double (for standard Attributes)
+     * and float (for dynamic Forge Events) without type casting conflicts.
+     * Often used by the GUI to dynamically colorize tooltips (e.g., green for buffs, red for debuffs).
+     *
+     * @return The numerical value of the trait's modifier.
+     */
+    Number getTraitValue();
 }

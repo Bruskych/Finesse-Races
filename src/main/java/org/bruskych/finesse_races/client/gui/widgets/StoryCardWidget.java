@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.FormattedCharSequence;
 
+import org.bruskych.finesse_races.client.gui.FRColors;
 import org.bruskych.finesse_races.gameplay.races.core.AbstractRace;
 import org.bruskych.remedy_core.client.gui.GuiRenderHelper;
 import org.jetbrains.annotations.NotNull;
@@ -25,8 +26,6 @@ public class StoryCardWidget extends AbstractWidget {
 
     private static final int CORNER_PLATE_SIZE = 4;
     private static final int CENTER_SIZE = 1;
-
-    int VANILLA_DARK = 0x404040;
 
     private final AbstractRace race;
     private final ResourceLocation textureBack;
@@ -135,14 +134,14 @@ public class StoryCardWidget extends AbstractWidget {
 
                 // Scissor testing to cut off text that overlaps with the "..."
                 graphics.enableScissor(this.getX(), currentY, dotsX, currentY + font.lineHeight);
-                graphics.drawString(font, allLines.get(i), this.getX() + innerPadding, currentY, VANILLA_DARK, false);
+                graphics.drawString(font, allLines.get(i), this.getX() + innerPadding, currentY, FRColors.DARK_GRAY, false);
                 graphics.disableScissor();
 
                 // Draw the actual "..." indicator
-                graphics.drawString(font, "...", dotsX, currentY, VANILLA_DARK, false);
+                graphics.drawString(font, "...", dotsX, currentY, FRColors.DARK_GRAY, false);
             } else {
                 // Normal line rendering
-                graphics.drawString(font, allLines.get(i), this.getX() + innerPadding, currentY, VANILLA_DARK, false);
+                graphics.drawString(font, allLines.get(i), this.getX() + innerPadding, currentY, FRColors.DARK_GRAY, false);
             }
             currentY += font.lineHeight;
         }
