@@ -8,6 +8,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
+import org.bruskych.finesse_races.gameplay.core.RaceFeature;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +18,7 @@ import java.util.List;
  * A unified contract for all mod mechanics.
  * Ensures that any created ability has an apply method.
  */
-public interface RaceAbility {
+public interface RaceAbility extends RaceFeature {
 
     /**
      * Returns the localized title of the ability for the menu.

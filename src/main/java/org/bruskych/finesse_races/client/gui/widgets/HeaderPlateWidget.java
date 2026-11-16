@@ -99,4 +99,13 @@ public class HeaderPlateWidget extends AbstractWidget {
     protected void updateWidgetNarration(@NotNull NarrationElementOutput output) {
         this.defaultButtonNarrationText(output);
     }
+
+    /**
+     * Prevents the widget from acting like a button.
+     * Returning false stops it from consuming clicks and playing the click sound.
+     */
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        return false;
+    }
 }

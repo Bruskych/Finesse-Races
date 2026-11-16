@@ -3,12 +3,13 @@ package org.bruskych.finesse_races.client.gui.screens;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ImageButton;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-
 import net.minecraft.world.entity.player.Player;
+
 import org.bruskych.finesse_races.client.gui.widgets.*;
 import org.bruskych.finesse_races.common.items.RaceOrbItem;
 import org.bruskych.finesse_races.common.network.FRNetwork;
@@ -17,7 +18,7 @@ import org.bruskych.finesse_races.gameplay.abilities.core.RaceAbility;
 import org.bruskych.finesse_races.gameplay.races.core.AbstractRace;
 import org.bruskych.finesse_races.gameplay.races.core.RaceManager;
 import org.bruskych.finesse_races.core.FinesseRaces;
-
+import org.bruskych.finesse_races.gameplay.traits.core.RaceTrait;
 import org.bruskych.remedy_core.client.gui.widgets.NineSliceButton;
 import org.bruskych.remedy_core.client.gui.widgets.PanelWidget;
 
@@ -33,6 +34,9 @@ public class RaceSelectionScreen extends Screen {
     );
     private static final ResourceLocation TEXTURE_BUTT = ResourceLocation.fromNamespaceAndPath(
             FinesseRaces.MOD_ID, "textures/gui/buttons.png"
+    );
+    private static final ResourceLocation TEXTURE_WIDG = ResourceLocation.fromNamespaceAndPath(
+            FinesseRaces.MOD_ID, "textures/gui/widgets.png"
     );
 
     // For Scroll
@@ -59,6 +63,7 @@ public class RaceSelectionScreen extends Screen {
 
     private DotPaginationWidget paginationWidget;
     private final List<AbilityCardWidget> activeAbilityCards = new ArrayList<>();
+    private final List<TraitPlateWidget> activeTraitPlates = new ArrayList<>();
     private List<AbstractRace> availableRaces;
     private int currentRaceIndex = 0;
 
@@ -328,6 +333,57 @@ public class RaceSelectionScreen extends Screen {
                     headerWidth, headerHeight, currentRace.getDisplayName(),
                     TEXTURE_BACK, currentRace.getPlateU(), currentRace.getPlateV(), true, VANILLA_WHITE
             ));
+
+            // TRAITS
+            this.activeTraitPlates.clear();
+            List<RaceTrait> traits = currentRace.getTraits();
+
+            if (!traits.isEmpty()) {
+                int traitHeight = 18;
+                int traitMargin = 4;
+                int currentTraitY = margin + headerHeight + margin;
+
+                int iconSize = 12;
+                int innerMargin = (traitHeight - iconSize) / 2;
+
+                // MAX WIDTH TRAIT PLATE (Calculate)
+                int maxTextWidth = 0;
+                for (RaceTrait trait : traits) {
+                    Component displayComponent = Component.literal(trait.getDisplayValue());
+                    int textW = this.font.width(displayComponent);
+                    if (textW > maxTextWidth) {
+                        maxTextWidth = textW;
+                    }
+                }
+
+                int calculatedPlateWidth = innerMargin + iconSize + innerMargin + maxTextWidth + innerMargin;
+                int maxAllowedWidth = rightPanel.getWidth() - (margin * 2);
+                int finalPlateWidth = Math.min(calculatedPlateWidth, maxAllowedWidth);
+
+                // TODO: No center
+                int centeredX = rightPanel.getX() + (rightPanel.getWidth() - finalPlateWidth) / 2;
+
+                // CREATE TRAITS (MAX WIDTH)
+                for (RaceTrait trait : traits) {
+                    Component displayComponent = Component.literal(trait.getDisplayValue());
+
+                    TraitPlateWidget traitWidget = new TraitPlateWidget(
+                            centeredX,
+                            rightPanel.getY() + currentTraitY,
+                            finalPlateWidth, traitHeight,
+                            displayComponent,
+                            TEXTURE_BACK, TEXTURE_WIDG,
+                            trait.getIconU(), trait.getIconV(),
+                            VANILLA_WHITE
+                    );
+                    traitWidget.setTooltip(Tooltip.create(trait.getTooltip()));
+
+                    rightPanel.addChild(centeredX - rightPanel.getX(), currentTraitY, traitWidget);
+                    this.activeTraitPlates.add(traitWidget);
+
+                    currentTraitY += traitHeight + traitMargin;
+                }
+            }
 
             // PLATE "RACE STORY"
             Component storyText = Component.translatable("gui.finesse_races.race_story");

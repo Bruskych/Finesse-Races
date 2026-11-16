@@ -6,19 +6,31 @@ import net.minecraft.network.chat.Component;
 import org.bruskych.finesse_races.gameplay.abilities.HigherHeatDamageAbility;
 import org.bruskych.finesse_races.gameplay.abilities.core.RaceAbility;
 import org.bruskych.finesse_races.gameplay.races.core.AbstractRace;
+import org.bruskych.finesse_races.gameplay.traits.core.RaceTrait;
 
 /**
  * Aquan race implementation.
  */
 public class AquanRace extends AbstractRace {
 
+    public AquanRace() {
+        super(2, 2, 35, 34);
+    }
+
     private final List<RaceAbility> abilities = List.of(
             new HigherHeatDamageAbility(2.0F)
     );
 
-    public AquanRace() {
-        super(2, 2, 35, 17);
-    }
+    private final List<RaceTrait> traits = List.of(
+            // new StepHeightTrait(0.0D, "+0.0"),
+            // new BlockReachTrait(0.0D, "+0.0"),
+            // new EntityReachTrait(0.0D, "+0.0"),
+            // new MovementSpeedTrait(0.0D, "+0%"),
+            // new SwimSpeedTrait(0.0D, "+0%"),
+            // new AttackDamageTrait(0.0D, "+0.0"),
+            // new MiningSpeedTrait(0.0F, "+0%"),
+            // new AttackSpeedTrait(0.0D, "+0%")
+    );
 
     @Override
     public String getId() {
@@ -38,5 +50,10 @@ public class AquanRace extends AbstractRace {
     @Override
     public List<RaceAbility> getAbilities() {
         return abilities;
+    }
+
+    @Override
+    public List<RaceTrait> getTraits() {
+        return traits;
     }
 }

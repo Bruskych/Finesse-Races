@@ -79,6 +79,7 @@ public class RaceManager {
         if (race != null) {
             player.getPersistentData().putString("finesse_race_id", race.getId());
             ACTIVE_PLAYERS.put(player.getUUID(), race);
+            RaceAttributeManager.applyRaceAttributes(player, race);
         } else {
             player.getPersistentData().remove("finesse_race_id");
             ACTIVE_PLAYERS.remove(player.getUUID());

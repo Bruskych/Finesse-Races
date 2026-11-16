@@ -5,12 +5,27 @@ import net.minecraft.network.chat.Component;
 
 import org.bruskych.finesse_races.gameplay.abilities.core.RaceAbility;
 import org.bruskych.finesse_races.gameplay.races.core.AbstractRace;
+import org.bruskych.finesse_races.gameplay.traits.*;
+import org.bruskych.finesse_races.gameplay.traits.core.RaceTrait;
 
 public class AlienRace extends AbstractRace {
 
     public AlienRace() {
-        super(11, 2, 80, 17);
+        super(11, 2, 80, 34);
     }
+
+    private final List<RaceAbility> abilities = List.of();
+
+    private final List<RaceTrait> traits = List.of(
+            // new StepHeightTrait(0.0D, "+0.0"),
+            // new BlockReachTrait(0.0D, "+0.0"),
+            // new EntityReachTrait(0.0D, "+0.0"),
+            // new MovementSpeedTrait(0.0D, "+0%"),
+            // new SwimSpeedTrait(0.0D, "+0%"),
+            // new AttackDamageTrait(0.0D, "+0.0"),
+            // new MiningSpeedTrait(0.0F, "+0%"),
+            // new AttackSpeedTrait(0.0D, "+0%")
+    );
 
     @Override
     public String getId() {
@@ -29,6 +44,11 @@ public class AlienRace extends AbstractRace {
 
     @Override
     public List<RaceAbility> getAbilities() {
-        return List.of();
+        return abilities;
+    }
+
+    @Override
+    public List<RaceTrait> getTraits() {
+        return traits;
     }
 }

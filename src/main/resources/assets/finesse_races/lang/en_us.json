@@ -41,15 +41,21 @@
 
   "death.attack.finesse_races.enderian_water_damage": "%1$s dissolved in water",
 
+  "trait.finesse_races.step_height.tooltip": "Step Height: %s",
+  "trait.finesse_races.block_reach.tooltip": "Block Reach: %s",
+  "trait.finesse_races.entity_reach.tooltip": "Entity Reach: %s",
+  "trait.finesse_races.movement_speed.tooltip": "Movement Speed: %s",
+  "trait.finesse_races.swim_speed.tooltip": "Swim Speed: %s",
+  "trait.finesse_races.attack_damage.tooltip": "Melee Damage: %s",
+  "trait.finesse_races.mining_speed.tooltip": "Mining Speed: %s",
+  "trait.finesse_races.attack_speed.tooltip": "Attack Speed: %s",
+
   "ability.finesse_races.category.beneficial": "Beneficial Ability (Buff)",
   "ability.finesse_races.category.harmful": "Harmful Ability (Debuff)",
   "ability.finesse_races.category.neutral": "Neutral Ability",
 
   "ability.finesse_races.ender_pearl_mastery.title": "Mastery",
   "ability.finesse_races.ender_pearl_mastery.desc": "Your Ender Pearls travel farther than usual, and teleportation no longer hurts you. But the moment a pearl touches any liquid, it instantly evaporates.Your Ender Pearls travel farther than usual, and teleportation no longer hurts you. But the moment a pearl touches any liquid, it instantly evaporates.",
-
-  "ability.finesse_races.long_reach.title": "Long Reach",
-  "ability.finesse_races.long_reach.desc": "Your long limbs allow you to place, break blocks, and attack entities from further away.",
 
   "ability.finesse_races.heat_resistance.title": "Heat Resistance",
   "ability.finesse_races.heat_resistance.desc": "Complete immunity to magma block damage, reduced damage from fire and lava, and improved visibility while submerged in lava.",

@@ -6,14 +6,16 @@ The "background.png" file uses Nine-Slice scaling:
 
 Texture coordinates and their origin (X,Y):
 
-- Aquan     (35,17)
-- Vampire   (44,17)
-- Enderian  (53,17)
-- Demon     (62,17)
-- Avian     (71,17)
-- Alien     (80,17)
-- Dwarf     (89,17)
-- Mechar    (98,17)
-- Undead    (107,17)
-- Verdian   (116,17)
-- Werewolf  (125,17)
+- Aquan     (35,34)
+- Vampire   (44,34)
+- Enderian  (53,34)
+- Demon     (62,34)
+- Avian     (71,34)
+- Alien     (80,34)
+- Dwarf     (89,34)
+- Mechar    (98,34)
+- Undead    (107,34)
+- Verdian   (116,34)
+- Werewolf  (125,34)
+
+Back texture for traits plate - (35,43)

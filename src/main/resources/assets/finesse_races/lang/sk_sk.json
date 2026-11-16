@@ -41,15 +41,21 @@
 
   "death.attack.finesse_races.enderian_water_damage": "%1$s sa rozpustil vo vode",
 
+  "trait.finesse_races.step_height.tooltip": "Výška kroku: %s",
+  "trait.finesse_races.block_reach.tooltip": "Dosah na bloky: %s",
+  "trait.finesse_races.entity_reach.tooltip": "Dosah útoku: %s",
+  "trait.finesse_races.movement_speed.tooltip": "Rýchlosť pohybu: %s",
+  "trait.finesse_races.swim_speed.tooltip": "Rýchlosť plávania: %s",
+  "trait.finesse_races.attack_damage.tooltip": "Poškodenie zblízka: %s",
+  "trait.finesse_races.mining_speed.tooltip": "Rýchlosť ťažby: %s",
+  "trait.finesse_races.attack_speed.tooltip": "Rýchlosť útoku: %s",
+
   "ability.finesse_races.category.beneficial": "Pozitívna schopnosť (Buff)",
   "ability.finesse_races.category.harmful": "Negatívna schopnosť (Debuff)",
   "ability.finesse_races.category.neutral": "Neutrálna schopnosť",
 
   "ability.finesse_races.ender_pearl_mastery.title": "Majstrovstvo",
   "ability.finesse_races.ender_pearl_mastery.desc": "Tvoje Ender perly lietajú ďalej než zvyčajne a teleportácia ti už nespôsobuje zranenia. No len čo sa perla dotkne akejkoľvek tekutiny, okamžite sa vyparí.",
-
-  "ability.finesse_races.long_reach.title": "Dlhý dosah",
-  "ability.finesse_races.long_reach.desc": "Vaše dlhé končatiny vám umožňujú pokladať a ničiť bloky, ako aj útočiť na nepriateľov z väčšej vzdialenosti.",
 
   "ability.finesse_races.heat_resistance.title": "Ohňovzdornosť",
   "ability.finesse_races.heat_resistance.desc": "Úplná imunita voči poškodeniu z blokov magmy, znížené poškodenie od ohňa a lávy a zlepšené videnie pri ponorení do lávy.",

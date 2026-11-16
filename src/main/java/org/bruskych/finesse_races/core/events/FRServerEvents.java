@@ -22,9 +22,9 @@ import org.bruskych.finesse_races.common.network.OpenRaceScreenS2CPacket;
 import org.bruskych.finesse_races.common.network.SyncStarterKitsS2CPacket;
 import org.bruskych.finesse_races.core.FinesseRaces;
 import org.bruskych.finesse_races.core.telemetry.TelemetryManager;
-import org.bruskych.finesse_races.gameplay.abilities.core.AbilitiesServerEvents;
 import org.bruskych.finesse_races.gameplay.conditions.PlayerConditionHandler;
 import org.bruskych.finesse_races.gameplay.races.core.AbstractRace;
+import org.bruskych.finesse_races.gameplay.races.core.RaceAttributeManager;
 import org.bruskych.finesse_races.gameplay.races.core.RaceManager;
 import org.bruskych.finesse_races.gameplay.starter.StarterKitHandler;
 import org.bruskych.finesse_races.gameplay.starter.StarterKitManager;
@@ -62,15 +62,15 @@ public class FRServerEvents {
             // Sync starter kits before opening the race selection screen
             FRNetwork.sendToPlayer(new SyncStarterKitsS2CPacket(StarterKitManager.getAllKitsForSync()), serverPlayer);
 
-            if (RaceManager.getRaceOfPlayer(serverPlayer) != null) {
+            AbstractRace race = RaceManager.getRaceOfPlayer(serverPlayer);
+            if (race != null) {
                 serverPlayer.getPersistentData().putBoolean(StarterKitHandler.NBT_STARTER_KIT_GIVEN, true);
+                RaceAttributeManager.applyRaceAttributes(serverPlayer, race);
             } else {
                 // Set the selecting state explicitly when forcing the screen open on join
                 PlayerConditionHandler.setSelectingRace(serverPlayer, true);
                 FRNetwork.sendToPlayer(new OpenRaceScreenS2CPacket(), serverPlayer);
             }
-
-            AbilitiesServerEvents.syncReachAttributes(serverPlayer);
         }
     }
 
@@ -106,7 +106,10 @@ public class FRServerEvents {
         RaceManager.unloadPlayerRace(original);
         RaceManager.loadPlayerRace(newPlayer);
 
-        AbilitiesServerEvents.syncReachAttributes(newPlayer);
+        AbstractRace newRace = RaceManager.getRaceOfPlayer(newPlayer);
+        if (newRace != null) {
+            RaceAttributeManager.applyRaceAttributes(newPlayer, newRace);
+        }
     }
 
     /**

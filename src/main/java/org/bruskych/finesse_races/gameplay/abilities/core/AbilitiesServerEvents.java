@@ -4,7 +4,6 @@ import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrownPotion;
 import net.minecraft.world.entity.projectile.ThrownEnderpearl;
@@ -22,9 +21,7 @@ import org.bruskych.finesse_races.core.FinesseRaces;
 import org.bruskych.finesse_races.gameplay.abilities.modifiers.*;
 import org.bruskych.finesse_races.gameplay.races.core.AbstractRace;
 import org.bruskych.finesse_races.gameplay.races.core.RaceManager;
-
-import static net.minecraftforge.common.ForgeMod.BLOCK_REACH;
-import static net.minecraftforge.common.ForgeMod.ENTITY_REACH;
+import org.bruskych.finesse_races.gameplay.traits.modifiers.IMiningSpeedModifier;
 
 import java.util.*;
 
@@ -34,10 +31,6 @@ import java.util.*;
  */
 @Mod.EventBusSubscriber(modid = FinesseRaces.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class AbilitiesServerEvents {
-
-    // Unique UUIDs for attributes
-    private static final UUID BLOCK_REACH_UUID = UUID.fromString("1e5d7a8b-3c4f-4a6b-8b9c-2d1e3f4a5b6c");
-    private static final UUID ENTITY_REACH_UUID = UUID.fromString("7a8b9c0d-1e2f-3a4b-5c6d-7e8f9a0b1c2d");
 
     // If a pearl is destroyed by the world, it gets garbage collected automatically
     private static final Set<ThrownEnderpearl> EVAPORATING_PEARLS = Collections.newSetFromMap(new WeakHashMap<>());
@@ -157,51 +150,6 @@ public class AbilitiesServerEvents {
                     }
                 }
             }
-        }
-    }
-
-    /**
-     * Calculates the total reach bonus from all abilities and applies it to the player.
-     * Called when a player joins the world, respawns, or changes race.
-     *
-     * @param player The player whose reach attributes need to be updated.
-     */
-    public static void syncReachAttributes(Player player) {
-        AbstractRace race = RaceManager.getRaceOfPlayer(player);
-
-        var blockReachAttr = player.getAttribute(BLOCK_REACH.get());
-        var entityReachAttr = player.getAttribute(ENTITY_REACH.get());
-
-        if (blockReachAttr == null || entityReachAttr == null) return;
-
-        // Cleanup old modifiers
-        blockReachAttr.removeModifier(BLOCK_REACH_UUID);
-        entityReachAttr.removeModifier(ENTITY_REACH_UUID);
-
-        if (race == null) return;
-
-        double totalBlockBonus = 0.0D;
-        double totalEntityBonus = 0.0D;
-
-        for (IExtendedReachModifier modifier : race.getExtendedReachModifiers()) {
-            totalBlockBonus += modifier.getBlockReachBonus();
-            totalEntityBonus += modifier.getEntityReachBonus();
-        }
-        if (totalBlockBonus > 0) {
-            blockReachAttr.addPermanentModifier(new AttributeModifier(
-                    BLOCK_REACH_UUID,
-                    "Finesse Races Block Reach Bonus",
-                    totalBlockBonus,
-                    AttributeModifier.Operation.ADDITION)
-            );
-        }
-        if (totalEntityBonus > 0) {
-            entityReachAttr.addPermanentModifier(new AttributeModifier(
-                    ENTITY_REACH_UUID,
-                    "Finesse Races Entity Reach Bonus",
-                    totalEntityBonus,
-                    AttributeModifier.Operation.ADDITION)
-            );
         }
     }
 
@@ -333,6 +281,36 @@ public class AbilitiesServerEvents {
 
                 // Remove from our tracker
                 iterator.remove();
+            }
+        }
+    }
+
+    /**
+     * Intercepts the game's calculation of block breaking speed.
+     * Delegates the event to abilities that implement the IMiningSpeedModifier interface.
+     *
+     * @param event The Forge event containing the original calculated breaking speed.
+     */
+    @SubscribeEvent
+    public static void onBlockBreakSpeed(net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed event) {
+        Player player = event.getEntity();
+
+        AbstractRace race = RaceManager.getRaceOfPlayer(player);
+        if (race != null) {
+            List<IMiningSpeedModifier> modifiers = race.getModifiersOf(IMiningSpeedModifier.class);
+            if (!modifiers.isEmpty()) {
+
+                float currentSpeed = event.getNewSpeed();
+                float totalBonus = 0.0F;
+
+                for (IMiningSpeedModifier modifier : modifiers) {
+                    totalBonus += modifier.getMiningSpeedMultiplier();
+                }
+                if (totalBonus != 0.0F) {
+                    float finalSpeed = currentSpeed + (currentSpeed * totalBonus);
+                    if (finalSpeed < 0.0F) finalSpeed = 0.0F;
+                    event.setNewSpeed(finalSpeed);
+                }
             }
         }
     }

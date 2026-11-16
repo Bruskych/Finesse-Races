@@ -41,15 +41,21 @@
 
   "death.attack.finesse_races.enderian_water_damage": "%1$s растворился в воде",
 
+  "trait.finesse_races.step_height.tooltip": "Высота шага: %s",
+  "trait.finesse_races.block_reach.tooltip": "Дальность установки блоков: %s",
+  "trait.finesse_races.entity_reach.tooltip": "Дальность атаки: %s",
+  "trait.finesse_races.movement_speed.tooltip": "Скорость передвижения: %s",
+  "trait.finesse_races.swim_speed.tooltip": "Скорость плавания: %s",
+  "trait.finesse_races.attack_damage.tooltip": "Урон в ближнем бою: %s",
+  "trait.finesse_races.mining_speed.tooltip": "Скорость копания: %s",
+  "trait.finesse_races.attack_speed.tooltip": "Скорость атаки: %s",
+
   "ability.finesse_races.category.beneficial": "Положительная способность (Бафф)",
   "ability.finesse_races.category.harmful": "Отрицательная способность (Дебафф)",
   "ability.finesse_races.category.neutral": "Нейтральная способность",
 
   "ability.finesse_races.ender_pearl_mastery.title": "Мастерство",
   "ability.finesse_races.ender_pearl_mastery.desc": "Твои эндер-жемчуги летят дальше обычного, а телепортация больше не причиняет тебе вреда. Но стоит жемчугу коснуться любой жидкости — и он тут же испарится.",
-
-  "ability.finesse_races.long_reach.title": "Длинные руки",
-  "ability.finesse_races.long_reach.desc": "Благодаря длинным конечностям вы можете ставить и разрушать блоки, а также атаковать врагов с большего расстояния.",
 
   "ability.finesse_races.heat_resistance.title": "Огнеупорность",
   "ability.finesse_races.heat_resistance.desc": "Полный иммунитет к урону от блоков магмы, пониженный урон от огня и лавы, а также улучшенная видимость при погружении в лаву.",
