@@ -49,6 +49,7 @@
   "trait.finesse_races.attack_damage.tooltip": "Melee Damage: %s",
   "trait.finesse_races.mining_speed.tooltip": "Mining Speed: %s",
   "trait.finesse_races.attack_speed.tooltip": "Attack Speed: %s",
+  "trait.finesse_races.entity_size.tooltip": "Size: %s bl.",
 
   "ability.finesse_races.category.beneficial": "Beneficial Ability (Buff)",
   "ability.finesse_races.category.harmful": "Harmful Ability (Debuff)",

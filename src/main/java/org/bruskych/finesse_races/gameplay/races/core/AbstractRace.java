@@ -54,6 +54,9 @@ public abstract class AbstractRace {
     private final List<IMiningSpeedModifier> miningSpeedModifiers = new ArrayList<>();
     private final List<IAttackSpeedModifier> attackSpeedModifiers = new ArrayList<>();
 
+    // Precomputed hitbox and camera profile (defaults to vanilla behavior)
+    private PlayerDimensionsProfile dimensionsProfile = PlayerDimensionsProfile.EMPTY;
+
     /**
      * Initializes the event listener caches.
      * Iterates through all abilities belonging to this race and categorizes them by interface.
@@ -68,6 +71,7 @@ public abstract class AbstractRace {
         this.attackModifiers.clear();
         this.lavaVisionModifiers.clear();
         this.enderPearlModifiers.clear();
+        this.stepHeightModifiers.clear();
         this.blockReachModifiers.clear();
         this.entityReachModifiers.clear();
         this.movementSpeedModifiers.clear();
@@ -75,6 +79,9 @@ public abstract class AbstractRace {
         this.attackDamageModifiers.clear();
         this.miningSpeedModifiers.clear();
         this.attackSpeedModifiers.clear();
+
+        this.dimensionsProfile = PlayerDimensionsProfile.EMPTY;
+        boolean hasSizeModifier = false;
 
         List<RaceFeature> allFeatures = new ArrayList<>();
         allFeatures.addAll(getAbilities());
@@ -97,6 +104,15 @@ public abstract class AbstractRace {
             if (feature instanceof IAttackDamageModifier adm) this.attackDamageModifiers.add(adm);
             if (feature instanceof IMiningSpeedModifier msm) this.miningSpeedModifiers.add(msm);
             if (feature instanceof IAttackSpeedModifier asm) this.attackSpeedModifiers.add(asm);
+
+            if (feature instanceof IEntitySizeModifier sizeModifier) {
+                if (hasSizeModifier) {
+                    throw new IllegalStateException("Race '" + getId() + "' defines multiple IEntitySizeModifier instances.");
+                }
+                PlayerDimensionsProfile profile = sizeModifier.getDimensionsProfile();
+                this.dimensionsProfile = profile != null ? profile : PlayerDimensionsProfile.EMPTY;
+                hasSizeModifier = true;
+            }
         }
     }
 
@@ -139,6 +155,9 @@ public abstract class AbstractRace {
     public List<IAttackModifier> getAttackModifiers() { return this.attackModifiers; }
     public List<ILavaVisionModifier> getLavaVisionModifiers() { return this.lavaVisionModifiers; }
     public List<IEnderPearlModifier> getEnderPearlModifiers() { return this.enderPearlModifiers; }
+
+    // Returns the precomputed hitbox and eye height profile for this race.
+    public PlayerDimensionsProfile getDimensionsProfile() { return this.dimensionsProfile; }
 
     /**
      * @param defaultDisplayOrder List position (default)

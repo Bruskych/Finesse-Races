@@ -9,7 +9,9 @@ import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingChangeTargetEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingKnockBackEvent;
+import net.minecraftforge.event.entity.player.AdvancementEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -19,6 +21,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.bruskych.finesse_races.common.commands.StarterKitCommand;
 import org.bruskych.finesse_races.common.network.FRNetwork;
 import org.bruskych.finesse_races.common.network.OpenRaceScreenS2CPacket;
+import org.bruskych.finesse_races.common.network.SyncPlayerRaceS2CPacket;
 import org.bruskych.finesse_races.common.network.SyncStarterKitsS2CPacket;
 import org.bruskych.finesse_races.core.FinesseRaces;
 import org.bruskych.finesse_races.core.telemetry.TelemetryManager;
@@ -66,6 +69,8 @@ public class FRServerEvents {
             if (race != null) {
                 serverPlayer.getPersistentData().putBoolean(StarterKitHandler.NBT_STARTER_KIT_GIVEN, true);
                 RaceAttributeManager.applyRaceAttributes(serverPlayer, race);
+                serverPlayer.refreshDimensions();
+                FRNetwork.sendToAll(new SyncPlayerRaceS2CPacket(serverPlayer.getUUID(), race.getId()));
             } else {
                 // Set the selecting state explicitly when forcing the screen open on join
                 PlayerConditionHandler.setSelectingRace(serverPlayer, true);
@@ -83,6 +88,36 @@ public class FRServerEvents {
         if (event.getEntity() instanceof ServerPlayer player) {
             PlayerConditionHandler.setSelectingRace(player, false);
             RaceManager.unloadPlayerRace(player); // Очистка кэша
+        }
+    }
+
+    /**
+     * Triggered after a player respawns from death.
+     * Re-syncs the race to the client so camera height and visual scale update immediately.
+     */
+    @SubscribeEvent
+    public static void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
+        if (event.getEntity() instanceof ServerPlayer serverPlayer) {
+            AbstractRace race = RaceManager.getRaceOfPlayer(serverPlayer);
+            if (race != null) {
+                serverPlayer.refreshDimensions();
+                FRNetwork.sendToAll(new SyncPlayerRaceS2CPacket(serverPlayer.getUUID(), race.getId()));
+            }
+        }
+    }
+
+    /**
+     * Triggered when a player moves between dimensions (e.g., Overworld to Nether).
+     * Forces both server and client to recalculate the custom hitbox for the new dimension.
+     */
+    @SubscribeEvent
+    public static void onPlayerChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
+        if (event.getEntity() instanceof ServerPlayer serverPlayer) {
+            serverPlayer.refreshDimensions();
+            AbstractRace race = RaceManager.getRaceOfPlayer(serverPlayer);
+            if (race != null) {
+                FRNetwork.sendToAll(new SyncPlayerRaceS2CPacket(serverPlayer.getUUID(), race.getId()));
+            }
         }
     }
 
@@ -109,6 +144,7 @@ public class FRServerEvents {
         AbstractRace newRace = RaceManager.getRaceOfPlayer(newPlayer);
         if (newRace != null) {
             RaceAttributeManager.applyRaceAttributes(newPlayer, newRace);
+            newPlayer.refreshDimensions();
         }
     }
 
@@ -137,6 +173,19 @@ public class FRServerEvents {
 
         // Apply passive race abilities
         currentRace.onPlayerTick(player);
+    }
+
+    /**
+     * Triggered when a player enters another player's tracking range in multiplayer.
+     * Ensures the newly visible player renders with the correct race scale and hitbox.
+     */
+    @SubscribeEvent
+    public static void onStartTracking(PlayerEvent.StartTracking event) {
+        if (event.getTarget() instanceof ServerPlayer target && event.getEntity() instanceof ServerPlayer tracker) {
+            AbstractRace race = RaceManager.getRaceOfPlayer(target);
+            String raceId = race != null ? race.getId() : "none";
+            FRNetwork.sendToPlayer(new SyncPlayerRaceS2CPacket(target.getUUID(), raceId), tracker);
+        }
     }
 
     /**
@@ -204,7 +253,7 @@ public class FRServerEvents {
      * Track player deaths (collecting data into a database).
      */
     @SubscribeEvent
-    public static void onPlayerDeath(net.minecraftforge.event.entity.living.LivingDeathEvent event) {
+    public static void onPlayerDeath(LivingDeathEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
             DamageSource source = event.getSource();
             String cause;
@@ -225,7 +274,7 @@ public class FRServerEvents {
      * Track key development milestones (advancements) to measure the rate of progression (collecting data into a database).
      */
     @SubscribeEvent
-    public static void onAdvancementEarned(net.minecraftforge.event.entity.player.AdvancementEvent event) {
+    public static void onAdvancementEarned(AdvancementEvent.AdvancementEarnEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
             String advId = event.getAdvancement().getId().toString();
 

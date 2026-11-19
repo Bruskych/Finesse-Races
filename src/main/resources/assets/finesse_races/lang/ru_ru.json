@@ -49,6 +49,7 @@
   "trait.finesse_races.attack_damage.tooltip": "Урон в ближнем бою: %s",
   "trait.finesse_races.mining_speed.tooltip": "Скорость копания: %s",
   "trait.finesse_races.attack_speed.tooltip": "Скорость атаки: %s",
+  "trait.finesse_races.entity_size.tooltip": "Размер: %s бл.",
 
   "ability.finesse_races.category.beneficial": "Положительная способность (Бафф)",
   "ability.finesse_races.category.harmful": "Отрицательная способность (Дебафф)",

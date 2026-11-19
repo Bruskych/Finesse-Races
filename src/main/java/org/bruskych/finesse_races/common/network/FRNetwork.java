@@ -25,6 +25,13 @@ public class FRNetwork {
     }
 
     /**
+     * Sends a packet from the server to all connected players.
+     */
+    public static <MSG> void sendToAll(MSG message) {
+        INSTANCE.send(PacketDistributor.ALL.noArg(), message);
+    }
+
+    /**
      * Creates the network channel and registers all mod packets.
      */
     public static void register() {
@@ -49,6 +56,11 @@ public class FRNetwork {
                 .decoder(SyncStarterKitsS2CPacket::decode)
                 .encoder(SyncStarterKitsS2CPacket::encode)
                 .consumerMainThread(SyncStarterKitsS2CPacket::handle)
+                .add();
+        net.messageBuilder(SyncPlayerRaceS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(SyncPlayerRaceS2CPacket::decode)
+                .encoder(SyncPlayerRaceS2CPacket::encode)
+                .consumerMainThread(SyncPlayerRaceS2CPacket::handle)
                 .add();
     }
 

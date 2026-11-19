@@ -49,6 +49,7 @@
   "trait.finesse_races.attack_damage.tooltip": "Poškodenie zblízka: %s",
   "trait.finesse_races.mining_speed.tooltip": "Rýchlosť ťažby: %s",
   "trait.finesse_races.attack_speed.tooltip": "Rýchlosť útoku: %s",
+  "trait.finesse_races.entity_size.tooltip": "Veľkosť: %s bl.",
 
   "ability.finesse_races.category.beneficial": "Pozitívna schopnosť (Buff)",
   "ability.finesse_races.category.harmful": "Negatívna schopnosť (Debuff)",

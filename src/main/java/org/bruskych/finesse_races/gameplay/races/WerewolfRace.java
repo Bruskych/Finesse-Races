@@ -24,6 +24,7 @@ public class WerewolfRace extends AbstractRace {
             // new AttackDamageTrait(0.0D, "+0.0"),
             // new MiningSpeedTrait(0.0F, "+0%"),
             // new AttackSpeedTrait(0.0D, "+0%")
+            // new EntitySizeTrait(DIMENSIONS, 0.0F, "+0.0")
     );
 
     @Override

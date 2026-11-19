@@ -5,6 +5,7 @@ import net.minecraft.client.Camera;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.material.FogType;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.ViewportEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -21,6 +22,15 @@ import java.util.List;
  */
 @Mod.EventBusSubscriber(modid = FinesseRaces.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class AbilitiesClientEvents {
+
+    /**
+     * Clears the client-side race cache when disconnecting from a world or server.
+     * Prevents old race data from carrying over into the next session.
+     */
+    @SubscribeEvent
+    public static void onClientLogout(ClientPlayerNetworkEvent.LoggingOut event) {
+        RaceManager.clearCache();
+    }
 
     /**
      * Modifies the fog rendering distance and color.
