@@ -7,9 +7,17 @@
   "mixins": [
     "PlayerMixin",
     "PlayerSizeMixin",
-    "LivingEntityMixin"
+    "LivingEntityMixin",
+    "EntityRidingDimensionsMixin"
   ],
   "client": [
+    "client.PlayerRendererMixin",
+    "client.PlayerModelMixin",
+    "client.ElytraLayerMixin",
+    "client.CapeLayerMixin",
+    "client.HumanoidModelMixin",
+    "client.HumanoidArmorLayerMixin",
+    "client.EntityRenderDispatcherMixin"
   ],
   "injectors": {
     "defaultRequire": 1

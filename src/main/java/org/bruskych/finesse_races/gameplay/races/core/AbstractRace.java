@@ -5,6 +5,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 import org.bruskych.finesse_races.gameplay.abilities.modifiers.*;
+import org.bruskych.finesse_races.gameplay.races.appearance.PlayerAppearanceProfile;
 import org.bruskych.finesse_races.gameplay.traits.modifiers.*;
 import org.bruskych.finesse_races.gameplay.core.RaceFeature;
 import org.bruskych.finesse_races.gameplay.abilities.core.RaceAbility;
@@ -158,6 +159,9 @@ public abstract class AbstractRace {
 
     // Returns the precomputed hitbox and eye height profile for this race.
     public PlayerDimensionsProfile getDimensionsProfile() { return this.dimensionsProfile; }
+
+    // Returns the visual appearance profile (custom limb geometry, textures, and armor fitting) for this race.
+    public PlayerAppearanceProfile getAppearanceProfile() { return PlayerAppearanceProfile.EMPTY; }
 
     /**
      * @param defaultDisplayOrder List position (default)

@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Pose;
 
+import org.bruskych.finesse_races.gameplay.races.appearance.PlayerAppearanceProfile;
 import org.bruskych.finesse_races.gameplay.races.core.PlayerDimensionsProfile;
 import org.bruskych.finesse_races.gameplay.abilities.EnderKinshipAbility;
 import org.bruskych.finesse_races.gameplay.abilities.HeatResistanceAbility;
@@ -17,14 +18,23 @@ import org.bruskych.finesse_races.gameplay.traits.core.RaceTrait;
 
 public class EnderianRace extends AbstractRace {
 
-    private static final PlayerDimensionsProfile DIMENSIONS = PlayerDimensionsProfile
-            .builder()
+    private static final PlayerDimensionsProfile DIMENSIONS = PlayerDimensionsProfile.builder()
             .addToVanilla(Pose.STANDING, -0.1F, 0.5F)
             .addToVanilla(Pose.CROUCHING, -0.1F, 0.5F)
             .addToVanilla(Pose.SLEEPING, 0.05F, 0.05F)
             .eyeHeightOffset(Pose.STANDING, 0.5F)
             .eyeHeightOffset(Pose.CROUCHING, 0.5F)
             .build();
+
+    private static final PlayerAppearanceProfile APPEARANCE = PlayerAppearanceProfile.builder()
+            .arms(4.0F, 0.0F, 0.0F).replaceArms(true)
+            .legs(8.0F, 0.0F, 0.0F).replaceLegs(true)
+            .build();
+
+    @Override
+    public PlayerAppearanceProfile getAppearanceProfile() {
+        return APPEARANCE;
+    }
 
     public EnderianRace() {
         super(4, 2, 53, 34);

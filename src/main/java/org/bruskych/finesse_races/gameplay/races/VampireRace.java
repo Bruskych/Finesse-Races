@@ -2,12 +2,31 @@ package org.bruskych.finesse_races.gameplay.races;
 
 import java.util.List;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.Pose;
 
 import org.bruskych.finesse_races.gameplay.abilities.core.RaceAbility;
+import org.bruskych.finesse_races.gameplay.races.appearance.PlayerAppearanceProfile;
 import org.bruskych.finesse_races.gameplay.races.core.AbstractRace;
+import org.bruskych.finesse_races.gameplay.races.core.PlayerDimensionsProfile;
 import org.bruskych.finesse_races.gameplay.traits.core.RaceTrait;
 
 public class VampireRace extends AbstractRace {
+
+    private static final PlayerDimensionsProfile DIMENSIONS = PlayerDimensionsProfile.builder()
+            .addToVanilla(Pose.STANDING, 0.0F, 0.125F)
+            .addToVanilla(Pose.CROUCHING, 0.0F, 0.125F)
+            .eyeHeightOffset(Pose.STANDING, 0.0625F)
+            .eyeHeightOffset(Pose.CROUCHING, 0.0625F)
+            .build();
+
+    private static final PlayerAppearanceProfile APPEARANCE = PlayerAppearanceProfile.builder()
+            .head(2.0F, 0.0F, 0.0F).replaceHead(true)
+            .build();
+
+    @Override
+    public PlayerAppearanceProfile getAppearanceProfile() {
+        return APPEARANCE;
+    }
 
     public VampireRace() {
         super(3, 2, 44, 34);

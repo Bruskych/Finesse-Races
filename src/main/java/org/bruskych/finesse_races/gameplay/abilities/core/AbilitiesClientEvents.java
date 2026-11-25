@@ -10,6 +10,7 @@ import net.minecraftforge.client.event.ViewportEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import org.bruskych.finesse_races.client.render.player.RaceSkinResolver;
 import org.bruskych.finesse_races.core.FinesseRaces;
 import org.bruskych.finesse_races.gameplay.abilities.modifiers.ILavaVisionModifier;
 import org.bruskych.finesse_races.gameplay.races.core.AbstractRace;
@@ -30,6 +31,7 @@ public class AbilitiesClientEvents {
     @SubscribeEvent
     public static void onClientLogout(ClientPlayerNetworkEvent.LoggingOut event) {
         RaceManager.clearCache();
+        RaceSkinResolver.clearCache();
     }
 
     /**
